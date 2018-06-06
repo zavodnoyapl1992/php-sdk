@@ -1,0 +1,45 @@
+<?php
+
+
+namespace KassaCom\SDK\Model\Request\Payout;
+
+
+use KassaCom\SDK\Model\Request\AbstractRequestSerializer;
+
+class CreatePayoutSerializer extends AbstractRequestSerializer
+{
+    /**
+     * @inheritDoc
+     */
+    public function getSerializedData()
+    {
+        /** @var CreatePayoutRequest $payout */
+        $payout = $this->request;
+
+        $payoutMethodData = [
+            'type' => $payout->getPayoutMethodData()->getType(),
+            'account' => $payout->getPayoutMethodData()->getAccount(),
+        ];
+
+        $orderData = [
+            'amount' => $payout->getOrder()->getAmount(),
+            'currency' => $payout->getOrder()->getCurrency(),
+        ];
+
+        $serializedData = [
+            'transaction_id' => $payout->getTransactionId(),
+            'payout_method_data' => $payoutMethodData,
+            'order' => $orderData,
+        ];
+
+        if ($payout->getWalletId()) {
+            $serializedData['wallet_id'] = $payout->getWalletId();
+        }
+
+        if ($payout->getFeeType()) {
+            $serializedData['fee_type'] = $payout->getFeeType();
+        }
+
+        return $serializedData;
+    }
+}

@@ -41,6 +41,11 @@ class ProcessPaymentResponse extends AbstractResponse
     private $createDate;
 
     /**
+     * @var \DateTime
+     */
+    private $updateDate;
+
+    /**
      * @var \DateTime|null
      */
     private $expireDate;
@@ -171,6 +176,26 @@ class ProcessPaymentResponse extends AbstractResponse
     public function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @param \DateTime $updateDate
+     *
+     * @return $this
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }
@@ -340,6 +365,7 @@ class ProcessPaymentResponse extends AbstractResponse
         return [
             'expire_date' => self::TYPE_DATE,
             'custom_parameters' => self::TYPE_ARRAY,
+            'update_date' => self::TYPE_DATE,
             'is_test' => self::TYPE_BOOLEAN,
             'authorization' => AuthorizationItem::class,
         ];

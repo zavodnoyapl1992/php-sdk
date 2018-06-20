@@ -41,6 +41,11 @@ class CreatePaymentResponse extends AbstractResponse
     /**
      * @var \DateTime
      */
+    private $updateDate;
+
+    /**
+     * @var \DateTime
+     */
     private $expireDate;
 
     /**
@@ -81,6 +86,15 @@ class CreatePaymentResponse extends AbstractResponse
     public function getCreateDate()
     {
         return $this->createDate;
+    }
+
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
     }
 
     /**
@@ -151,6 +165,7 @@ class CreatePaymentResponse extends AbstractResponse
         return [
             'custom_parameters' => RestorableInterface::TYPE_ARRAY,
             'expire_date' => RestorableInterface::TYPE_DATE,
+            'update_date' => RestorableInterface::TYPE_DATE,
             'wallet' => WalletResponseItem::class,
         ];
     }

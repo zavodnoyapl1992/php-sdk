@@ -37,6 +37,11 @@ trait GetPaymentResponseTrait
     private $createDate;
 
     /**
+     * @var \DateTime
+     */
+    private $updateDate;
+
+    /**
      * @var \DateTime|null
      */
     private $expireDate;
@@ -167,6 +172,26 @@ trait GetPaymentResponseTrait
     public function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @param \DateTime $updateDate
+     *
+     * @return $this
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }
@@ -337,6 +362,7 @@ trait GetPaymentResponseTrait
             'status_description' => AbstractResponse::TYPE_STRING,
             'payment_method' => PaymentMethodItem::class,
             'custom_parameters' => AbstractResponse::TYPE_ARRAY,
+            'update_date' => AbstractResponse::TYPE_DATE,
             'is_test' => AbstractResponse::TYPE_BOOLEAN,
         ];
     }

@@ -183,7 +183,7 @@ class PaymentMethodDataItem extends AbstractRequestItem
      *
      * @return $this
      */
-    public function setCapture(?bool $capture)
+    public function setCapture($capture)
     {
         $this->capture = $capture;
 

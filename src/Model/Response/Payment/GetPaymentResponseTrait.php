@@ -329,7 +329,7 @@ trait GetPaymentResponseTrait
      *
      * @return $this
      */
-    public function setStatusDescription(?string $statusDescription)
+    public function setStatusDescription($statusDescription)
     {
         $this->statusDescription = $statusDescription;
 

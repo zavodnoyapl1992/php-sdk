@@ -47,6 +47,11 @@ class SettingsRequestItem extends AbstractRequestItem
     private $walletId;
 
     /**
+     * @var boolean
+     */
+    private $isTest = false;
+
+    /**
      * @return int
      */
     public function getProjectId()
@@ -189,6 +194,26 @@ class SettingsRequestItem extends AbstractRequestItem
     }
 
     /**
+     * @return bool
+     */
+    public function isTest()
+    {
+        return $this->isTest;
+    }
+
+    /**
+     * @param bool $isTest
+     *
+     * @return $this
+     */
+    public function setIsTest($isTest)
+    {
+        $this->isTest = $isTest;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -209,6 +234,7 @@ class SettingsRequestItem extends AbstractRequestItem
             'fail_url' => self::TYPE_STRING,
             'expire_date' => self::TYPE_DATE,
             'wallet_id' => self::TYPE_INTEGER,
+            'is_test'   =>  self::TYPE_BOOLEAN,
             'locale' => new LocaleType($this),
         ];
     }

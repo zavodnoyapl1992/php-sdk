@@ -13,7 +13,7 @@ class BadGetterException extends \BadMethodCallException
     /**
      * @inheritDoc
      */
-    public function __construct($message = '', $code = 0, $property = '', \Throwable $previous = null)
+    public function __construct($message = '', $code = 0, $property = '', $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->property = $property;

@@ -16,7 +16,7 @@ class CreatePayoutTransport extends AbstractRequestTransport
      */
     public function getPath()
     {
-        self::PATH;
+        return self::PATH;
     }
 
     /**

@@ -32,7 +32,9 @@ class ProcessPaymentSerializer extends AbstractRequestSerializer
                 $serializedData['payment_method_data']['card_month'] = $paymentMethodDataItem->getCardMonth();
                 $serializedData['payment_method_data']['card_year'] = $paymentMethodDataItem->getCardYear();
                 $serializedData['payment_method_data']['card_security'] = $paymentMethodDataItem->getCardSecurity();
-            } else if ($paymentMethodDataItem->getType() === PaymentMethods::PAYMENT_METHOD_QIWI) {
+            }
+
+            if ($paymentMethodDataItem->getAccount() !== null) {
                 $serializedData['payment_method_data']['account'] = $paymentMethodDataItem->getAccount();
             }
 

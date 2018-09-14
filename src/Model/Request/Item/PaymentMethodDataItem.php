@@ -206,6 +206,8 @@ class PaymentMethodDataItem extends AbstractRequestItem
             $requiredFields['card_security'] = ReceiptRequestItem::TYPE_STRING;
         } else if ($this->getType() === PaymentMethods::PAYMENT_METHOD_QIWI) {
             $requiredFields['account'] = ReceiptRequestItem::TYPE_STRING;
+        } else if ($this->getType() === PaymentMethods::PAYMENT_METHOD_MOBILE) {
+            $requiredFields['account'] = ReceiptRequestItem::TYPE_STRING;
         }
 
         return $requiredFields;

@@ -17,9 +17,9 @@ class PaymentType extends AbstractCustomType
     {
         $paymentMethod = $this->getValue($field);
 
-        if (!in_array($paymentMethod, PaymentMethods::getAvailablePaymentMethods(), true)) {
-            throw new InvalidPropertyException('Unsupportable payment type', 0, $field);
-        }
+//        if (!in_array($paymentMethod, PaymentMethods::getAvailablePaymentMethods(), true)) {
+//            throw new InvalidPropertyException('Unsupportable payment type', 0, $field);
+//        }
 
         return true;
     }

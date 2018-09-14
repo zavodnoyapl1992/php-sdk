@@ -196,7 +196,7 @@ class SettingsRequestItem extends AbstractRequestItem
     /**
      * @return bool
      */
-    public function isTest()
+    public function getisTest()
     {
         return $this->isTest;
     }

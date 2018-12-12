@@ -51,6 +51,8 @@ use KassaCom\SDK\Model\Request\Reports\PaymentsReportTransport;
 use KassaCom\SDK\Model\Request\Reports\PayoutsReportRequest;
 use KassaCom\SDK\Model\Request\Reports\PayoutsReportSerializer;
 use KassaCom\SDK\Model\Request\Reports\PayoutsReportTransport;
+use KassaCom\SDK\Model\Request\Wallet\WalletRequest;
+use KassaCom\SDK\Model\Request\Wallet\WalletSerializer;
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Response\Payment\CancelPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CapturePaymentResponse;
@@ -59,6 +61,7 @@ use KassaCom\SDK\Model\Response\Payment\GetPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\ProcessPaymentResponse;
 use KassaCom\SDK\Model\Response\Payout\CreatePayoutResponse;
 use KassaCom\SDK\Model\Response\Payout\GetPayoutResponse;
+use KassaCom\SDK\Model\Response\Wallet\WalletResponse;
 use KassaCom\SDK\Transport\AbstractApiTransport;
 use KassaCom\SDK\Transport\Authorization\BasicAuthorization;
 use KassaCom\SDK\Transport\Authorization\TokenAuthorization;
@@ -327,6 +330,26 @@ class Client
         $filename[] = '.csv';
 
         return $this->download($payoutsReportTransport, join($filename));
+    }
+
+    /**
+     * @param string|WalletRequest $walletRequest
+     *
+     * @return AbstractResponse
+     *
+     * @throws ResponseException
+     * @throws TransportException
+     */
+    public function getWalletInfo($walletRequest)
+    {
+        if (!$walletRequest instanceof WalletRequest) {
+            $walletRequest = new WalletRequest($walletRequest);
+        }
+
+        ObjectRecursiveValidator::validate($walletRequest);
+        $walletSerializer = new WalletSerializer($walletRequest);
+
+        return $this->execute($walletRequest->getTransport($walletSerializer), WalletResponse::class);
     }
 
     /**

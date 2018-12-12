@@ -684,19 +684,6 @@ class ClientTest extends TestCase
                     ],
                 ],
             ],
-            [
-                [
-                    'transaction_id' => '1',
-                    'payout_method_data' => [
-                        'type' => 'type',
-                        'account' => '12345',
-                    ],
-                    'order' => [
-                        'amount' => 123.45,
-                        'currency' => 'rub',
-                    ],
-                ],
-            ],
         ];
     }
 

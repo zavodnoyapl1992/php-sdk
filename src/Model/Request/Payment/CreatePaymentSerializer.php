@@ -42,6 +42,9 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             'locale' => $settings->getLocale(),
             'expire_date' => $settings->getExpireDate() ? $settings->getExpireDate()->format('c') : null,
             'wallet_id' => $settings->getWalletId(),
+            'is_test' => $settings->getIsTest(),
+            'hide_form_header' => $settings->isHideFormHeader(),
+            'hide_form_methods' => $settings->isHideFormMethods() ,
         ];
 
         $serializedCreatePayment['settings'] = array_filter($serializedCreatePayment['settings'], $emptyFilter);

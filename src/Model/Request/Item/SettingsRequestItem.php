@@ -52,6 +52,16 @@ class SettingsRequestItem extends AbstractRequestItem
     private $isTest = false;
 
     /**
+     * @var bool
+     */
+    private $hideFormHeader = false;
+
+    /**
+     * @var bool
+     */
+    private $hideFormMethods = false;
+
+    /**
      * @return int
      */
     public function getProjectId()
@@ -196,7 +206,7 @@ class SettingsRequestItem extends AbstractRequestItem
     /**
      * @return bool
      */
-    public function getisTest()
+    public function getIsTest()
     {
         return $this->isTest;
     }
@@ -224,6 +234,38 @@ class SettingsRequestItem extends AbstractRequestItem
     }
 
     /**
+     * @return bool
+     */
+    public function isHideFormHeader()
+    {
+        return $this->hideFormHeader;
+    }
+
+    /**
+     * @param bool $hideFormHeader
+     */
+    public function setHideFormHeader($hideFormHeader)
+    {
+        $this->hideFormHeader = $hideFormHeader;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHideFormMethods()
+    {
+        return $this->hideFormMethods;
+    }
+
+    /**
+     * @param bool $hideFormMethods
+     */
+    public function setHideFormMethods($hideFormMethods)
+    {
+        $this->hideFormMethods = $hideFormMethods;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getOptionalFields()
@@ -234,7 +276,9 @@ class SettingsRequestItem extends AbstractRequestItem
             'fail_url' => self::TYPE_STRING,
             'expire_date' => self::TYPE_DATE,
             'wallet_id' => self::TYPE_INTEGER,
-            'is_test'   =>  self::TYPE_BOOLEAN,
+            'is_test' => self::TYPE_BOOLEAN,
+            'hide_form_header' => self::TYPE_BOOLEAN,
+            'hide_form_methods' => self::TYPE_BOOLEAN,
             'locale' => new LocaleType($this),
         ];
     }

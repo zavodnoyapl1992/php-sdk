@@ -44,7 +44,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             'wallet_id' => $settings->getWalletId(),
             'is_test' => $settings->getIsTest(),
             'hide_form_header' => $settings->isHideFormHeader(),
-            'hide_form_methods' => $settings->isHideFormMethods() ,
+            'hide_form_methods' => $settings->isHideFormMethods(),
         ];
 
         $serializedCreatePayment['settings'] = array_filter($serializedCreatePayment['settings'], $emptyFilter);

@@ -243,10 +243,14 @@ class SettingsRequestItem extends AbstractRequestItem
 
     /**
      * @param bool $hideFormHeader
+     *
+     * @return $this
      */
     public function setHideFormHeader($hideFormHeader)
     {
         $this->hideFormHeader = $hideFormHeader;
+
+        return $this;
     }
 
     /**
@@ -259,10 +263,14 @@ class SettingsRequestItem extends AbstractRequestItem
 
     /**
      * @param bool $hideFormMethods
+     *
+     * @return $this
      */
     public function setHideFormMethods($hideFormMethods)
     {
         $this->hideFormMethods = $hideFormMethods;
+
+        return $this;
     }
 
     /**

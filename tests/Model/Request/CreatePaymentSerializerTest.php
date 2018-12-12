@@ -41,6 +41,8 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertEquals($serializedData['settings']['locale'], $payment->getSettings()->getLocale());
         $this->assertEquals($serializedData['settings']['expire_date'], self::TYPICAL_DATE);
         $this->assertEquals($serializedData['settings']['wallet_id'], $payment->getSettings()->getWalletId());
+        $this->assertEquals($serializedData['settings']['hide_form_methods'], $payment->getSettings()->isHideFormMethods());
+        $this->assertEquals($serializedData['settings']['hide_form_header'], $payment->getSettings()->isHideFormHeader());
 
         $this->assertEquals($serializedData['custom_parameters']['email'], self::TYPICAL_EMAIL);
 
@@ -121,6 +123,8 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertArrayNotHasKey('fail_url', $serializedData['settings']);
         $this->assertArrayNotHasKey('expire_date', $serializedData['settings']);
         $this->assertArrayNotHasKey('wallet_id', $serializedData['settings']);
+        $this->assertArrayNotHasKey('hide_form_methods', $serializedData['settings']);
+        $this->assertArrayNotHasKey('hide_form_header', $serializedData['settings']);
 
         $settings = new SettingsRequestItem();
         $settings
@@ -224,7 +228,9 @@ class CreatePaymentSerializerTest extends TestCase
             ->setLocale('ru')
             ->setPaymentMethod(PaymentMethods::PAYMENT_METHOD_CARD)
             ->setProjectId(1)
-            ->setWalletId(1);
+            ->setWalletId(1)
+            ->setHideFormHeader(true)
+            ->setHideFormMethods(true);
 
         $payment
             ->setOrder($order)

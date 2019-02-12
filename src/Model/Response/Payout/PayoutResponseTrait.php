@@ -6,8 +6,9 @@ namespace KassaCom\SDK\Model\Response\Payout;
 
 use KassaCom\SDK\Model\Interfaces\RestorableInterface;
 use KassaCom\SDK\Model\Request\Item\FeeItem;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
+use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\PayoutMethodItem;
-use KassaCom\SDK\Model\Response\Item\TransferResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
@@ -32,6 +33,10 @@ trait PayoutResponseTrait
      */
     private $createDate;
     /**
+     * @var \DateTime
+     */
+    private $updateDate;
+    /**
      * @var PayoutMethodItem
      */
     private $payoutMethod;
@@ -44,9 +49,13 @@ trait PayoutResponseTrait
      */
     private $fee;
     /**
-     * @var TransferResponseItem
+     * @var MoneyItem
      */
     private $transfer;
+    /**
+     * @var ErrorDetailsItem|null
+     */
+    private $errorDetails;
 
     /**
      * @return int
@@ -129,6 +138,26 @@ trait PayoutResponseTrait
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * @param \DateTime $updateDate
+     *
+     * @return $this
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
      * @return PayoutMethodItem
      */
     public function getPayoutMethod()
@@ -189,7 +218,7 @@ trait PayoutResponseTrait
     }
 
     /**
-     * @return TransferResponseItem
+     * @return MoneyItem
      */
     public function getTransfer()
     {
@@ -197,13 +226,33 @@ trait PayoutResponseTrait
     }
 
     /**
-     * @param TransferResponseItem $transfer
+     * @param MoneyItem $transfer
      *
      * @return $this
      */
     public function setTransfer($transfer)
     {
         $this->transfer = $transfer;
+
+        return $this;
+    }
+
+    /**
+     * @return ErrorDetailsItem|null
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
+    }
+
+    /**
+     * @param ErrorDetailsItem|null $errorDetails
+     *
+     * @return $this
+     */
+    public function setErrorDetails($errorDetails)
+    {
+        $this->errorDetails = $errorDetails;
 
         return $this;
     }
@@ -218,10 +267,11 @@ trait PayoutResponseTrait
             'transaction_id' => RestorableInterface::TYPE_STRING,
             'status' => RestorableInterface::TYPE_STRING,
             'create_date' => RestorableInterface::TYPE_DATE,
+            'update_date' => RestorableInterface::TYPE_DATE,
             'payout_method' => PayoutMethodItem::class,
             'wallet' => WalletPayoutResponseItem::class,
             'fee' => FeeItem::class,
-            'transfer' => TransferResponseItem::class,
+            'transfer' => MoneyItem::class,
         ];
     }
 
@@ -230,6 +280,8 @@ trait PayoutResponseTrait
      */
     public function getOptionalFields()
     {
-        return [];
+        return [
+            'error_details' => ErrorDetailsItem::class,
+        ];
     }
 }

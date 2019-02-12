@@ -1,5 +1,6 @@
 {
   "id": 12345,
+  "partner_payment_id": "test_payment_1",
   "order": {
     "amount": 10,
     "currency": "RUB",

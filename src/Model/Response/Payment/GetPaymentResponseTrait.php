@@ -5,6 +5,7 @@ namespace KassaCom\SDK\Model\Response\Payment;
 
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
+use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
@@ -15,6 +16,11 @@ trait GetPaymentResponseTrait
      * @var int
      */
     private $id;
+
+    /**
+     * @var int|null
+     */
+    private $partnerPaymentId;
 
     /**
      * @var OrderResponseItem
@@ -77,6 +83,21 @@ trait GetPaymentResponseTrait
     private $isTest;
 
     /**
+     * @var boolean|null
+     */
+    private $availableFullRefund;
+
+    /**
+     * @var boolean|null
+     */
+    private $availablePartialRefund;
+
+    /**
+     * @var MoneyItem|null
+     */
+    private $availableForRefund;
+
+    /**
      * @return int
      */
     public function getId()
@@ -92,6 +113,26 @@ trait GetPaymentResponseTrait
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param int|null $partnerPaymentId
+     *
+     * @return $this
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
 
         return $this;
     }
@@ -325,6 +366,66 @@ trait GetPaymentResponseTrait
     }
 
     /**
+     * @return bool|null
+     */
+    public function getAvailableFullRefund()
+    {
+        return $this->availableFullRefund;
+    }
+
+    /**
+     * @param bool|null $availableFullRefund
+     *
+     * @return $this
+     */
+    public function setAvailableFullRefund($availableFullRefund)
+    {
+        $this->availableFullRefund = $availableFullRefund;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAvailablePartialRefund()
+    {
+        return $this->availablePartialRefund;
+    }
+
+    /**
+     * @param bool|null $availablePartialRefund
+     *
+     * @return $this
+     */
+    public function setAvailablePartialRefund($availablePartialRefund)
+    {
+        $this->availablePartialRefund = $availablePartialRefund;
+
+        return $this;
+    }
+
+    /**
+     * @return MoneyItem|null
+     */
+    public function getAvailableForRefund()
+    {
+        return $this->availableForRefund;
+    }
+
+    /**
+     * @param MoneyItem|null $availableForRefund
+     *
+     * @return $this
+     */
+    public function setAvailableForRefund($availableForRefund)
+    {
+        $this->availableForRefund = $availableForRefund;
+
+        return $this;
+    }
+
+    /**
      * @param null|string $statusDescription
      *
      * @return $this
@@ -357,6 +458,7 @@ trait GetPaymentResponseTrait
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => AbstractResponse::TYPE_INTEGER,
             'expire_date' => AbstractResponse::TYPE_DATE,
             'ip' => AbstractResponse::TYPE_STRING,
             'status_description' => AbstractResponse::TYPE_STRING,
@@ -364,6 +466,9 @@ trait GetPaymentResponseTrait
             'custom_parameters' => AbstractResponse::TYPE_ARRAY,
             'update_date' => AbstractResponse::TYPE_DATE,
             'is_test' => AbstractResponse::TYPE_BOOLEAN,
+            'available_full_refund' => self::TYPE_BOOLEAN,
+            'available_partial_refund' => self::TYPE_BOOLEAN,
+            'available_for_refund' => MoneyItem::class,
         ];
     }
 }

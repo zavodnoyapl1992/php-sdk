@@ -14,6 +14,7 @@ class CreatePaymentRequestMock
     {
         return [
             [
+                'partner_payment_id' => 'test_payment_1',
                 'order' => [
                     'currency' => 'RUB',
                     'amount' => 100,

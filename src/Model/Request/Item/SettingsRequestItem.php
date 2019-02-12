@@ -62,6 +62,16 @@ class SettingsRequestItem extends AbstractRequestItem
     private $hideFormMethods = false;
 
     /**
+     * @var bool
+     */
+    private $createSubscription = false;
+
+    /**
+     * @var string|null
+     */
+    private $subscriptionToken;
+
+    /**
      * @return int
      */
     public function getProjectId()
@@ -224,16 +234,6 @@ class SettingsRequestItem extends AbstractRequestItem
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getRequiredFields()
-    {
-        return [
-            'project_id' => self::TYPE_INTEGER,
-        ];
-    }
-
-    /**
      * @return bool
      */
     public function isHideFormHeader()
@@ -274,6 +274,56 @@ class SettingsRequestItem extends AbstractRequestItem
     }
 
     /**
+     * @return bool
+     */
+    public function isCreateSubscription()
+    {
+        return $this->createSubscription;
+    }
+
+    /**
+     * @param bool $createSubscription
+     *
+     * @return $this
+     */
+    public function setCreateSubscription($createSubscription)
+    {
+        $this->createSubscription = $createSubscription;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubscriptionToken()
+    {
+        return $this->subscriptionToken;
+    }
+
+    /**
+     * @param string|null $subscriptionToken
+     *
+     * @return $this
+     */
+    public function setSubscriptionToken($subscriptionToken)
+    {
+        $this->subscriptionToken = $subscriptionToken;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRequiredFields()
+    {
+        return [
+            'project_id' => self::TYPE_INTEGER,
+        ];
+    }
+
+    /**
      * @inheritDoc
      */
     public function getOptionalFields()
@@ -287,6 +337,8 @@ class SettingsRequestItem extends AbstractRequestItem
             'is_test' => self::TYPE_BOOLEAN,
             'hide_form_header' => self::TYPE_BOOLEAN,
             'hide_form_methods' => self::TYPE_BOOLEAN,
+            'create_subscription' => self::TYPE_BOOLEAN,
+            'subscription_token' => self::TYPE_STRING,
             'locale' => new LocaleType($this),
         ];
     }

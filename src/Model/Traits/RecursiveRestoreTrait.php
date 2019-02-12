@@ -51,7 +51,7 @@ trait RecursiveRestoreTrait
                 $value = (bool)$value;
                 break;
             case RestorableInterface::TYPE_INTEGER:
-                if (!is_int($value)) {
+                if (!is_numeric($value)) {
                     throw new \UnexpectedValueException('Value is not int');
                 }
 

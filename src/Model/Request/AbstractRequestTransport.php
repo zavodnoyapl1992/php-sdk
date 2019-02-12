@@ -29,7 +29,10 @@ abstract class AbstractRequestTransport
     /**
      * @return string
      */
-    abstract public function getMethod();
+    public function getMethod()
+    {
+        return AbstractApiTransport::METHOD_POST;
+    }
 
     /**
      * @return array

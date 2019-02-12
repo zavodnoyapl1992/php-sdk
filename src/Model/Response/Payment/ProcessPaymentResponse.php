@@ -6,6 +6,7 @@ namespace KassaCom\SDK\Model\Response\Payment;
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Response\Item\AuthorizationItem;
+use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
@@ -19,6 +20,11 @@ class ProcessPaymentResponse extends AbstractResponse
      * @var int
      */
     private $id;
+
+    /**
+     * @var int|null
+     */
+    private $partnerPaymentId;
 
     /**
      * @var OrderResponseItem
@@ -81,6 +87,21 @@ class ProcessPaymentResponse extends AbstractResponse
     private $authorization;
 
     /**
+     * @var boolean|null
+     */
+    private $availableFullRefund;
+
+    /**
+     * @var boolean|null
+     */
+    private $availablePartialRefund;
+
+    /**
+     * @var MoneyItem|null
+     */
+    private $availableForRefund;
+
+    /**
      * @return int
      */
     public function getId()
@@ -96,6 +117,26 @@ class ProcessPaymentResponse extends AbstractResponse
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param int|null $partnerPaymentId
+     *
+     * @return $this
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
 
         return $this;
     }
@@ -303,7 +344,7 @@ class ProcessPaymentResponse extends AbstractResponse
     /**
      * @return bool|null
      */
-    public function getisTest()
+    public function getIsTest()
     {
         return $this->isTest;
     }
@@ -341,6 +382,66 @@ class ProcessPaymentResponse extends AbstractResponse
     }
 
     /**
+     * @return bool|null
+     */
+    public function getAvailableFullRefund()
+    {
+        return $this->availableFullRefund;
+    }
+
+    /**
+     * @param bool|null $availableFullRefund
+     *
+     * @return $this
+     */
+    public function setAvailableFullRefund($availableFullRefund)
+    {
+        $this->availableFullRefund = $availableFullRefund;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getAvailablePartialRefund()
+    {
+        return $this->availablePartialRefund;
+    }
+
+    /**
+     * @param bool|null $availablePartialRefund
+     *
+     * @return $this
+     */
+    public function setAvailablePartialRefund($availablePartialRefund)
+    {
+        $this->availablePartialRefund = $availablePartialRefund;
+
+        return $this;
+    }
+
+    /**
+     * @return MoneyItem|null
+     */
+    public function getAvailableForRefund()
+    {
+        return $this->availableForRefund;
+    }
+
+    /**
+     * @param MoneyItem|null $availableForRefund
+     *
+     * @return $this
+     */
+    public function setAvailableForRefund($availableForRefund)
+    {
+        $this->availableForRefund = $availableForRefund;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -363,11 +464,15 @@ class ProcessPaymentResponse extends AbstractResponse
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => self::TYPE_INTEGER,
             'expire_date' => self::TYPE_DATE,
             'custom_parameters' => self::TYPE_ARRAY,
             'update_date' => self::TYPE_DATE,
             'is_test' => self::TYPE_BOOLEAN,
             'authorization' => AuthorizationItem::class,
+            'available_full_refund' => self::TYPE_BOOLEAN,
+            'available_partial_refund' => self::TYPE_BOOLEAN,
+            'available_for_refund' => MoneyItem::class,
         ];
     }
 }

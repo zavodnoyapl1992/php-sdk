@@ -15,6 +15,11 @@ class CreatePaymentRequest extends AbstractRequest
     use RecursiveRestoreTrait;
 
     /**
+     * @var string|null
+     */
+    private $partnerPaymentId;
+
+    /**
      * @var OrderRequestItem
      */
     private $order;
@@ -33,6 +38,26 @@ class CreatePaymentRequest extends AbstractRequest
      * @var ReceiptRequestItem
      */
     private $receipt;
+
+    /**
+     * @return string|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param string|null $partnerPaymentId
+     *
+     * @return $this
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
+
+        return $this;
+    }
 
     /**
      * @return OrderRequestItem
@@ -131,6 +156,7 @@ class CreatePaymentRequest extends AbstractRequest
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => self::TYPE_STRING,
             'custom_parameters' => RestorableInterface::TYPE_ARRAY,
             'receipt' => ReceiptRequestItem::class,
         ];

@@ -1,21 +1,21 @@
 <?php
 
 
-namespace KassaCom\SDK\Model\Request;
+namespace KassaCom\SDK\Model\Response\Refund;
 
 
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
-use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
+use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
+use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
-use KassaCom\SDK\Model\Types\NotificationType;
 
-class NotificationRequest extends AbstractRequest
+trait RefundResponseTrait
 {
     use RecursiveRestoreTrait;
 
     /**
-     * @var integer
+     * @var int
      */
     private $id;
 
@@ -25,7 +25,12 @@ class NotificationRequest extends AbstractRequest
     private $order;
 
     /**
-     * @var WalletResponseItem
+     * @var RefundResponseItem
+     */
+    private $refund;
+
+    /**
+     * @var WalletPayoutResponseItem
      */
     private $wallet;
 
@@ -40,14 +45,9 @@ class NotificationRequest extends AbstractRequest
     private $createDate;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      */
-    private $expireDate;
-
-    /**
-     * @var string|null
-     */
-    private $ip;
+    private $updateDate;
 
     /**
      * @var string
@@ -65,7 +65,7 @@ class NotificationRequest extends AbstractRequest
     private $paymentMethod;
 
     /**
-     * @var array|null
+     * @var string[]|null
      */
     private $customParameters;
 
@@ -73,11 +73,6 @@ class NotificationRequest extends AbstractRequest
      * @var boolean|null
      */
     private $isTest;
-
-    /**
-     * @var object
-     */
-    private $notificationType;
 
     /**
      * @return int
@@ -89,10 +84,14 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param int $id
+     *
+     * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -105,14 +104,38 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param OrderResponseItem $order
+     *
+     * @return $this
      */
     public function setOrder($order)
     {
         $this->order = $order;
+
+        return $this;
     }
 
     /**
-     * @return WalletResponseItem
+     * @return RefundResponseItem
+     */
+    public function getRefund()
+    {
+        return $this->refund;
+    }
+
+    /**
+     * @param RefundResponseItem $refund
+     *
+     * @return $this
+     */
+    public function setRefund($refund)
+    {
+        $this->refund = $refund;
+
+        return $this;
+    }
+
+    /**
+     * @return WalletPayoutResponseItem
      */
     public function getWallet()
     {
@@ -120,11 +143,15 @@ class NotificationRequest extends AbstractRequest
     }
 
     /**
-     * @param WalletResponseItem $wallet
+     * @param WalletPayoutResponseItem $wallet
+     *
+     * @return $this
      */
     public function setWallet($wallet)
     {
         $this->wallet = $wallet;
+
+        return $this;
     }
 
     /**
@@ -137,10 +164,14 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param string $token
+     *
+     * @return $this
      */
     public function setToken($token)
     {
         $this->token = $token;
+
+        return $this;
     }
 
     /**
@@ -153,42 +184,34 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param \DateTime $createDate
+     *
+     * @return $this
      */
     public function setCreateDate($createDate)
     {
         $this->createDate = $createDate;
+
+        return $this;
     }
 
     /**
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getExpireDate()
+    public function getUpdateDate()
     {
-        return $this->expireDate;
+        return $this->updateDate;
     }
 
     /**
-     * @param \DateTime|null $expireDate
+     * @param \DateTime $updateDate
+     *
+     * @return $this
      */
-    public function setExpireDate($expireDate)
+    public function setUpdateDate($updateDate)
     {
-        $this->expireDate = $expireDate;
-    }
+        $this->updateDate = $updateDate;
 
-    /**
-     * @return null|string
-     */
-    public function getIp()
-    {
-        return $this->ip;
-    }
-
-    /**
-     * @param null|string $ip
-     */
-    public function setIp($ip)
-    {
-        $this->ip = $ip;
+        return $this;
     }
 
     /**
@@ -201,14 +224,18 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param string $status
+     *
+     * @return $this
      */
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getStatusDescription()
     {
@@ -216,11 +243,15 @@ class NotificationRequest extends AbstractRequest
     }
 
     /**
-     * @param null|string $statusDescription
+     * @param string|null $statusDescription
+     *
+     * @return $this
      */
     public function setStatusDescription($statusDescription)
     {
         $this->statusDescription = $statusDescription;
+
+        return $this;
     }
 
     /**
@@ -233,14 +264,18 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param PaymentMethodItem|null $paymentMethod
+     *
+     * @return $this
      */
     public function setPaymentMethod($paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
+
+        return $this;
     }
 
     /**
-     * @return array|null
+     * @return string[]|null
      */
     public function getCustomParameters()
     {
@@ -248,11 +283,15 @@ class NotificationRequest extends AbstractRequest
     }
 
     /**
-     * @param array|null $customParameters
+     * @param string[]|null $customParameters
+     *
+     * @return $this
      */
     public function setCustomParameters($customParameters)
     {
         $this->customParameters = $customParameters;
+
+        return $this;
     }
 
     /**
@@ -265,49 +304,43 @@ class NotificationRequest extends AbstractRequest
 
     /**
      * @param bool|null $isTest
+     *
+     * @return $this
      */
     public function setIsTest($isTest)
     {
         $this->isTest = $isTest;
+
+        return $this;
     }
 
     /**
-     * @return object
+     * @inheritDoc
      */
-    public function getNotificationType()
-    {
-        return $this->notificationType;
-    }
-
-    /**
-     * @param object $notificationType
-     */
-    public function setNotificationType($notificationType)
-    {
-        $this->notificationType = $notificationType;
-    }
-
     public function getRequiredFields()
     {
         return [
-            'id' => AbstractRequest::TYPE_INTEGER,
+            'id' => self::TYPE_INTEGER,
             'order' => OrderResponseItem::class,
-            'wallet' => WalletResponseItem::class,
-            'token' => AbstractRequest::TYPE_STRING,
-            'create_date' => AbstractRequest::TYPE_DATE,
-            'status' => AbstractRequest::TYPE_STRING,
-            'notification_type' => new NotificationType($this),
+            'refund' => RefundResponseItem::class,
+            'wallet' => WalletPayoutResponseItem::class,
+            'token' => self::TYPE_STRING,
+            'create_date' => self::TYPE_DATE,
+            'update_date' => self::TYPE_DATE,
+            'status' => self::TYPE_STRING,
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getOptionalFields()
     {
         return [
-            'expire_date' => AbstractRequest::TYPE_DATE,
-            'status_description' => AbstractRequest::TYPE_STRING,
+            'status_description' => self::TYPE_STRING,
             'payment_method' => PaymentMethodItem::class,
-            'custom_parameters' => AbstractRequest::TYPE_ARRAY,
-            'is_test' => AbstractRequest::TYPE_BOOLEAN,
+            'custom_parameters' => self::TYPE_ARRAY,
+            'is_test' => self::TYPE_BOOLEAN,
         ];
     }
 }

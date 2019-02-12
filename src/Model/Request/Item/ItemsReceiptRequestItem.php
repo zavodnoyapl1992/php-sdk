@@ -7,7 +7,7 @@ namespace KassaCom\SDK\Model\Request\Item;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 use KassaCom\SDK\Model\Types\TaxType;
 
-class ItemsReceiptRequestItem extends AbstractRequestItem
+class ItemsReceiptRequestItem extends AbstractRequestItem implements \JsonSerializable
 {
     use RecursiveRestoreTrait;
 
@@ -190,5 +190,25 @@ class ItemsReceiptRequestItem extends AbstractRequestItem
         return [
             'sum' => self::TYPE_FLOAT,
         ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        $itemData = [
+            'name' => $this->getName(),
+            'price' => $this->getPrice(),
+            'quantity' => $this->getQuantity(),
+            'tax' => $this->getTax(),
+            'sum' => $this->getSum(),
+        ];
+
+        $itemData = array_filter($itemData, function ($param) {
+            return !empty($param);
+        });
+
+        return $itemData;
     }
 }

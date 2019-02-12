@@ -16,6 +16,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
     {
         /** @var CreatePaymentRequest $paymentRequest */
         $paymentRequest = $this->request;
+        $partnerPaymentId = $paymentRequest->getPartnerPaymentId();
         $order = $paymentRequest->getOrder();
         $settings = $paymentRequest->getSettings();
         $customParameters = $paymentRequest->getCustomParameters();
@@ -25,6 +26,10 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         $emptyFilter = function ($param) {
             return !empty($param);
         };
+
+        if ($partnerPaymentId) {
+            $serializedCreatePayment['partner_payment_id'] = $partnerPaymentId;
+        }
 
         $serializedCreatePayment['order'] = [
             'currency' => $order->getCurrency(),
@@ -45,6 +50,8 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             'is_test' => $settings->getIsTest(),
             'hide_form_header' => $settings->isHideFormHeader(),
             'hide_form_methods' => $settings->isHideFormMethods(),
+            'create_subscription' => $settings->isCreateSubscription(),
+            'subscription_token' => $settings->getSubscriptionToken(),
         ];
 
         $serializedCreatePayment['settings'] = array_filter($serializedCreatePayment['settings'], $emptyFilter);
@@ -58,16 +65,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             $receiptItems = [];
 
             foreach ($receipt->getItems() as $item) {
-                $itemData = [
-                    'name' => $item->getName(),
-                    'price' => $item->getPrice(),
-                    'quantity' => $item->getQuantity(),
-                    'tax' => $item->getTax(),
-                    'sum' => $item->getSum(),
-                ];
-
-                $itemData = array_filter($itemData, $emptyFilter);
-                $receiptItems[] = $itemData;
+                $receiptItems[] = $item->jsonSerialize();
             }
 
             $serializedCreatePayment['receipt'] = [

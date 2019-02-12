@@ -1,3 +1,11 @@
+## 1.2.0 - February 2019
+
+- Add methods for refund
+- Add subscriptions support
+- Add `partner_payment_id` in payments
+- Add `error_details` in payouts
+- Fix bugs 
+
 ## 1.1.0 - December 2018
 
 - Add method `wallet/get`

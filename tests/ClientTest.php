@@ -13,12 +13,15 @@ use KassaCom\SDK\Exception\JsonParseException;
 use KassaCom\SDK\Exception\Validation\EmptyRequiredPropertyException;
 use KassaCom\SDK\Exception\Validation\InvalidPropertyException;
 use KassaCom\SDK\Model\PaymentMethods;
+use KassaCom\SDK\Model\PayoutStatuses;
 use KassaCom\SDK\Model\Request\Item\FeeItem;
 use KassaCom\SDK\Model\Request\Item\ItemsReceiptRequestItem;
 use KassaCom\SDK\Model\Request\Item\OrderRequestItem;
 use KassaCom\SDK\Model\Request\Item\PaymentMethodDataItem;
 use KassaCom\SDK\Model\Request\Item\PayoutMethodDataItem;
 use KassaCom\SDK\Model\Request\Item\ReceiptRequestItem;
+use KassaCom\SDK\Model\Request\Item\RefundReceiptRequestItem;
+use KassaCom\SDK\Model\Request\Item\RefundRequestItem;
 use KassaCom\SDK\Model\Request\Item\SettingsRequestItem;
 use KassaCom\SDK\Model\Request\Payment\CancelPaymentRequest;
 use KassaCom\SDK\Model\Request\Payment\CapturePaymentRequest;
@@ -28,11 +31,16 @@ use KassaCom\SDK\Model\Request\Payment\ProcessPaymentRequest;
 use KassaCom\SDK\Model\Request\Payout\CreatePayoutRequest;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutRequest;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutRequestById;
+use KassaCom\SDK\Model\Request\Refund\CreateRefundRequest;
+use KassaCom\SDK\Model\Request\Refund\GetRefundRequest;
+use KassaCom\SDK\Model\Request\Subscription\GetSubscriptionRequest;
 use KassaCom\SDK\Model\Response\Item\AuthorizationItem;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
+use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
+use KassaCom\SDK\Model\Response\Item\PaymentItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\PayoutMethodItem;
-use KassaCom\SDK\Model\Response\Item\TransferResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Response\Payment\CancelPaymentResponse;
@@ -42,6 +50,9 @@ use KassaCom\SDK\Model\Response\Payment\GetPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\ProcessPaymentResponse;
 use KassaCom\SDK\Model\Response\Payout\CreatePayoutResponse;
 use KassaCom\SDK\Model\Response\Payout\GetPayoutResponse;
+use KassaCom\SDK\Model\Response\Refund\CreateRefundResponse;
+use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
+use KassaCom\SDK\Model\Response\Subscription\GetSubscriptionResponse;
 use KassaCom\SDK\Transport\GuzzleApiTransport;
 use PHPUnit\Framework\TestCase;
 
@@ -126,7 +137,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['token'], $processPaymentResponse->getToken());
         $this->assertEquals($expectedContent['ip'], $processPaymentResponse->getIp());
         $this->assertEquals($expectedContent['status'], $processPaymentResponse->getStatus());
-        $this->assertEquals($expectedContent['is_test'], $processPaymentResponse->getisTest());
+        $this->assertEquals($expectedContent['is_test'], $processPaymentResponse->getIsTest());
 
         $this->assertInstanceOf(OrderResponseItem::class, $processPaymentResponse->getOrder());
         $this->assertEquals($expectedContent['order']['currency'], $processPaymentResponse->getOrder()->getCurrency());
@@ -332,6 +343,69 @@ class ClientTest extends TestCase
     }
 
     /**
+     * @dataProvider getSubscriptionProvider
+     *
+     * @param mixed $data
+     *
+     * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
+     * @throws \KassaCom\SDK\Exception\TransportException
+     */
+    public function testGetSubscription($data)
+    {
+        $jsonPaymentString = file_get_contents(__DIR__ . '/Fixtures/subscription.json');
+        $expectedContent = json_decode($jsonPaymentString, true);
+        $mock = new MockHandler([
+            new Response(200, [], $jsonPaymentString),
+        ]);
+
+        $client = self::generateClient($mock);
+        $subscription = $client->getSubscription($data);
+        $this->assertInstanceOf(GetSubscriptionResponse::class, $subscription);
+        $this->assertInstanceOf(PaymentItem::class, $subscription->getParentPayment());
+        $this->assertEquals(count($expectedContent['payments']), count($subscription->getPayments()));
+        $this->assertEquals($expectedContent['token'], $subscription->getToken());
+        $this->assertEquals($expectedContent['status'], $subscription->getStatus());
+    }
+
+    /**
+     * @dataProvider createRefundProvider
+     *
+     * @param array $data
+     *
+     * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
+     * @throws \KassaCom\SDK\Exception\TransportException
+     */
+    public function testCreateRefund($data)
+    {
+        $jsonPaymentString = file_get_contents(__DIR__ . '/Fixtures/refund.json');
+        $mock = new MockHandler([
+            new Response(200, [], $jsonPaymentString),
+        ]);
+        $client = self::generateClient($mock);
+        $refund = $client->createRefund($data);
+        $this->assertInstanceOf(CreateRefundResponse::class, $refund);
+    }
+
+    /**
+     * @dataProvider getRefundProvider
+     *
+     * @param mixed $data
+     *
+     * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
+     * @throws \KassaCom\SDK\Exception\TransportException
+     */
+    public function testGetRefund($data)
+    {
+        $jsonPaymentString = file_get_contents(__DIR__ . '/Fixtures/refund.json');
+        $mock = new MockHandler([
+            new Response(200, [], $jsonPaymentString),
+        ]);
+        $client = self::generateClient($mock);
+        $refund = $client->getRefund($data);
+        $this->assertInstanceOf(GetRefundResponse::class, $refund);
+    }
+
+    /**
      * @dataProvider getPayoutProvider
      *
      * @param $data
@@ -351,6 +425,30 @@ class ClientTest extends TestCase
         $getPayout = $client->getPayout($data);
         $this->assertInstanceOf(GetPayoutResponse::class, $getPayout);
         $this->checkPayoutResponse($expectedContent, $getPayout);
+    }
+
+    /**
+     * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
+     * @throws \KassaCom\SDK\Exception\TransportException
+     */
+    public function testGetPayoutError()
+    {
+        $jsonPaymentString = file_get_contents(__DIR__ . '/Fixtures/payout_error.json');
+        $expectedContent = json_decode($jsonPaymentString, true);
+        $mock = new MockHandler([
+            new Response(200, [], $jsonPaymentString),
+        ]);
+
+        $client = self::generateClient($mock);
+        $getPayout = $client->getPayout([
+            'transaction_id' => '123',
+            'wallet_id' => 1,
+        ]);
+        $this->assertInstanceOf(GetPayoutResponse::class, $getPayout);
+        $this->assertEquals(PayoutStatuses::STATUS_ERROR, $getPayout->getStatus());
+        $this->assertInstanceOf(ErrorDetailsItem::class, $getPayout->getErrorDetails());
+        $this->assertEquals($expectedContent['error_details']['error'], $getPayout->getErrorDetails()->getError());
+        $this->assertEquals($expectedContent['error_details']['description'], $getPayout->getErrorDetails()->getDescription());
     }
 
     public function createPaymentProvider()
@@ -422,6 +520,40 @@ class ClientTest extends TestCase
                         'success_url' => 'http://site.com/?success',
                         'fail_url' => 'http://site.com/?fail',
                         'locale' => 'en',
+                    ],
+                    'custom_parameters' => [
+                        'email' => 'vasia@gmail.com',
+                        'order_id' => '515',
+                    ],
+                    'receipt' => [
+                        'items' => [
+                            [
+                                'name' => 'Товар 1',
+                                'price' => 125.5,
+                                'quantity' => 0.5,
+                                'tax' => 'vat0',
+                            ],
+                        ],
+                        'email' => 'vasia@gmail.com',
+                        'place' => 'http://site.ru',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'order' => [
+                        'currency' => 'RUB',
+                        'amount' => 10.00,
+                        'description' => 'test',
+                    ],
+                    'settings' => [
+                        'project_id' => 1,
+                        'payment_method' => 'card',
+                        'success_url' => 'http://site.com/?success',
+                        'fail_url' => 'http://site.com/?fail',
+                        'locale' => 'en',
+                        'create_subscription' => true,
+                        'subscription_token' => 'subscription-token',
                     ],
                     'custom_parameters' => [
                         'email' => 'vasia@gmail.com',
@@ -878,6 +1010,97 @@ class ClientTest extends TestCase
         ];
     }
 
+    public function getSubscriptionProvider()
+    {
+        return [
+            [
+                '123432-token-token-token',
+            ],
+            [
+                [
+                    'token' => '123432-token-token-token',
+                ],
+            ],
+            [
+                new GetSubscriptionRequest('1234567'),
+            ],
+        ];
+    }
+
+    public function getRefundProvider()
+    {
+        return [
+            [
+                '941-64b901f656-fb9c727eeb-a03c327d40',
+            ],
+            [
+                [
+                    'token' => '123432-token-token-token',
+                ],
+            ],
+            [
+                new GetRefundRequest('token-token-token-token'),
+            ],
+        ];
+    }
+
+
+    public function createRefundProvider()
+    {
+        $createRefundResponse = new CreateRefundRequest();
+        $refund = new RefundRequestItem();
+        $refund
+            ->setAmount(10.5)
+            ->setCurrency('RUB')
+            ->setReason('Refund payment');
+        $receipt = new RefundReceiptRequestItem();
+        $items = [];
+
+        $taxes = ItemsReceiptRequestItem::getAvailableTaxes();
+        for ($i = 0; $i <= 10; $i++) {
+            $receiptItem = new ItemsReceiptRequestItem();
+            $receiptItem
+                ->setTax($taxes[$i % count($taxes)])
+                ->setSum(2.79 + $i * 10)
+                ->setQuantity(0.1 + $i)
+                ->setPrice(0.2 + $i)
+                ->setName('Product ' . $i);
+            $items[] = $receiptItem;
+        }
+
+        $receipt->setItems($items);
+        $createRefundResponse
+            ->setToken('12345678')
+            ->setRefund($refund)
+            ->setReceipt($receipt);
+
+        return [
+            [
+                [
+                    'token' => '1-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                    'refund' => [
+                        'amount' => 5,
+                        'currency' => 'RUB',
+                        'reason' => 'Refund payment #123',
+                    ],
+                    'receipt' => [
+                        'items' => [
+                            [
+                                'name' => 'Товар 1',
+                                'price' => 5,
+                                'quantity' => 1,
+                                'tax' => 'vat0',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                $createRefundResponse,
+            ],
+        ];
+    }
+
     /**
      * @param array                                                           $expectedContent
      * @param GetPaymentResponse|CapturePaymentResponse|CancelPaymentResponse $getPaymentResponse
@@ -928,7 +1151,7 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['wallet']['amount'], $payoutResponse->getWallet()->getAmount());
         $this->assertEquals($expectedContent['wallet']['currency'], $payoutResponse->getWallet()->getCurrency());
 
-        $this->assertInstanceOf(TransferResponseItem::class, $payoutResponse->getTransfer());
+        $this->assertInstanceOf(MoneyItem::class, $payoutResponse->getTransfer());
         $this->assertEquals($expectedContent['transfer']['amount'], $payoutResponse->getTransfer()->getAmount());
         $this->assertEquals($expectedContent['transfer']['currency'], $payoutResponse->getTransfer()->getCurrency());
 
@@ -939,5 +1162,8 @@ class ClientTest extends TestCase
 
         $this->assertInstanceOf(\DateTime::class, $payoutResponse->getCreateDate());
         $this->assertEquals($expectedContent['create_date'], $payoutResponse->getCreateDate()->format('c'));
+
+        $this->assertInstanceOf(\DateTime::class, $payoutResponse->getUpdateDate());
+        $this->assertEquals($expectedContent['update_date'], $payoutResponse->getUpdateDate()->format('c'));
     }
 }

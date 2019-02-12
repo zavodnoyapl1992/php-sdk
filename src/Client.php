@@ -45,12 +45,21 @@ use KassaCom\SDK\Model\Request\Payout\GetPayoutRequest;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutRequestById;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutSerializer;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutTransport;
+use KassaCom\SDK\Model\Request\Refund\CreateRefundRequest;
+use KassaCom\SDK\Model\Request\Refund\CreateRefundSerializer;
+use KassaCom\SDK\Model\Request\Refund\CreateRefundTransport;
+use KassaCom\SDK\Model\Request\Refund\GetRefundRequest;
+use KassaCom\SDK\Model\Request\Refund\GetRefundSerializer;
+use KassaCom\SDK\Model\Request\Refund\GetRefundTransport;
 use KassaCom\SDK\Model\Request\Reports\PaymentsReportRequest;
 use KassaCom\SDK\Model\Request\Reports\PaymentsReportSerializer;
 use KassaCom\SDK\Model\Request\Reports\PaymentsReportTransport;
 use KassaCom\SDK\Model\Request\Reports\PayoutsReportRequest;
 use KassaCom\SDK\Model\Request\Reports\PayoutsReportSerializer;
 use KassaCom\SDK\Model\Request\Reports\PayoutsReportTransport;
+use KassaCom\SDK\Model\Request\Subscription\GetSubscriptionRequest;
+use KassaCom\SDK\Model\Request\Subscription\GetSubscriptionSerializer;
+use KassaCom\SDK\Model\Request\Subscription\GetSubscriptionTransport;
 use KassaCom\SDK\Model\Request\Wallet\WalletRequest;
 use KassaCom\SDK\Model\Request\Wallet\WalletSerializer;
 use KassaCom\SDK\Model\Response\AbstractResponse;
@@ -61,6 +70,9 @@ use KassaCom\SDK\Model\Response\Payment\GetPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\ProcessPaymentResponse;
 use KassaCom\SDK\Model\Response\Payout\CreatePayoutResponse;
 use KassaCom\SDK\Model\Response\Payout\GetPayoutResponse;
+use KassaCom\SDK\Model\Response\Refund\CreateRefundResponse;
+use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
+use KassaCom\SDK\Model\Response\Subscription\GetSubscriptionResponse;
 use KassaCom\SDK\Model\Response\Wallet\WalletResponse;
 use KassaCom\SDK\Transport\AbstractApiTransport;
 use KassaCom\SDK\Transport\Authorization\BasicAuthorization;
@@ -277,6 +289,70 @@ class Client
         $payoutTransport = new GetPayoutTransport($payoutSerializer);
 
         return $this->execute($payoutTransport, GetPayoutResponse::class);
+    }
+
+    /**
+     * @param array|GetSubscriptionRequest $subscriptionRequest
+     *
+     * @return AbstractResponse|GetSubscriptionResponse
+     * @throws ResponseException
+     * @throws TransportException
+     */
+    public function getSubscription($subscriptionRequest)
+    {
+        if (is_array($subscriptionRequest)) {
+            $subscriptionRequest = RequestCreator::create(GetSubscriptionRequest::class, $subscriptionRequest);
+        } else if (!($subscriptionRequest instanceof GetSubscriptionRequest)) {
+            $subscriptionRequest = new GetSubscriptionRequest($subscriptionRequest);
+        }
+
+        ObjectRecursiveValidator::validate($subscriptionRequest);
+        $serializer = new GetSubscriptionSerializer($subscriptionRequest);
+        $transport = new GetSubscriptionTransport($serializer);
+
+        return $this->execute($transport, GetSubscriptionResponse::class);
+    }
+
+    /**
+     * @param array|CreateRefundRequest $request
+     *
+     * @return AbstractResponse|CreateRefundResponse
+     * @throws ResponseException
+     * @throws TransportException
+     */
+    public function createRefund($request)
+    {
+        if (!($request instanceof CreateRefundRequest)) {
+            $request = RequestCreator::create(CreateRefundRequest::class, $request);
+        }
+
+        ObjectRecursiveValidator::validate($request);
+        $serializer = new CreateRefundSerializer($request);
+        $transport = new CreateRefundTransport($serializer);
+
+        return $this->execute($transport, CreateRefundResponse::class);
+    }
+
+    /**
+     * @param string|array|GetRefundRequest $request
+     *
+     * @return AbstractResponse|GetRefundResponse
+     * @throws ResponseException
+     * @throws TransportException
+     */
+    public function getRefund($request)
+    {
+        if (is_array($request)) {
+            $request = RequestCreator::create(GetSubscriptionRequest::class, $request);
+        } else if (!($request instanceof GetRefundRequest)) {
+            $request = new GetRefundRequest($request);
+        }
+
+        ObjectRecursiveValidator::validate($request);
+        $serializer = new GetRefundSerializer($request);
+        $transport = new GetRefundTransport($serializer);
+
+        return $this->execute($transport, GetRefundResponse::class);
     }
 
     /**

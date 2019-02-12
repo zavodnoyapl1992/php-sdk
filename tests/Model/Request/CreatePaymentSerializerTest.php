@@ -25,10 +25,13 @@ class CreatePaymentSerializerTest extends TestCase
         $serializer = new CreatePaymentSerializer($payment);
         $serializedData = $serializer->getSerializedData();
 
+        $this->assertArrayHasKey('partner_payment_id', $serializedData);
         $this->assertArrayHasKey('order', $serializedData);
         $this->assertArrayHasKey('settings', $serializedData);
         $this->assertArrayHasKey('custom_parameters', $serializedData);
         $this->assertArrayHasKey('receipt', $serializedData);
+
+        $this->assertEquals($serializedData['partner_payment_id'], $payment->getPartnerPaymentId());
 
         $this->assertEquals($serializedData['order']['currency'], $payment->getOrder()->getCurrency());
         $this->assertEquals($serializedData['order']['amount'], $payment->getOrder()->getAmount());
@@ -200,6 +203,8 @@ class CreatePaymentSerializerTest extends TestCase
     protected function prepareValidPayment()
     {
         $payment = new CreatePaymentRequest();
+
+        $payment->setPartnerPaymentId('test_payment_1');
 
         $order = new OrderRequestItem();
         $order

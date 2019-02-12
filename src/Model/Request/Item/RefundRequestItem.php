@@ -1,13 +1,12 @@
 <?php
 
 
-namespace KassaCom\SDK\Model\Response\Item;
+namespace KassaCom\SDK\Model\Request\Item;
 
 
-use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
-class TransferResponseItem extends AbstractResponse
+class RefundRequestItem extends AbstractRequestItem implements \JsonSerializable
 {
     use RecursiveRestoreTrait;
 
@@ -15,10 +14,16 @@ class TransferResponseItem extends AbstractResponse
      * @var float
      */
     private $amount;
+
     /**
      * @var string
      */
     private $currency;
+
+    /**
+     * @var string
+     */
+    private $reason;
 
     /**
      * @return float
@@ -61,14 +66,31 @@ class TransferResponseItem extends AbstractResponse
     }
 
     /**
+     * @return string
+     */
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * @param string $reason
+     *
+     * @return $this
+     */
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
     {
-        return [
-            'amount' => self::TYPE_FLOAT,
-            'currency' => self::TYPE_STRING,
-        ];
+        return [];
     }
 
     /**
@@ -76,6 +98,28 @@ class TransferResponseItem extends AbstractResponse
      */
     public function getOptionalFields()
     {
-        return [];
+        return [
+            'amount' => self::TYPE_FLOAT,
+            'currency' => self::TYPE_STRING,
+            'reason' => self::TYPE_STRING,
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize()
+    {
+        $data = [
+            'amount' => $this->getAmount(),
+            'currency' => $this->getCurrency(),
+            'reason' => $this->getReason(),
+        ];
+
+        $data = array_filter($data, function ($param) {
+            return !empty($param);
+        });
+
+        return $data;
     }
 }

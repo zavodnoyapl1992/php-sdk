@@ -19,6 +19,11 @@ class CreatePaymentResponse extends AbstractResponse
     private $id;
 
     /**
+     * @var string|null
+     */
+    private $partnerPaymentId;
+
+    /**
      * @var OrderResponseItem
      */
     private $order;
@@ -70,6 +75,26 @@ class CreatePaymentResponse extends AbstractResponse
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param string|null $partnerPaymentId
+     *
+     * @return $this
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
+
+        return $this;
     }
 
     /**
@@ -163,6 +188,7 @@ class CreatePaymentResponse extends AbstractResponse
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => AbstractResponse::TYPE_STRING,
             'custom_parameters' => RestorableInterface::TYPE_ARRAY,
             'expire_date' => RestorableInterface::TYPE_DATE,
             'update_date' => RestorableInterface::TYPE_DATE,

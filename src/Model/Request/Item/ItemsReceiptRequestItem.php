@@ -20,14 +20,14 @@ class ItemsReceiptRequestItem extends AbstractRequestItem implements \JsonSerial
     /** Налог НДС по ставке 10% */
     const TAX_VAT10 = 'vat10';
 
-    /** Налог НДС по ставке 18% */
-    const TAX_VAT18 = 'vat18';
+    /** Налог НДС по ставке 20% */
+    const TAX_VAT20 = 'vat20';
 
     /** Налог НДС по расчетной ставке 10/110 */
     const TAX_VAT110 = 'vat110';
 
-    /** Налог НДС по расчетной ставке 18/118 */
-    const TAX_VAT118 = 'vat118';
+    /** Налог НДС по расчетной ставке 20/120 */
+    const TAX_VAT120 = 'vat120';
 
     /**
      * @return array
@@ -38,9 +38,9 @@ class ItemsReceiptRequestItem extends AbstractRequestItem implements \JsonSerial
             self::TAX_NONE,
             self::TAX_VAT0,
             self::TAX_VAT10,
-            self::TAX_VAT18,
+            self::TAX_VAT20,
             self::TAX_VAT110,
-            self::TAX_VAT118,
+            self::TAX_VAT120,
         ];
     }
 

@@ -268,6 +268,16 @@ class ClientTest extends TestCase
     {
         $jsonPaymentString = file_get_contents(__DIR__ . '/Fixtures/payout.json');
         $expectedContent = json_decode($jsonPaymentString, true);
+
+        if ($data instanceof CreatePayoutRequest) {
+            $expectedContent['description'] = $data->getOrder()->getDescription();
+            $expectedContent['custom_parameters'] = $data->getCustomParameters();
+        } else {
+            $expectedContent['description'] = empty($data['order']['description']) ? null : $data['order']['description'];
+            $expectedContent['custom_parameters'] = empty($data['custom_parameters']) ? null : $data['custom_parameters'];
+        }
+
+        $jsonPaymentString = json_encode($expectedContent);
         $mock = new MockHandler([
             new Response(200, [], $jsonPaymentString),
         ]);
@@ -795,6 +805,67 @@ class ClientTest extends TestCase
                     ],
                 ],
             ],
+            [
+                [
+                    'transaction_id' => '8-62aebd0e3a-3dae1e0976-73f96a4bc2',
+                    'payout_method_data' => [
+                        'type' => 'card',
+                        'account' => '12345',
+                    ],
+                    'order' => [
+                        'amount' => 123.45,
+                        'currency' => 'rub',
+                        'description' => 'text description',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'transaction_id' => '9-62aebd0e3a-3dae1e0976-73f96a4bc2',
+                    'payout_method_data' => [
+                        'type' => 'card',
+                        'account' => '12345',
+                    ],
+                    'order' => [
+                        'amount' => 123.45,
+                        'currency' => 'rub',
+                        'description' => 'text description',
+                    ],
+                    'custom_parameters' => null,
+                ],
+            ],
+            [
+                [
+                    'transaction_id' => '9-62aebd0e3a-3dae1e0976-73f96a4bc2',
+                    'payout_method_data' => [
+                        'type' => 'card',
+                        'account' => '12345',
+                    ],
+                    'order' => [
+                        'amount' => 123.45,
+                        'currency' => 'rub',
+                        'description' => 'text description',
+                    ],
+                    'custom_parameters' => [],
+                ],
+            ],
+            [
+                [
+                    'transaction_id' => '9-62aebd0e3a-3dae1e0976-73f96a4bc2',
+                    'payout_method_data' => [
+                        'type' => 'card',
+                        'account' => '12345',
+                    ],
+                    'order' => [
+                        'amount' => 123.45,
+                        'currency' => 'rub',
+                        'description' => 'text description',
+                    ],
+                    'custom_parameters' => [
+                        'email' => 'text@email.develop',
+                    ],
+                ],
+            ],
             [$createPayout],
         ];
     }
@@ -1165,5 +1236,19 @@ class ClientTest extends TestCase
 
         $this->assertInstanceOf(\DateTime::class, $payoutResponse->getUpdateDate());
         $this->assertEquals($expectedContent['update_date'], $payoutResponse->getUpdateDate()->format('c'));
+
+        if (!empty($expectedContent['description'])) {
+            $this->assertEquals($expectedContent['description'], $payoutResponse->getDescription());
+        } else {
+            $this->assertNull($payoutResponse->getDescription());
+        }
+
+        $customParameters = $payoutResponse->getCustomParameters();
+        if (!empty($expectedContent['custom_parameters'])) {
+            $this->assertNotEmpty($customParameters);
+            $this->assertArraySubset($expectedContent['custom_parameters'], $customParameters);
+        } else {
+            $this->assertNull($customParameters);
+        }
     }
 }

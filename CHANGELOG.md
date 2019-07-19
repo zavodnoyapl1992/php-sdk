@@ -1,3 +1,8 @@
+## 1.3.0 - July 2019
+
+- Add fields `description` and `custom_parameters` for payouts
+- [BC] Fix rates for cashboxes (vat18 -> vat20, vat118 -> vat120) (thanks @burnb)
+
 ## 1.2.0 - February 2019
 
 - Add methods for refund

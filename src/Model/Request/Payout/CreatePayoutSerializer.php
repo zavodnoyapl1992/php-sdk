@@ -24,6 +24,7 @@ class CreatePayoutSerializer extends AbstractRequestSerializer
         $orderData = [
             'amount' => $payout->getOrder()->getAmount(),
             'currency' => $payout->getOrder()->getCurrency(),
+            'description' => $payout->getOrder()->getDescription(),
         ];
 
         $serializedData = [
@@ -38,6 +39,12 @@ class CreatePayoutSerializer extends AbstractRequestSerializer
 
         if ($payout->getFeeType()) {
             $serializedData['fee_type'] = $payout->getFeeType();
+        }
+
+        $customParameters = $payout->getCustomParameters();
+
+        if (!empty($customParameters)) {
+            $serializedData['custom_parameters'] = $customParameters;
         }
 
         return $serializedData;

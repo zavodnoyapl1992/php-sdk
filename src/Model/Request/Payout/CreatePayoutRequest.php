@@ -36,6 +36,11 @@ class CreatePayoutRequest extends AbstractRequest
     private $order;
 
     /**
+     * @var string[]
+     */
+    private $customParameters;
+
+    /**
      * @return string
      */
     public function getTransactionId()
@@ -136,6 +141,26 @@ class CreatePayoutRequest extends AbstractRequest
     }
 
     /**
+     * @return string[]
+     */
+    public function getCustomParameters()
+    {
+        return $this->customParameters;
+    }
+
+    /**
+     * @param string[] $customParameters
+     *
+     * @return $this
+     */
+    public function setCustomParameters($customParameters)
+    {
+        $this->customParameters = $customParameters;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -155,6 +180,7 @@ class CreatePayoutRequest extends AbstractRequest
         return [
             'fee_type' => new FeeType($this),
             'wallet_id' => self::TYPE_INTEGER,
+            'custom_parameters' => self::TYPE_ARRAY,
         ];
     }
 }

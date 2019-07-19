@@ -6,6 +6,7 @@ namespace KassaCom\SDK\Model\Response\Payout;
 
 use KassaCom\SDK\Model\Interfaces\RestorableInterface;
 use KassaCom\SDK\Model\Request\Item\FeeItem;
+use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\PayoutMethodItem;
@@ -56,6 +57,16 @@ trait PayoutResponseTrait
      * @var ErrorDetailsItem|null
      */
     private $errorDetails;
+
+    /**
+     * @var string|null
+     */
+    private $description;
+
+    /**
+     * @var array|null
+     */
+    private $customParameters;
 
     /**
      * @return int
@@ -258,6 +269,46 @@ trait PayoutResponseTrait
     }
 
     /**
+     * @return string|null
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     *
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCustomParameters()
+    {
+        return $this->customParameters;
+    }
+
+    /**
+     * @param array|null $customParameters
+     *
+     * @return $this
+     */
+    public function setCustomParameters($customParameters)
+    {
+        $this->customParameters = $customParameters;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -282,6 +333,8 @@ trait PayoutResponseTrait
     {
         return [
             'error_details' => ErrorDetailsItem::class,
+            'custom_parameters' => AbstractResponse::TYPE_ARRAY,
+            'description' => RestorableInterface::TYPE_STRING,
         ];
     }
 }

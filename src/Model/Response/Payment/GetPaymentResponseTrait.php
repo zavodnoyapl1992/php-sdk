@@ -28,6 +28,16 @@ trait GetPaymentResponseTrait
     private $order;
 
     /**
+     * @var MoneyItem|null
+     */
+    private $payer;
+
+    /**
+     * @var MoneyItem|null
+     */
+    private $extra;
+
+    /**
      * @var WalletResponseItem
      */
     private $wallet;
@@ -153,6 +163,46 @@ trait GetPaymentResponseTrait
     public function setOrder($order)
     {
         $this->order = $order;
+
+        return $this;
+    }
+
+    /**
+     * @return MoneyItem|null
+     */
+    public function getPayer()
+    {
+        return $this->payer;
+    }
+
+    /**
+     * @param MoneyItem|null $payer
+     *
+     * @return $this
+     */
+    public function setPayer($payer)
+    {
+        $this->payer = $payer;
+
+        return $this;
+    }
+
+    /**
+     * @return MoneyItem|null
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param MoneyItem|null $extra
+     *
+     * @return $this
+     */
+    public function setExtra($extra)
+    {
+        $this->extra = $extra;
 
         return $this;
     }
@@ -469,6 +519,8 @@ trait GetPaymentResponseTrait
             'available_full_refund' => self::TYPE_BOOLEAN,
             'available_partial_refund' => self::TYPE_BOOLEAN,
             'available_for_refund' => MoneyItem::class,
+            'payer' => MoneyItem::class,
+            'extra' => MoneyItem::class,
         ];
     }
 }

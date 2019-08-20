@@ -35,6 +35,9 @@ use KassaCom\SDK\Model\Request\Payment\CreatePaymentTransport;
 use KassaCom\SDK\Model\Request\Payment\GetPaymentRequest;
 use KassaCom\SDK\Model\Request\Payment\GetPaymentSerializer;
 use KassaCom\SDK\Model\Request\Payment\GetPaymentTransport;
+use KassaCom\SDK\Model\Request\Payment\PatchPaymentRequest;
+use KassaCom\SDK\Model\Request\Payment\PatchPaymentSerializer;
+use KassaCom\SDK\Model\Request\Payment\PatchPaymentTransport;
 use KassaCom\SDK\Model\Request\Payment\ProcessPaymentRequest;
 use KassaCom\SDK\Model\Request\Payment\ProcessPaymentSerializer;
 use KassaCom\SDK\Model\Request\Payment\ProcessPaymentTransport;
@@ -139,6 +142,27 @@ class Client
         $paymentTransport = new CreatePaymentTransport($paymentSerializer);
 
         return $this->execute($paymentTransport, CreatePaymentResponse::class);
+    }
+
+    /**
+     * @param PatchPaymentRequest|AbstractRequest|array  $payment
+     *
+     * @return AbstractResponse
+     * @throws ResponseException
+     * @throws TransportException
+     * @internal
+     */
+    public function patchPayment($payment)
+    {
+        if (is_array($payment)) {
+            $payment = RequestCreator::create(PatchPaymentRequest::class, $payment);
+        }
+
+        ObjectRecursiveValidator::validate($payment);
+        $paymentSerializer = new PatchPaymentSerializer($payment);
+        $paymentTransport = new PatchPaymentTransport($paymentSerializer);
+
+        return $this->execute($paymentTransport, GetPaymentResponse::class);
     }
 
     /**

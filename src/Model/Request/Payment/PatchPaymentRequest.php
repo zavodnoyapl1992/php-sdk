@@ -1,5 +1,6 @@
 <?php
 
+
 namespace KassaCom\SDK\Model\Request\Payment;
 
 
@@ -10,19 +11,20 @@ use KassaCom\SDK\Model\Request\Item\ReceiptRequestItem;
 use KassaCom\SDK\Model\Request\Item\SettingsRequestItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
-class CreatePaymentRequest extends AbstractRequest
+/**
+ * Class PatchPaymentRequest
+ *
+ * @package KassaCom\SDK\Model\Request\Payment
+ * @internal
+ */
+class PatchPaymentRequest extends AbstractRequest
 {
     use RecursiveRestoreTrait;
 
     /**
-     * @var string|null
+     * @var string
      */
-    private $partnerPaymentId;
-
-    /**
-     * @var OrderRequestItem
-     */
-    private $order;
+    private $token;
 
     /**
      * @var SettingsRequestItem
@@ -35,46 +37,21 @@ class CreatePaymentRequest extends AbstractRequest
     private $customParameters;
 
     /**
-     * @var ReceiptRequestItem
+     * @return string
      */
-    private $receipt;
-
-    /**
-     * @return string|null
-     */
-    public function getPartnerPaymentId()
+    public function getToken()
     {
-        return $this->partnerPaymentId;
+        return $this->token;
     }
 
     /**
-     * @param string|null $partnerPaymentId
+     * @param string $token
      *
      * @return $this
      */
-    public function setPartnerPaymentId($partnerPaymentId)
+    public function setToken($token)
     {
-        $this->partnerPaymentId = $partnerPaymentId;
-
-        return $this;
-    }
-
-    /**
-     * @return OrderRequestItem
-     */
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    /**
-     * @param OrderRequestItem $order
-     *
-     * @return self
-     */
-    public function setOrder($order)
-    {
-        $this->order = $order;
+        $this->token = $token;
 
         return $this;
     }
@@ -90,7 +67,7 @@ class CreatePaymentRequest extends AbstractRequest
     /**
      * @param SettingsRequestItem $settings
      *
-     * @return self
+     * @return $this
      */
     public function setSettings($settings)
     {
@@ -110,7 +87,7 @@ class CreatePaymentRequest extends AbstractRequest
     /**
      * @param string[] $customParameters
      *
-     * @return self
+     * @return $this
      */
     public function setCustomParameters($customParameters)
     {
@@ -120,33 +97,18 @@ class CreatePaymentRequest extends AbstractRequest
     }
 
     /**
-     * @return ReceiptRequestItem
-     */
-    public function getReceipt()
-    {
-        return $this->receipt;
-    }
-
-    /**
-     * @param ReceiptRequestItem $receipt
-     *
-     * @return $this
-     */
-    public function setReceipt($receipt)
-    {
-        $this->receipt = $receipt;
-
-        return $this;
-    }
-
-    /**
      * @inheritDoc
      */
     public function getRequiredFields()
     {
+        if ($this->settings) {
+            $fields = array_merge($this->settings->getRequiredFields(), $this->settings->getOptionalFields());
+            $this->settings->setOptionalFields($fields);
+            $this->settings->setRequiredFields([]);
+        }
+
         return [
-            'order' => OrderRequestItem::class,
-            'settings' => SettingsRequestItem::class,
+            'token' => self::TYPE_STRING,
         ];
     }
 
@@ -156,9 +118,8 @@ class CreatePaymentRequest extends AbstractRequest
     public function getOptionalFields()
     {
         return [
-            'partner_payment_id' => self::TYPE_STRING,
+            'settings' => SettingsRequestItem::class,
             'custom_parameters' => RestorableInterface::TYPE_ARRAY,
-            'receipt' => ReceiptRequestItem::class,
         ];
     }
 }

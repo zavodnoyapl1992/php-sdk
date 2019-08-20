@@ -70,7 +70,6 @@ class ObjectRecursiveValidator
      */
     protected static function validateValue($value, $field, $type)
     {
-
         switch ($type) {
             case RestorableInterface::TYPE_INTEGER:
                 if (!is_int($value)) {

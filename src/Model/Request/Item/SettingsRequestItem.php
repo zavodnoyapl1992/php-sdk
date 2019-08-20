@@ -72,6 +72,40 @@ class SettingsRequestItem extends AbstractRequestItem
     private $subscriptionToken;
 
     /**
+     * @var array
+     */
+    private $optionalFields;
+
+    /**
+     * @var array
+     */
+    private $requiredFields;
+
+    /**
+     * SettingsRequestItem constructor.
+     */
+    public function __construct()
+    {
+        $this->requiredFields = [
+            'project_id' => self::TYPE_INTEGER,
+        ];
+
+        $this->optionalFields = [
+            'payment_method' => new PaymentType($this),
+            'success_url' => self::TYPE_STRING,
+            'fail_url' => self::TYPE_STRING,
+            'expire_date' => self::TYPE_DATE,
+            'wallet_id' => self::TYPE_INTEGER,
+            'is_test' => self::TYPE_BOOLEAN,
+            'hide_form_header' => self::TYPE_BOOLEAN,
+            'hide_form_methods' => self::TYPE_BOOLEAN,
+            'create_subscription' => self::TYPE_BOOLEAN,
+            'subscription_token' => self::TYPE_STRING,
+            'locale' => new LocaleType($this),
+        ];
+    }
+
+    /**
      * @return int
      */
     public function getProjectId()
@@ -314,13 +348,35 @@ class SettingsRequestItem extends AbstractRequestItem
     }
 
     /**
+     * @param array $optionalFields
+     *
+     * @return $this
+     */
+    public function setOptionalFields($optionalFields)
+    {
+        $this->optionalFields = $optionalFields;
+
+        return $this;
+    }
+
+    /**
+     * @param array $requiredFields
+     *
+     * @return $this
+     */
+    public function setRequiredFields($requiredFields)
+    {
+        $this->requiredFields = $requiredFields;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
     {
-        return [
-            'project_id' => self::TYPE_INTEGER,
-        ];
+        return $this->requiredFields;
     }
 
     /**
@@ -328,18 +384,6 @@ class SettingsRequestItem extends AbstractRequestItem
      */
     public function getOptionalFields()
     {
-        return [
-            'payment_method' => new PaymentType($this),
-            'success_url' => self::TYPE_STRING,
-            'fail_url' => self::TYPE_STRING,
-            'expire_date' => self::TYPE_DATE,
-            'wallet_id' => self::TYPE_INTEGER,
-            'is_test' => self::TYPE_BOOLEAN,
-            'hide_form_header' => self::TYPE_BOOLEAN,
-            'hide_form_methods' => self::TYPE_BOOLEAN,
-            'create_subscription' => self::TYPE_BOOLEAN,
-            'subscription_token' => self::TYPE_STRING,
-            'locale' => new LocaleType($this),
-        ];
+        return $this->optionalFields;
     }
 }

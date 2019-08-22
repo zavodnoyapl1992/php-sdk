@@ -1,3 +1,7 @@
+## 1.3.1 - August 2019
+
+- Add internal method `patch`
+
 ## 1.3.0 - July 2019
 
 - Add fields `description` and `custom_parameters` for payouts

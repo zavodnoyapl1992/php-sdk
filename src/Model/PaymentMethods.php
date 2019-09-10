@@ -19,6 +19,9 @@ final class PaymentMethods
     /** @var string Payment method - yandex */
     const PAYMENT_METHOD_YANDEX = 'yandex';
 
+    /** @var string Payment method - using card fingerprint signature */
+    const PAYMENT_METHOD_CARD_FINGERPRINT = 'card_fingerprint';
+
     /**
      * @return array
      */
@@ -29,7 +32,8 @@ final class PaymentMethods
             self::PAYMENT_METHOD_CARD,
             self::PAYMENT_METHOD_MOBILE,
             self::PAYMENT_METHOD_WEBMONEY,
-            self::PAYMENT_METHOD_YANDEX
+            self::PAYMENT_METHOD_YANDEX,
+            self::PAYMENT_METHOD_CARD_FINGERPRINT,
         ];
     }
 }

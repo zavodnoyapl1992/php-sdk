@@ -7,7 +7,15 @@
   "payout_method": {
     "method": "qiwi",
     "type": "card_ru",
-    "account": "79081234567"
+    "account": "79081234567",
+    "card": {
+      "fingerprint": "466e12e0-fd27-4a80-8b0c-20eef193500f",
+      "category": "visa",
+      "country": "RU",
+      "bank": "Test Bank Name",
+      "type": "card_ru",
+      "is3ds": false
+    }
   },
   "wallet": {
     "id": 5,

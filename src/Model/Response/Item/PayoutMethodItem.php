@@ -29,6 +29,11 @@ class PayoutMethodItem extends AbstractResponse
     private $account;
 
     /**
+     * @var PayoutCardItem
+     */
+    private $card;
+
+    /**
      * @return string
      */
     public function getMethod()
@@ -89,6 +94,26 @@ class PayoutMethodItem extends AbstractResponse
     }
 
     /**
+     * @return PayoutCardItem
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    /**
+     * @param PayoutCardItem $card
+     *
+     * @return $this
+     */
+    public function setCard($card)
+    {
+        $this->card = $card;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -106,6 +131,7 @@ class PayoutMethodItem extends AbstractResponse
     {
         return [
             'type' => new PayoutCardType($this),
+            'card' => PayoutCardItem::class,
         ];
     }
 }

@@ -35,6 +35,7 @@ use KassaCom\SDK\Model\Request\Refund\CreateRefundRequest;
 use KassaCom\SDK\Model\Request\Refund\GetRefundRequest;
 use KassaCom\SDK\Model\Request\Subscription\GetSubscriptionRequest;
 use KassaCom\SDK\Model\Response\Item\AuthorizationItem;
+use KassaCom\SDK\Model\Response\Item\CardItem;
 use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
@@ -133,35 +134,12 @@ class ClientTest extends TestCase
         $processPaymentResponse = $client->processPayment($data);
 
         $this->assertInstanceOf(ProcessPaymentResponse::class, $processPaymentResponse);
-        $this->assertEquals($expectedContent['id'], $processPaymentResponse->getId());
-        $this->assertEquals($expectedContent['token'], $processPaymentResponse->getToken());
-        $this->assertEquals($expectedContent['ip'], $processPaymentResponse->getIp());
-        $this->assertEquals($expectedContent['status'], $processPaymentResponse->getStatus());
-        $this->assertEquals($expectedContent['is_test'], $processPaymentResponse->getIsTest());
-
-        $this->assertInstanceOf(OrderResponseItem::class, $processPaymentResponse->getOrder());
-        $this->assertEquals($expectedContent['order']['currency'], $processPaymentResponse->getOrder()->getCurrency());
-        $this->assertEquals($expectedContent['order']['amount'], $processPaymentResponse->getOrder()->getAmount());
-        $this->assertEquals($expectedContent['order']['description'], $processPaymentResponse->getOrder()->getDescription());
-
-        $this->assertInstanceOf(WalletResponseItem::class, $processPaymentResponse->getWallet());
-        $this->assertEquals($expectedContent['wallet']['id'], $processPaymentResponse->getWallet()->getId());
-        $this->assertEquals($expectedContent['wallet']['amount'], $processPaymentResponse->getWallet()->getAmount());
-        $this->assertEquals($expectedContent['wallet']['currency'], $processPaymentResponse->getWallet()->getCurrency());
-
-        $this->assertInstanceOf(PaymentMethodItem::class, $processPaymentResponse->getPaymentMethod());
-        $this->assertEquals($expectedContent['payment_method']['type'], $processPaymentResponse->getPaymentMethod()->getType());
-        $this->assertEquals($expectedContent['payment_method']['account'], $processPaymentResponse->getPaymentMethod()->getAccount());
+        $this->checkPaymentResponse($expectedContent, $processPaymentResponse);
 
         $this->assertInstanceOf(AuthorizationItem::class, $processPaymentResponse->getAuthorization());
         $this->assertEquals($expectedContent['authorization']['action'], $processPaymentResponse->getAuthorization()->getAction());
         $this->assertEquals($expectedContent['authorization']['method'], $processPaymentResponse->getAuthorization()->getMethod());
         $this->assertEquals($expectedContent['authorization']['params'], $processPaymentResponse->getAuthorization()->getParams());
-
-        $this->assertInstanceOf(\DateTime::class, $processPaymentResponse->getCreateDate());
-        $this->assertInstanceOf(\DateTime::class, $processPaymentResponse->getExpireDate());
-        $this->assertEquals(new \DateTime($expectedContent['create_date']), $processPaymentResponse->getCreateDate());
-        $this->assertEquals(new \DateTime($expectedContent['expire_date']), $processPaymentResponse->getExpireDate());
 
         $this->assertArrayHasKey('email', $processPaymentResponse->getCustomParameters());
         $this->assertArrayHasKey('order_id', $processPaymentResponse->getCustomParameters());
@@ -1173,37 +1151,50 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @param array                                                           $expectedContent
-     * @param GetPaymentResponse|CapturePaymentResponse|CancelPaymentResponse $getPaymentResponse
+     * @param array                                                                                  $expectedContent
+     * @param GetPaymentResponse|CapturePaymentResponse|CancelPaymentResponse|ProcessPaymentResponse $paymentResponse
      */
-    private function checkPaymentResponse($expectedContent, $getPaymentResponse)
+    private function checkPaymentResponse($expectedContent, $paymentResponse)
     {
-        $this->assertEquals($expectedContent['id'], $getPaymentResponse->getId());
-        $this->assertEquals($expectedContent['token'], $getPaymentResponse->getToken());
-        $this->assertEquals(new \DateTime($expectedContent['create_date']), $getPaymentResponse->getCreateDate());
-        $this->assertEquals(new \DateTime($expectedContent['expire_date']), $getPaymentResponse->getExpireDate());
-        $this->assertEquals($expectedContent['status'], $getPaymentResponse->getStatus());
-        $this->assertEquals($expectedContent['status_description'], $getPaymentResponse->getStatusDescription());
-        $this->assertEquals($expectedContent['ip'], $getPaymentResponse->getIp());
-        $this->assertEquals($expectedContent['is_test'], $getPaymentResponse->getIsTest());
+        $this->assertEquals($expectedContent['id'], $paymentResponse->getId());
+        $this->assertEquals($expectedContent['token'], $paymentResponse->getToken());
+        $this->assertInstanceOf(\DateTime::class, $paymentResponse->getCreateDate());
+        $this->assertInstanceOf(\DateTime::class, $paymentResponse->getExpireDate());
 
-        $this->assertInstanceOf(OrderResponseItem::class, $getPaymentResponse->getOrder());
-        $this->assertEquals($expectedContent['order']['amount'], $getPaymentResponse->getOrder()->getAmount());
-        $this->assertEquals($expectedContent['order']['currency'], $getPaymentResponse->getOrder()->getCurrency());
-        $this->assertEquals($expectedContent['order']['description'], $getPaymentResponse->getOrder()->getDescription());
+        $this->assertEquals(new \DateTime($expectedContent['create_date']), $paymentResponse->getCreateDate());
+        $this->assertEquals(new \DateTime($expectedContent['expire_date']), $paymentResponse->getExpireDate());
+        $this->assertEquals($expectedContent['status'], $paymentResponse->getStatus());
+        $this->assertEquals($expectedContent['status_description'], $paymentResponse->getStatusDescription());
+        $this->assertEquals($expectedContent['ip'], $paymentResponse->getIp());
+        $this->assertEquals($expectedContent['is_test'], $paymentResponse->getIsTest());
 
-        $this->assertInstanceOf(WalletResponseItem::class, $getPaymentResponse->getWallet());
-        $this->assertEquals($expectedContent['wallet']['id'], $getPaymentResponse->getWallet()->getId());
-        $this->assertEquals($expectedContent['wallet']['amount'], $getPaymentResponse->getWallet()->getAmount());
-        $this->assertEquals($expectedContent['wallet']['currency'], $getPaymentResponse->getWallet()->getCurrency());
+        $this->assertInstanceOf(OrderResponseItem::class, $paymentResponse->getOrder());
+        $this->assertEquals($expectedContent['order']['amount'], $paymentResponse->getOrder()->getAmount());
+        $this->assertEquals($expectedContent['order']['currency'], $paymentResponse->getOrder()->getCurrency());
+        $this->assertEquals($expectedContent['order']['description'], $paymentResponse->getOrder()->getDescription());
 
-        $this->assertInstanceOf(PaymentMethodItem::class, $getPaymentResponse->getPaymentMethod());
-        $this->assertEquals($expectedContent['payment_method']['type'], $getPaymentResponse->getPaymentMethod()->getType());
-        $this->assertEquals($expectedContent['payment_method']['account'], $getPaymentResponse->getPaymentMethod()->getAccount());
+        $this->assertInstanceOf(WalletResponseItem::class, $paymentResponse->getWallet());
+        $this->assertEquals($expectedContent['wallet']['id'], $paymentResponse->getWallet()->getId());
+        $this->assertEquals($expectedContent['wallet']['amount'], $paymentResponse->getWallet()->getAmount());
+        $this->assertEquals($expectedContent['wallet']['currency'], $paymentResponse->getWallet()->getCurrency());
+
+        $this->assertInstanceOf(PaymentMethodItem::class, $paymentResponse->getPaymentMethod());
+        $this->assertEquals($expectedContent['payment_method']['type'], $paymentResponse->getPaymentMethod()->getType());
+        $this->assertEquals($expectedContent['payment_method']['account'], $paymentResponse->getPaymentMethod()->getAccount());
+
+        $cardItem = $paymentResponse->getPaymentMethod()->getCard();
+
+        if (empty($expectedContent['payment_method']['card'])) {
+            $this->assertNull($cardItem);
+        } else {
+            $this->assertNotNull($cardItem);
+            $this->assertInstanceOf(CardItem::class, $cardItem);
+            $this->checkCardData($expectedContent['payment_method']['card'], $cardItem);
+        }
     }
 
     /**
-     * @param array $expectedContent
+     * @param array                                  $expectedContent
      * @param CreatePayoutResponse|GetPayoutResponse $payoutResponse
      */
     private function checkPayoutMethodItem($expectedContent, $payoutResponse)
@@ -1213,31 +1204,13 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['type'], $payoutResponse->getPayoutMethod()->getType());
         $this->assertEquals($expectedContent['account'], $payoutResponse->getPayoutMethod()->getAccount());
 
-        $card = $payoutResponse->getPayoutMethod()->getCard();
+        $cardItem = $payoutResponse->getPayoutMethod()->getCard();
         if (!empty($expectedContent['card'])) {
-            $this->assertNotEmpty($card);
-
-            $expectedCardData = [
-                $expectedContent['card']['fingerprint'] ?: null,
-                $expectedContent['card']['category'] ?: null,
-                $expectedContent['card']['country'] ?: null,
-                $expectedContent['card']['bank'] ?: null,
-                $expectedContent['card']['type'] ?: null,
-                $expectedContent['card']['is3ds'] ?: null,
-            ];
-
-            $gotData = [
-                $card->getFingerprint(),
-                $card->getCategory(),
-                $card->getCountry(),
-                $card->getBank(),
-                $card->getType(),
-                $card->getIs3ds(),
-            ];
-
-            $this->assertEquals($expectedCardData, $gotData);
+            $this->assertNotEmpty($cardItem);
+            $this->checkCardData($expectedContent['card'], $cardItem);
         } else {
-            $this->assertNull($card);
+            $this->assertNotNull($cardItem);
+            $this->assertInstanceOf(CardItem::class, $cardItem);
         }
     }
 
@@ -1286,5 +1259,32 @@ class ClientTest extends TestCase
         } else {
             $this->assertNull($customParameters);
         }
+    }
+
+    /**
+     * @param array    $expectedContent
+     * @param CardItem $card
+     */
+    private function checkCardData($expectedContent, CardItem $card)
+    {
+        $expectedCardData = [
+            $expectedContent['fingerprint'] ?: null,
+            $expectedContent['category'] ?: null,
+            $expectedContent['country'] ?: null,
+            $expectedContent['bank'] ?: null,
+            $expectedContent['type'] ?: null,
+            $expectedContent['is3ds'] ?: null,
+        ];
+
+        $gotData = [
+            $card->getFingerprint(),
+            $card->getCategory(),
+            $card->getCountry(),
+            $card->getBank(),
+            $card->getType(),
+            $card->getIs3ds(),
+        ];
+
+        $this->assertEquals($expectedCardData, $gotData);
     }
 }

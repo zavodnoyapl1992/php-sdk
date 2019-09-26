@@ -112,6 +112,7 @@ class CreatePayoutRequest extends AbstractRequest
      * @param null|string $feeType
      *
      * @return $this
+     * @see \KassaCom\SDK\Model\Request\Item\FeeItem
      */
     public function setFeeType($feeType)
     {

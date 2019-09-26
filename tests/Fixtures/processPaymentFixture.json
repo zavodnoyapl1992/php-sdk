@@ -17,12 +17,21 @@
   "status": "process",
   "payment_method": {
     "type": "card",
-    "account": "420000xxxxxx0000"
+    "account": "420000xxxxxx0000",
+    "card": {
+      "fingerprint": "99999-fd27-4a80-8b0c-20eef193500f",
+      "category": "visa",
+      "country": "RU",
+      "bank": "Test Bank Name",
+      "type": "card_ru",
+      "is3ds": false
+    }
   },
   "custom_parameters": {
     "email": "vasia@gmail.com",
     "order_id": "515"
   },
+  "status_description": "Тест статуса",
   "is_test": true,
   "authorization": {
     "action": "http://superbank.com/auth.php",

@@ -67,6 +67,11 @@ class ProcessPaymentResponse extends AbstractResponse
     private $status;
 
     /**
+     * @var string|null
+     */
+    private $statusDescription;
+
+    /**
      * @var PaymentMethodItem
      */
     private $paymentMethod;
@@ -302,6 +307,26 @@ class ProcessPaymentResponse extends AbstractResponse
     }
 
     /**
+     * @return string|null
+     */
+    public function getStatusDescription()
+    {
+        return $this->statusDescription;
+    }
+
+    /**
+     * @param string|null $statusDescription
+     *
+     * @return $this
+     */
+    public function setStatusDescription($statusDescription)
+    {
+        $this->statusDescription = $statusDescription;
+
+        return $this;
+    }
+
+    /**
      * @return PaymentMethodItem
      */
     public function getPaymentMethod()
@@ -473,6 +498,7 @@ class ProcessPaymentResponse extends AbstractResponse
             'available_full_refund' => self::TYPE_BOOLEAN,
             'available_partial_refund' => self::TYPE_BOOLEAN,
             'available_for_refund' => MoneyItem::class,
+            'status_description' => self::TYPE_STRING,
         ];
     }
 }

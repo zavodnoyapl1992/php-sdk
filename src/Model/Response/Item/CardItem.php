@@ -5,7 +5,7 @@ namespace KassaCom\SDK\Model\Response\Item;
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
-class PayoutCardItem extends AbstractResponse
+class CardItem extends AbstractResponse
 {
     use RecursiveRestoreTrait;
 
@@ -50,11 +50,12 @@ class PayoutCardItem extends AbstractResponse
     /**
      * @param string|null $fingerprint
      *
-     * @return PayoutCardItem
+     * @return CardItem
      */
     public function setFingerprint($fingerprint)
     {
         $this->fingerprint = $fingerprint;
+
         return $this;
     }
 
@@ -69,11 +70,12 @@ class PayoutCardItem extends AbstractResponse
     /**
      * @param string|null $category
      *
-     * @return PayoutCardItem
+     * @return CardItem
      */
     public function setCategory($category)
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -88,11 +90,12 @@ class PayoutCardItem extends AbstractResponse
     /**
      * @param string|null $country
      *
-     * @return PayoutCardItem
+     * @return CardItem
      */
     public function setCountry($country)
     {
         $this->country = $country;
+
         return $this;
     }
 
@@ -107,11 +110,12 @@ class PayoutCardItem extends AbstractResponse
     /**
      * @param string|null $bank
      *
-     * @return PayoutCardItem
+     * @return CardItem
      */
     public function setBank($bank)
     {
         $this->bank = $bank;
+
         return $this;
     }
 
@@ -126,11 +130,12 @@ class PayoutCardItem extends AbstractResponse
     /**
      * @param string|null $type
      *
-     * @return PayoutCardItem
+     * @return CardItem
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -145,11 +150,12 @@ class PayoutCardItem extends AbstractResponse
     /**
      * @param bool|null $is3ds
      *
-     * @return PayoutCardItem
+     * @return CardItem
      */
     public function setIs3ds($is3ds)
     {
         $this->is3ds = $is3ds;
+
         return $this;
     }
 

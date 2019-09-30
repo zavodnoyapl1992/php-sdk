@@ -454,6 +454,7 @@ class ClientTest extends TestCase
             ->setWalletId(1234567890)
             ->setPaymentMethod(PaymentMethods::PAYMENT_METHOD_CARD)
             ->setFailUrl('http://fail')
+            ->setBackUrl('http://back')
             ->setSuccessUrl('http://success')
             ->setProjectId(998877);
         $receipt = new ReceiptRequestItem();
@@ -507,6 +508,7 @@ class ClientTest extends TestCase
                         'payment_method' => 'card',
                         'success_url' => 'http://site.com/?success',
                         'fail_url' => 'http://site.com/?fail',
+                        'back_url' => 'http://site.com/?back',
                         'locale' => 'en',
                     ],
                     'custom_parameters' => [
@@ -539,6 +541,7 @@ class ClientTest extends TestCase
                         'payment_method' => 'card',
                         'success_url' => 'http://site.com/?success',
                         'fail_url' => 'http://site.com/?fail',
+                        'back_url' => 'http://site.com/?back',
                         'locale' => 'en',
                         'create_subscription' => true,
                         'subscription_token' => 'subscription-token',

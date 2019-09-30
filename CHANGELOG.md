@@ -1,4 +1,4 @@
-## 1.4.0 - August 2019
+## 1.4.0 - September 2019
 
 - Add payout method `card_fingerprint` (thanks @kalyabin)
 - Add `back_url` parameter in payment settings (thanks @kalyabin)

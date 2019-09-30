@@ -1,3 +1,10 @@
+## 1.4.0 - August 2019
+
+- Add payout method `card_fingerprint` (thanks @kalyabin)
+- Add `back_url` parameter in payment settings (thanks @kalyabin)
+- Add card info for payments and payouts responses (thanks @kalyabin)
+- Add status description in `ProcessPaymentResponse`
+
 ## 1.3.1 - August 2019
 
 - Add internal method `patch`

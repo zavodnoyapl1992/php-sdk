@@ -146,14 +146,14 @@ class ClientTest extends TestCase
     }
 
     /**
-     * @dataProvider processPaymentProviderInvalid
+     * @dataProvider processPaymentProviderEmptyRequired
      *
      * @param mixed $data
      *
      * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
      * @throws \KassaCom\SDK\Exception\TransportException
      */
-    public function testProcessPaymentFail($data)
+    public function testProcessPaymentFailRequired($data)
     {
         $mock = new MockHandler([
             new Response(200, []),
@@ -162,6 +162,26 @@ class ClientTest extends TestCase
         $client = self::generateClient($mock);
 
         $this->setExpectedException(EmptyRequiredPropertyException::class);
+        $client->processPayment($data);
+    }
+
+    /**
+     * @dataProvider processPaymentProviderInvalidFields
+     *
+     * @param array $data
+     *
+     * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
+     * @throws \KassaCom\SDK\Exception\TransportException
+     */
+    public function testProcessPaymentFailTypes($data)
+    {
+        $mock = new MockHandler([
+            new Response(200, []),
+        ]);
+
+        $client = self::generateClient($mock);
+
+        $this->setExpectedException(InvalidPropertyException::class);
         $client->processPayment($data);
     }
 
@@ -624,12 +644,41 @@ class ClientTest extends TestCase
                     ],
                 ],
             ],
+            [
+                [
+                    'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                    'ip' => '127.0.0.1',
+                    'payment_method_data' => [
+                        'type' => PaymentMethods::PAYMENT_METHOD_WEBMONEY,
+                    ],
+                ],
+            ],
+            [
+                [
+                    'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                    'ip' => '127.0.0.1',
+                    'payment_method_data' => [
+                        'type' => PaymentMethods::PAYMENT_METHOD_WEBMONEY,
+                        'purse_type' => PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_P,
+                    ],
+                ],
+            ],
+            [
+                [
+                    'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                    'ip' => '127.0.0.1',
+                    'payment_method_data' => [
+                        'type' => PaymentMethods::PAYMENT_METHOD_WEBMONEY,
+                        'purse_type' => PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_R,
+                    ],
+                ],
+            ],
             [$processPaymentCard],
             [$processPaymentQIWI],
         ];
     }
 
-    public function processPaymentProviderInvalid()
+    public function processPaymentProviderEmptyRequired()
     {
         return [
             [
@@ -685,6 +734,32 @@ class ClientTest extends TestCase
                         'card_month' => '03',
                         'card_year' => '19',
                         'card_security' => '123',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function processPaymentProviderInvalidFields()
+    {
+        return [
+            [
+                [
+                    'token' => '1-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                    'ip' => '120.0.0.1',
+                    'payment_method_data' => [
+                        'type' => PaymentMethods::PAYMENT_METHOD_WEBMONEY,
+                        'purse_type' => 'INCORRECT_PURSE_TYPE',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'token' => '1-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                    'ip' => '120.0.0.1',
+                    'payment_method_data' => [
+                        'type' => PaymentMethods::PAYMENT_METHOD_WEBMONEY,
+                        'purse_type' => 'INCORRECT_PURSE_TYPE2',
                     ],
                 ],
             ],

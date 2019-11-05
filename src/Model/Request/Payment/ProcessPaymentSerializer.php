@@ -34,6 +34,10 @@ class ProcessPaymentSerializer extends AbstractRequestSerializer
                 $serializedData['payment_method_data']['card_security'] = $paymentMethodDataItem->getCardSecurity();
             }
 
+            if ($paymentMethodDataItem->getType() === PaymentMethods::PAYMENT_METHOD_WEBMONEY && $paymentMethodDataItem->getPurseType() !== null) {
+                $serializedData['payment_method_data']['purse_type'] = $paymentMethodDataItem->getPurseType();
+            }
+
             if ($paymentMethodDataItem->getAccount() !== null) {
                 $serializedData['payment_method_data']['account'] = $paymentMethodDataItem->getAccount();
             }

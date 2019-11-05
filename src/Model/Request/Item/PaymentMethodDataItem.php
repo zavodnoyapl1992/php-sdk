@@ -7,10 +7,14 @@ namespace KassaCom\SDK\Model\Request\Item;
 use KassaCom\SDK\Model\PaymentMethods;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 use KassaCom\SDK\Model\Types\PaymentType;
+use KassaCom\SDK\Model\Types\PurseType;
 
 class PaymentMethodDataItem extends AbstractRequestItem
 {
     use RecursiveRestoreTrait;
+
+    const WEBMONEY_WALLET_PURSE_R = 'R';
+    const WEBMONEY_WALLET_PURSE_P = 'P';
 
     /**
      * @var string
@@ -42,6 +46,11 @@ class PaymentMethodDataItem extends AbstractRequestItem
      * @var string
      */
     private $cardSecurity;
+
+    /**
+     * @var string|null
+     */
+    private $purseType;
 
     /**
      * @var bool|null
@@ -171,6 +180,26 @@ class PaymentMethodDataItem extends AbstractRequestItem
     }
 
     /**
+     * @return string|null
+     */
+    public function getPurseType()
+    {
+        return $this->purseType;
+    }
+
+    /**
+     * @param string|null $purseType
+     *
+     * @return $this
+     */
+    public function setPurseType($purseType)
+    {
+        $this->purseType = $purseType;
+
+        return $this;
+    }
+
+    /**
      * @return bool|null
      */
     public function getCapture()
@@ -225,6 +254,7 @@ class PaymentMethodDataItem extends AbstractRequestItem
             'card_security' => ReceiptRequestItem::TYPE_STRING,
             'account' => ReceiptRequestItem::TYPE_STRING,
             'capture' => ReceiptRequestItem::TYPE_BOOLEAN,
+            'purse_type' => new PurseType($this),
         ];
     }
 }

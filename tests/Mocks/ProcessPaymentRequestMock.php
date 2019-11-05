@@ -28,6 +28,29 @@ class ProcessPaymentRequestMock
                     'account' => 'qwerty1234567',
                 ],
             ],
+            [
+                'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                'ip' => '172.0.0.2',
+                'payment_method_data' => [
+                    'type' => 'webmoney',
+                ],
+            ],
+            [
+                'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                'ip' => '172.0.0.2',
+                'payment_method_data' => [
+                    'type' => 'webmoney',
+                    'purse_type' => 'R',
+                ],
+            ],
+            [
+                'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
+                'ip' => '172.0.0.2',
+                'payment_method_data' => [
+                    'type' => 'webmoney',
+                    'purse_type' => 'P',
+                ],
+            ],
         ];
     }
 

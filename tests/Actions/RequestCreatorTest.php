@@ -87,12 +87,23 @@ class RequestCreatorTest extends TestCase
             $this->assertEquals($data['payment_method_data']['card_year'], $paymentMethodData->getCardYear());
             $this->assertEquals($data['payment_method_data']['card_security'], $paymentMethodData->getCardSecurity());
             $this->assertNull($paymentMethodData->getAccount());
-        } else if ($paymentMethodData->getType() === PaymentMethods::PAYMENT_METHOD_QIWI) {
+        } else {
             $this->assertNull($paymentMethodData->getCardNumber());
             $this->assertNull($paymentMethodData->getCardMonth());
             $this->assertNull($paymentMethodData->getCardYear());
             $this->assertNull($paymentMethodData->getCardSecurity());
+        }
+
+        if ($paymentMethodData->getType() === PaymentMethods::PAYMENT_METHOD_QIWI) {
             $this->assertEquals($data['payment_method_data']['account'], $paymentMethodData->getAccount());
+        }
+
+        if ($paymentMethodData->getType() === PaymentMethods::PAYMENT_METHOD_WEBMONEY) {
+            if (empty($data['payment_method_data']['purse_type'])) {
+                $this->assertNull($paymentMethodData->getPurseType());
+            } else {
+                $this->assertEquals($data['payment_method_data']['purse_type'], $paymentMethodData->getPurseType());
+            }
         }
     }
 

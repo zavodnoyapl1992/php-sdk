@@ -1,3 +1,7 @@
+## 1.4.1 - November 2019
+
+- Add `purse_type` for webmoney payments (`R` and `P` wallets)
+
 ## 1.4.0 - September 2019
 
 - Add payout method `card_fingerprint` (thanks @kalyabin)

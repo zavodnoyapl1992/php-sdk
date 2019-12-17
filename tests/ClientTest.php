@@ -44,6 +44,7 @@ use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\PayoutMethodItem;
 use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
+use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
 use KassaCom\SDK\Model\Response\Payment\CancelPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CapturePaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CreatePaymentResponse;
@@ -1228,6 +1229,92 @@ class ClientTest extends TestCase
         ];
     }
 
+
+    /**
+     * @param array $expectedContent
+     * @param OrderRequestItem $order
+     */
+    private function checkOrderItem($expectedContent, $order)
+    {
+        $this->assertInstanceOf(OrderResponseItem::class, $order);
+        $this->assertEquals($expectedContent['amount'], $order->getAmount());
+        $this->assertEquals($expectedContent['currency'], $order->getCurrency());
+        $this->assertEquals($expectedContent['description'], $order->getDescription());
+    }
+
+
+    /**
+     * @param array $expectedContent
+     * @param RefundResponseItem $refund
+     */
+    private function checkRefundItem($expectedContent, $refund)
+    {
+        $this->assertInstanceOf(RefundResponseItem::class, $refund);
+        $this->assertEquals($expectedContent['amount'], $refund->getAmount());
+        $this->assertEquals($expectedContent['currency'], $refund->getCurrency());
+        $this->assertEquals($expectedContent['reason'], $refund->getReason());
+    }
+
+
+    /**
+     * @param array $expectedContent
+     * @param WalletResponseItem $wallet
+     */
+    private function checkWalletItem($expectedContent, $wallet)
+    {
+        /* @var WalletResponseItem $wallet */
+        $this->assertInstanceOf(WalletResponseItem::class, $wallet);
+        $this->assertEquals($expectedContent['id'], $wallet->getId());
+        $this->assertEquals($expectedContent['amount'], $wallet->getAmount());
+        $this->assertEquals($expectedContent['currency'], $wallet->getCurrency());
+    }
+
+
+    /**
+     * @param array $expectedContent
+     * @param PaymentMethodItem $paymentMethod
+     */
+    private function checkPaymentMethodItem($expectedContent, $paymentMethod)
+    {
+        $this->assertInstanceOf(PaymentMethodItem::class, $paymentMethod);
+        $this->assertEquals($expectedContent['type'], $paymentMethod->getType());
+        $this->assertEquals($expectedContent['account'], $paymentMethod->getAccount());
+    }
+
+
+    /**
+     * @param array $expectedContent
+     * @param GetRefundResponse|CreateRefundResponse $refundResponse
+     */
+    private function checkRefundResponce($expectedContent, $refundResponse)
+    {
+        $this->assertEquals($expectedContent['id'], $refundResponse->getId());
+
+        $this->checkOrderItem($expectedContent['order'], $refundResponse->getOrder());
+        $this->checkRefundItem($expectedContent['refund'], $refundResponse->getRefund());
+        $this->checkWalletItem($expectedContent['wallet'], $refundResponse->getWallet());
+
+        $this->assertEquals($expectedContent['token'], $refundResponse->getToken());
+        $this->assertInstanceOf(\DateTime::class, $refundResponse->getCreateDate());
+        $this->assertInstanceOf(\DateTime::class, $refundResponse->getUpdateDate());
+        $this->assertEquals(new \DateTime($expectedContent['create_date']), $refundResponse->getCreateDate());
+        $this->assertEquals(new \DateTime($expectedContent['update_date']), $refundResponse->getUpdateDate());
+        $this->assertEquals($expectedContent['status'], $refundResponse->getStatus());
+
+        $this->checkPaymentMethodItem($expectedContent['payment_method'], $refundResponse->getPaymentMethod());
+
+        $customParameters = $refundResponse->getCustomParameters();
+        if (!empty($expectedContent['custom_parameters'])) {
+            $this->assertNotEmpty($customParameters);
+            $this->assertArraySubset($expectedContent['custom_parameters'], $customParameters);
+        } else {
+            $this->assertNull($customParameters);
+        }
+
+        $this->assertEquals($expectedContent['is_test'], $refundResponse->getIsTest());
+    }
+
+
     /**
      * @param array                                                                                  $expectedContent
      * @param GetPaymentResponse|CapturePaymentResponse|CancelPaymentResponse|ProcessPaymentResponse $paymentResponse
@@ -1246,19 +1333,9 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['ip'], $paymentResponse->getIp());
         $this->assertEquals($expectedContent['is_test'], $paymentResponse->getIsTest());
 
-        $this->assertInstanceOf(OrderResponseItem::class, $paymentResponse->getOrder());
-        $this->assertEquals($expectedContent['order']['amount'], $paymentResponse->getOrder()->getAmount());
-        $this->assertEquals($expectedContent['order']['currency'], $paymentResponse->getOrder()->getCurrency());
-        $this->assertEquals($expectedContent['order']['description'], $paymentResponse->getOrder()->getDescription());
-
-        $this->assertInstanceOf(WalletResponseItem::class, $paymentResponse->getWallet());
-        $this->assertEquals($expectedContent['wallet']['id'], $paymentResponse->getWallet()->getId());
-        $this->assertEquals($expectedContent['wallet']['amount'], $paymentResponse->getWallet()->getAmount());
-        $this->assertEquals($expectedContent['wallet']['currency'], $paymentResponse->getWallet()->getCurrency());
-
-        $this->assertInstanceOf(PaymentMethodItem::class, $paymentResponse->getPaymentMethod());
-        $this->assertEquals($expectedContent['payment_method']['type'], $paymentResponse->getPaymentMethod()->getType());
-        $this->assertEquals($expectedContent['payment_method']['account'], $paymentResponse->getPaymentMethod()->getAccount());
+        $this->checkOrderItem($expectedContent['order'], $paymentResponse->getOrder());
+        $this->checkWalletItem($expectedContent['wallet'], $paymentResponse->getWallet());
+        $this->checkPaymentMethodItem($expectedContent['payment_method'], $paymentResponse->getPaymentMethod());
 
         $cardItem = $paymentResponse->getPaymentMethod()->getCard();
 
@@ -1268,6 +1345,22 @@ class ClientTest extends TestCase
             $this->assertNotNull($cardItem);
             $this->assertInstanceOf(CardItem::class, $cardItem);
             $this->checkCardData($expectedContent['payment_method']['card'], $cardItem);
+        }
+
+        if (method_exists($paymentResponse,'getRefundPayments')) {
+
+            $refundPayments = $paymentResponse->getRefundPayments();
+
+            if (empty($expectedContent['refund_payments'])) {
+                $this->assertNull($refundPayments);
+            } else {
+                $this->assertNotNull($refundPayments);
+                $this->assertContainsOnlyInstancesOf(GetRefundResponse::class, $refundPayments);
+                foreach ($refundPayments as $key => $refundPayment) {
+                    $values = $expectedContent['refund_payments'][$key];
+                    $this->checkRefundResponce($values, $refundPayment);
+                }
+            }
         }
     }
 

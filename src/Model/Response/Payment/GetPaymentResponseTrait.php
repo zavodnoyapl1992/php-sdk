@@ -111,7 +111,7 @@ trait GetPaymentResponseTrait
     /**
      * @var GetRefundResponse[]|null
      */
-    private $refundPayments;
+    private $refunds;
 
 
     /**
@@ -496,13 +496,13 @@ trait GetPaymentResponseTrait
 
 
     /**
-     * @param GetRefundResponse[]|null $refundPayments
+     * @param GetRefundResponse[]|null $refunds
      *
      * @return $this
      */
-    public function setRefundPayments($refundPayments)
+    public function setRefunds($refunds)
     {
-        $this->refundPayments = $refundPayments;
+        $this->refunds = $refunds;
 
         return $this;
     }
@@ -511,9 +511,9 @@ trait GetPaymentResponseTrait
     /**
      * @return GetRefundResponse[]|null
      */
-    public function getRefundPayments()
+    public function getRefunds()
     {
-        return $this->refundPayments;
+        return $this->refunds;
     }
 
 
@@ -549,7 +549,7 @@ trait GetPaymentResponseTrait
             'available_full_refund' => self::TYPE_BOOLEAN,
             'available_partial_refund' => self::TYPE_BOOLEAN,
             'available_for_refund' => MoneyItem::class,
-            'refund_payments' => [GetRefundResponse::class],
+            'refunds' => [GetRefundResponse::class],
             'payer' => MoneyItem::class,
             'extra' => MoneyItem::class,
         ];

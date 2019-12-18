@@ -1347,18 +1347,18 @@ class ClientTest extends TestCase
             $this->checkCardData($expectedContent['payment_method']['card'], $cardItem);
         }
 
-        if (method_exists($paymentResponse,'getRefundPayments')) {
+        if (method_exists($paymentResponse,'getRefunds')) {
 
-            $refundPayments = $paymentResponse->getRefundPayments();
+            $refunds = $paymentResponse->getRefunds();
 
-            if (empty($expectedContent['refund_payments'])) {
-                $this->assertNull($refundPayments);
+            if (empty($expectedContent['refunds'])) {
+                $this->assertNull($refunds);
             } else {
-                $this->assertNotNull($refundPayments);
-                $this->assertContainsOnlyInstancesOf(GetRefundResponse::class, $refundPayments);
-                foreach ($refundPayments as $key => $refundPayment) {
-                    $values = $expectedContent['refund_payments'][$key];
-                    $this->checkRefundResponce($values, $refundPayment);
+                $this->assertNotNull($refunds);
+                $this->assertContainsOnlyInstancesOf(GetRefundResponse::class, $refunds);
+                foreach ($refunds as $key => $refund) {
+                    $values = $expectedContent['refunds'][$key];
+                    $this->checkRefundResponce($values, $refund);
                 }
             }
         }

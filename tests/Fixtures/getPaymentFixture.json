@@ -24,7 +24,7 @@
     "email": "vasia@gmail.com",
     "order_id": "515"
   },
-  "refund_payments": [
+  "refunds": [
     {
       "id": 918,
       "order": {

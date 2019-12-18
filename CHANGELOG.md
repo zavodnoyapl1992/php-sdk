@@ -1,3 +1,7 @@
+## 1.4.2 - December 2019
+
+- Bugfix: `partner_payment_id` is string string
+
 ## 1.4.1 - November 2019
 
 - Add `purse_type` for webmoney payments (`R` and `P` wallets)

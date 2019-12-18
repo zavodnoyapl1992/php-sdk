@@ -508,7 +508,7 @@ trait GetPaymentResponseTrait
     public function getOptionalFields()
     {
         return [
-            'partner_payment_id' => AbstractResponse::TYPE_INTEGER,
+            'partner_payment_id' => AbstractResponse::TYPE_STRING,
             'expire_date' => AbstractResponse::TYPE_DATE,
             'ip' => AbstractResponse::TYPE_STRING,
             'status_description' => AbstractResponse::TYPE_STRING,

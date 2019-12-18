@@ -489,7 +489,7 @@ class ProcessPaymentResponse extends AbstractResponse
     public function getOptionalFields()
     {
         return [
-            'partner_payment_id' => self::TYPE_INTEGER,
+            'partner_payment_id' => self::TYPE_STRING,
             'expire_date' => self::TYPE_DATE,
             'custom_parameters' => self::TYPE_ARRAY,
             'update_date' => self::TYPE_DATE,

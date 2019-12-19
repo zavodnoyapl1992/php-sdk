@@ -9,6 +9,7 @@ use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
+use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
 
 trait GetPaymentResponseTrait
 {
@@ -106,6 +107,12 @@ trait GetPaymentResponseTrait
      * @var MoneyItem|null
      */
     private $availableForRefund;
+
+    /**
+     * @var GetRefundResponse[]|null
+     */
+    private $refunds;
+
 
     /**
      * @return int
@@ -487,6 +494,29 @@ trait GetPaymentResponseTrait
         return $this;
     }
 
+
+    /**
+     * @param GetRefundResponse[]|null $refunds
+     *
+     * @return $this
+     */
+    public function setRefunds($refunds)
+    {
+        $this->refunds = $refunds;
+
+        return $this;
+    }
+
+
+    /**
+     * @return GetRefundResponse[]|null
+     */
+    public function getRefunds()
+    {
+        return $this->refunds;
+    }
+
+
     /**
      * @inheritDoc
      */
@@ -519,6 +549,7 @@ trait GetPaymentResponseTrait
             'available_full_refund' => self::TYPE_BOOLEAN,
             'available_partial_refund' => self::TYPE_BOOLEAN,
             'available_for_refund' => MoneyItem::class,
+            'refunds' => [GetRefundResponse::class],
             'payer' => MoneyItem::class,
             'extra' => MoneyItem::class,
         ];

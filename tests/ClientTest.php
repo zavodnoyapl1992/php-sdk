@@ -1231,8 +1231,8 @@ class ClientTest extends TestCase
 
 
     /**
-     * @param array $expectedContent
-     * @param OrderRequestItem $order
+     * @param array             $expectedContent
+     * @param OrderResponseItem $order
      */
     private function checkOrderItem($expectedContent, $order)
     {
@@ -1244,7 +1244,7 @@ class ClientTest extends TestCase
 
 
     /**
-     * @param array $expectedContent
+     * @param array              $expectedContent
      * @param RefundResponseItem $refund
      */
     private function checkRefundItem($expectedContent, $refund)
@@ -1257,7 +1257,7 @@ class ClientTest extends TestCase
 
 
     /**
-     * @param array $expectedContent
+     * @param array              $expectedContent
      * @param WalletResponseItem $wallet
      */
     private function checkWalletItem($expectedContent, $wallet)
@@ -1271,7 +1271,7 @@ class ClientTest extends TestCase
 
 
     /**
-     * @param array $expectedContent
+     * @param array             $expectedContent
      * @param PaymentMethodItem $paymentMethod
      */
     private function checkPaymentMethodItem($expectedContent, $paymentMethod)
@@ -1283,10 +1283,10 @@ class ClientTest extends TestCase
 
 
     /**
-     * @param array $expectedContent
+     * @param array                                  $expectedContent
      * @param GetRefundResponse|CreateRefundResponse $refundResponse
      */
-    private function checkRefundResponce($expectedContent, $refundResponse)
+    private function checkRefundResponse($expectedContent, $refundResponse)
     {
         $this->assertEquals($expectedContent['id'], $refundResponse->getId());
 
@@ -1347,8 +1347,7 @@ class ClientTest extends TestCase
             $this->checkCardData($expectedContent['payment_method']['card'], $cardItem);
         }
 
-        if (method_exists($paymentResponse,'getRefunds')) {
-
+        if (method_exists($paymentResponse, 'getRefunds')) {
             $refunds = $paymentResponse->getRefunds();
 
             if (empty($expectedContent['refunds'])) {
@@ -1358,7 +1357,7 @@ class ClientTest extends TestCase
                 $this->assertContainsOnlyInstancesOf(GetRefundResponse::class, $refunds);
                 foreach ($refunds as $key => $refund) {
                     $values = $expectedContent['refunds'][$key];
-                    $this->checkRefundResponce($values, $refund);
+                    $this->checkRefundResponse($values, $refund);
                 }
             }
         }

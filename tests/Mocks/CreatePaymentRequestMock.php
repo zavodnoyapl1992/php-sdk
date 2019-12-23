@@ -67,6 +67,7 @@ class CreatePaymentRequestMock
                     'fail_url' => 'http://site.ru/?fail',
                     'expire_date' => '2017-12-25T00:07:19+00:00',
                     'wallet_id' => 1,
+                    'capture' => false
                 ],
                 'custom_parameters' => [
                     'email' => 'misha@domain.email',

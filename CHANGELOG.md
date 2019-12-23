@@ -2,6 +2,7 @@
 
 - Bugfix: `partner_payment_id` is string string
 - Add `refunds` in payment response
+- Add `capture` in `CreatePaymentRequest`
 
 ## 1.4.1 - November 2019
 

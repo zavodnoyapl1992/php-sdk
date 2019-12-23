@@ -81,6 +81,11 @@ class SettingsRequestItem extends AbstractRequestItem
     private $subscriptionToken;
 
     /**
+     * @var boolean|null
+     */
+    private $capture;
+
+    /**
      * @var array
      */
     private $optionalFields;
@@ -111,6 +116,7 @@ class SettingsRequestItem extends AbstractRequestItem
             'hide_form_methods' => self::TYPE_BOOLEAN,
             'create_subscription' => self::TYPE_BOOLEAN,
             'subscription_token' => self::TYPE_STRING,
+            'capture' => self::TYPE_BOOLEAN,
             'locale' => new LocaleType($this),
         ];
     }
@@ -373,6 +379,26 @@ class SettingsRequestItem extends AbstractRequestItem
     public function setSubscriptionToken($subscriptionToken)
     {
         $this->subscriptionToken = $subscriptionToken;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getCapture()
+    {
+        return $this->capture;
+    }
+
+    /**
+     * @param bool|null $capture
+     *
+     * @return SettingsRequestItem
+     */
+    public function setCapture($capture)
+    {
+        $this->capture = $capture;
 
         return $this;
     }

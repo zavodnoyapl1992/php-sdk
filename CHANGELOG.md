@@ -1,6 +1,7 @@
 ## 1.4.2 - December 2019
 
 - Bugfix: `partner_payment_id` is string string
+- Add `refunds` in payment response
 
 ## 1.4.1 - November 2019
 

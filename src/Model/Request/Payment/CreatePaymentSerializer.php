@@ -24,7 +24,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
         $serializedCreatePayment = [];
 
         $emptyFilter = function ($param) {
-            return !empty($param);
+            return !empty($param) || $param === false;
         };
 
         if ($partnerPaymentId) {
@@ -53,6 +53,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             'hide_form_methods' => $settings->isHideFormMethods(),
             'create_subscription' => $settings->isCreateSubscription(),
             'subscription_token' => $settings->getSubscriptionToken(),
+            'capture' => $settings->getCapture(),
         ];
 
         $serializedCreatePayment['settings'] = array_filter($serializedCreatePayment['settings'], $emptyFilter);

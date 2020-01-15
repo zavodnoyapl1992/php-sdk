@@ -37,6 +37,8 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertEquals($serializedData['order']['amount'], $payment->getOrder()->getAmount());
         $this->assertEquals($serializedData['order']['description'], $payment->getOrder()->getDescription());
 
+        //var_dump($serializedData['settings']);
+
         $this->assertEquals($serializedData['settings']['project_id'], $payment->getSettings()->getProjectId());
         $this->assertEquals($serializedData['settings']['payment_method'], $payment->getSettings()->getPaymentMethod());
         $this->assertEquals($serializedData['settings']['success_url'], $payment->getSettings()->getSuccessUrl());
@@ -47,6 +49,9 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertEquals($serializedData['settings']['wallet_id'], $payment->getSettings()->getWalletId());
         $this->assertEquals($serializedData['settings']['hide_form_methods'], $payment->getSettings()->isHideFormMethods());
         $this->assertEquals($serializedData['settings']['hide_form_header'], $payment->getSettings()->isHideFormHeader());
+        $this->assertEquals($serializedData['settings']['capture'], $payment->getSettings()->getCapture());
+
+
 
         $this->assertEquals($serializedData['custom_parameters']['email'], self::TYPICAL_EMAIL);
 
@@ -127,8 +132,10 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertArrayNotHasKey('fail_url', $serializedData['settings']);
         $this->assertArrayNotHasKey('expire_date', $serializedData['settings']);
         $this->assertArrayNotHasKey('wallet_id', $serializedData['settings']);
-        $this->assertArrayNotHasKey('hide_form_methods', $serializedData['settings']);
-        $this->assertArrayNotHasKey('hide_form_header', $serializedData['settings']);
+
+        //Has key with default FALSE value
+        $this->assertArrayHasKey('hide_form_methods', $serializedData['settings']);
+        $this->assertArrayHasKey('hide_form_header', $serializedData['settings']);
 
         $settings = new SettingsRequestItem();
         $settings
@@ -237,7 +244,8 @@ class CreatePaymentSerializerTest extends TestCase
             ->setProjectId(1)
             ->setWalletId(1)
             ->setHideFormHeader(true)
-            ->setHideFormMethods(true);
+            ->setHideFormMethods(true)
+            ->setCapture(false);
 
         $payment
             ->setOrder($order)

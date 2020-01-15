@@ -37,8 +37,6 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertEquals($serializedData['order']['amount'], $payment->getOrder()->getAmount());
         $this->assertEquals($serializedData['order']['description'], $payment->getOrder()->getDescription());
 
-        //var_dump($serializedData['settings']);
-
         $this->assertEquals($serializedData['settings']['project_id'], $payment->getSettings()->getProjectId());
         $this->assertEquals($serializedData['settings']['payment_method'], $payment->getSettings()->getPaymentMethod());
         $this->assertEquals($serializedData['settings']['success_url'], $payment->getSettings()->getSuccessUrl());

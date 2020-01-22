@@ -1,3 +1,7 @@
+## 1.4.3 - January 2020
+
+- Bugfix: add `capture` in `CreatePaymentSerializer` (thanks @Dezinger)
+
 ## 1.4.2 - December 2019
 
 - Bugfix: `partner_payment_id` is string string

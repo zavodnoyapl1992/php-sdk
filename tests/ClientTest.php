@@ -256,6 +256,29 @@ class ClientTest extends TestCase
     }
 
     /**
+     * @dataProvider getPaymentProvider
+     *
+     * @param mixed $data
+     *
+     * @throws \KassaCom\SDK\Exception\ServerResponse\ResponseException
+     * @throws \KassaCom\SDK\Exception\TransportException
+     */
+    public function testGetPaymentError($data)
+    {
+        $jsonPaymentString = file_get_contents(__DIR__ . '/Fixtures/getErrorPaymentFixture.json');
+        $expectedContent = json_decode($jsonPaymentString, true);
+        $mock = new MockHandler([
+            new Response(200, [], $jsonPaymentString),
+        ]);
+
+        $client = self::generateClient($mock);
+        $getPaymentResponse = $client->getPayment($data);
+
+        $this->assertInstanceOf(GetPaymentResponse::class, $getPaymentResponse);
+        $this->checkPaymentResponse($expectedContent, $getPaymentResponse);
+    }
+
+    /**
      * @dataProvider createPayoutProvider
      *
      * @param $data
@@ -1329,7 +1352,16 @@ class ClientTest extends TestCase
         $this->assertEquals(new \DateTime($expectedContent['create_date']), $paymentResponse->getCreateDate());
         $this->assertEquals(new \DateTime($expectedContent['expire_date']), $paymentResponse->getExpireDate());
         $this->assertEquals($expectedContent['status'], $paymentResponse->getStatus());
-        $this->assertEquals($expectedContent['status_description'], $paymentResponse->getStatusDescription());
+        if (isset($expectedContent['status_description'])) {
+            $this->assertEquals($expectedContent['status_description'], $paymentResponse->getStatusDescription());
+        }
+
+        if (isset($expectedContent['error_details'])) {
+            $this->assertInstanceOf(ErrorDetailsItem::class, $paymentResponse->getErrorDetails());
+            $this->assertEquals($expectedContent['error_details']['error'], $paymentResponse->getErrorDetails()->getError());
+            $this->assertEquals($expectedContent['error_details']['description'], $paymentResponse->getErrorDetails()->getDescription());
+        }
+
         $this->assertEquals($expectedContent['ip'], $paymentResponse->getIp());
         $this->assertEquals($expectedContent['is_test'], $paymentResponse->getIsTest());
 

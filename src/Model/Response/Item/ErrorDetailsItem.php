@@ -20,6 +20,8 @@ class ErrorDetailsItem extends AbstractResponse
     const TRANSACTION_LIMIT_EXCEEDED = 'transaction_limit_exceeded';
     const ACCOUNT_LIMIT_EXCEEDED = 'account_limit_exceeded';
     const INSUFFICIENT_FUNDS = 'insufficient_funds';
+    const EXPIRED_TRANSACTION = 'expired_transaction';
+    const COUNTRY_UNSUPPORTED = 'country_unsupported';
 
     /**
      * @var string

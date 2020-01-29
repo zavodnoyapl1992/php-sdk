@@ -4,6 +4,7 @@
 namespace KassaCom\SDK\Model\Request;
 
 
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
@@ -55,9 +56,16 @@ class NotificationRequest extends AbstractRequest
     private $status;
 
     /**
+     * @deprecated
+     * @see $errorDetails
      * @var string|null
      */
     private $statusDescription;
+
+    /**
+     * @var ErrorDetailsItem|null
+     */
+    private $errorDetails;
 
     /**
      * @var PaymentMethodItem|null
@@ -208,6 +216,8 @@ class NotificationRequest extends AbstractRequest
     }
 
     /**
+     * @deprecated
+     * @see getErrorDetails
      * @return null|string
      */
     public function getStatusDescription()
@@ -216,11 +226,29 @@ class NotificationRequest extends AbstractRequest
     }
 
     /**
+     * @deprecated
+     * @see setErrorDetails
      * @param null|string $statusDescription
      */
     public function setStatusDescription($statusDescription)
     {
         $this->statusDescription = $statusDescription;
+    }
+
+    /**
+     * @return ErrorDetailsItem|null
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
+    }
+
+    /**
+     * @param ErrorDetailsItem|null $errorDetails
+     */
+    public function setErrorDetails($errorDetails)
+    {
+        $this->errorDetails = $errorDetails;
     }
 
     /**
@@ -308,6 +336,7 @@ class NotificationRequest extends AbstractRequest
             'payment_method' => PaymentMethodItem::class,
             'custom_parameters' => AbstractRequest::TYPE_ARRAY,
             'is_test' => AbstractRequest::TYPE_BOOLEAN,
+            'error_details' => ErrorDetailsItem::class,
         ];
     }
 }

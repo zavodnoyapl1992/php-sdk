@@ -8,6 +8,7 @@ use KassaCom\SDK\Exception\Notification\EmptyApiKeyException;
 use KassaCom\SDK\Exception\Notification\IncorrectBodyRequestException;
 use KassaCom\SDK\Exception\Notification\NotificationSecurityException;
 use KassaCom\SDK\Model\Request\NotificationRequest;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Notification;
@@ -55,6 +56,14 @@ class NotificationTest extends TestCase
         $this->assertEquals($body['create_date'], $request->getCreateDate()->format('c'));
         $this->assertEquals($body['status'], $request->getStatus());
         $this->assertEquals($body['notification_type'], $request->getNotificationType());
+        if (isset($body['status_description'])) {
+            $this->assertEquals($body['status_description'], $request->getStatusDescription());
+        }
+        if (isset($body['error_details'])) {
+            $this->assertInstanceOf(ErrorDetailsItem::class, $request->getErrorDetails());
+            $this->assertEquals($body['error_details']['error'], $request->getErrorDetails()->getError());
+            $this->assertEquals($body['error_details']['description'], $request->getErrorDetails()->getDescription());
+        }
         $this->assertInstanceOf(OrderResponseItem::class, $request->getOrder());
         $this->assertInstanceOf(WalletResponseItem::class, $request->getWallet());
     }

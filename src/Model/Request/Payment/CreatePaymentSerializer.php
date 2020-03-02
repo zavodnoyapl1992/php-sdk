@@ -51,6 +51,7 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             'is_test' => $settings->getIsTest(),
             'hide_form_header' => $settings->isHideFormHeader(),
             'hide_form_methods' => $settings->isHideFormMethods(),
+            'hide_form_tokenized_methods' => $settings->isHideFormTokenizedMethods(),
             'create_subscription' => $settings->isCreateSubscription(),
             'subscription_token' => $settings->getSubscriptionToken(),
             'capture' => $settings->getCapture(),

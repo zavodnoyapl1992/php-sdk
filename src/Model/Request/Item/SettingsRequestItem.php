@@ -73,6 +73,11 @@ class SettingsRequestItem extends AbstractRequestItem
     /**
      * @var bool
      */
+    private $hideFormTokenizedMethods = false;
+
+    /**
+     * @var bool
+     */
     private $createSubscription = false;
 
     /**
@@ -114,6 +119,7 @@ class SettingsRequestItem extends AbstractRequestItem
             'is_test' => self::TYPE_BOOLEAN,
             'hide_form_header' => self::TYPE_BOOLEAN,
             'hide_form_methods' => self::TYPE_BOOLEAN,
+            'hide_form_tokenized_methods' => self::TYPE_BOOLEAN,
             'create_subscription' => self::TYPE_BOOLEAN,
             'subscription_token' => self::TYPE_STRING,
             'capture' => self::TYPE_BOOLEAN,
@@ -339,6 +345,25 @@ class SettingsRequestItem extends AbstractRequestItem
     public function setHideFormMethods($hideFormMethods)
     {
         $this->hideFormMethods = $hideFormMethods;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHideFormTokenizedMethods()
+    {
+        return $this->hideFormTokenizedMethods;
+    }
+
+    /**
+     * @param bool $hideFormTokenizedMethods
+     * @return $this
+     */
+    public function setHideFormTokenizedMethods($hideFormTokenizedMethods)
+    {
+        $this->hideFormTokenizedMethods = $hideFormTokenizedMethods;
 
         return $this;
     }

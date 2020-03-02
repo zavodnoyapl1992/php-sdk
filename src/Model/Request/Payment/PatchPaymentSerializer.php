@@ -33,6 +33,7 @@ class PatchPaymentSerializer extends AbstractRequestSerializer
             'wallet_id' => $settings->getWalletId(),
             'hide_form_methods' => $settings->isHideFormMethods(),
             'hide_form_header' => $settings->isHideFormHeader(),
+            'hide_form_tokenized_methods' => $settings->isHideFormTokenizedMethods(),
             'create_subscription' => $settings->isCreateSubscription(),
             'locale' => $settings->getLocale(),
         ];

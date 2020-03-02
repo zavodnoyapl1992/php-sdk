@@ -48,6 +48,7 @@ class CreatePaymentSerializerTest extends TestCase
         $this->assertEquals($serializedData['settings']['hide_form_methods'], $payment->getSettings()->isHideFormMethods());
         $this->assertEquals($serializedData['settings']['hide_form_header'], $payment->getSettings()->isHideFormHeader());
         $this->assertEquals($serializedData['settings']['capture'], $payment->getSettings()->getCapture());
+        $this->assertEquals($serializedData['settings']['hide_form_tokenized_methods'], $payment->getSettings()->isHideFormTokenizedMethods());
 
 
 
@@ -243,6 +244,7 @@ class CreatePaymentSerializerTest extends TestCase
             ->setWalletId(1)
             ->setHideFormHeader(true)
             ->setHideFormMethods(true)
+            ->setHideFormTokenizedMethods(true)
             ->setCapture(false);
 
         $payment

@@ -1,6 +1,7 @@
 ## 1.4.5 - March 2020
 
 - Add `hide_form_tokenized_methods` parameter in payment settings 
+- Added support for error details for payments and notifications
 
 ## 1.4.4 - January 2020
 

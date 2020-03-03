@@ -5,6 +5,7 @@ namespace KassaCom\SDK\Model\Response\Payment;
 
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
@@ -74,9 +75,16 @@ trait GetPaymentResponseTrait
     private $status;
 
     /**
+     * @deprecated
+     * @see $errorDetails
      * @var string|null
      */
     private $statusDescription;
+
+    /**
+     * @var ErrorDetailsItem|null
+     */
+    private $errorDetails;
 
     /**
      * @var PaymentMethodItem|null
@@ -416,10 +424,32 @@ trait GetPaymentResponseTrait
 
     /**
      * @return null|string
+     * @deprecated
+     * @see getErrorDetails
      */
     public function getStatusDescription()
     {
         return $this->statusDescription;
+    }
+
+    /**
+     * @return ErrorDetailsItem|null
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
+    }
+
+    /**
+     * @param ErrorDetailsItem|null $errorDetails
+     *
+     * @return $this
+     */
+    public function setErrorDetails($errorDetails)
+    {
+        $this->errorDetails = $errorDetails;
+
+        return $this;
     }
 
     /**
@@ -486,6 +516,8 @@ trait GetPaymentResponseTrait
      * @param null|string $statusDescription
      *
      * @return $this
+     * @deprecated
+     * @see setErrorDetails
      */
     public function setStatusDescription($statusDescription)
     {
@@ -552,6 +584,7 @@ trait GetPaymentResponseTrait
             'refunds' => [GetRefundResponse::class],
             'payer' => MoneyItem::class,
             'extra' => MoneyItem::class,
+            'error_details' => ErrorDetailsItem::class,
         ];
     }
 }

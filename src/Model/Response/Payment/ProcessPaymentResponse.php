@@ -6,6 +6,7 @@ namespace KassaCom\SDK\Model\Response\Payment;
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Response\Item\AuthorizationItem;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
@@ -67,9 +68,16 @@ class ProcessPaymentResponse extends AbstractResponse
     private $status;
 
     /**
+     * @deprecated
+     * @see $errorDetails
      * @var string|null
      */
     private $statusDescription;
+
+    /**
+     * @var ErrorDetailsItem|null
+     */
+    private $errorDetails;
 
     /**
      * @var PaymentMethodItem
@@ -308,6 +316,8 @@ class ProcessPaymentResponse extends AbstractResponse
 
     /**
      * @return string|null
+     * @deprecated
+     * @see getErrorDetails()
      */
     public function getStatusDescription()
     {
@@ -318,10 +328,32 @@ class ProcessPaymentResponse extends AbstractResponse
      * @param string|null $statusDescription
      *
      * @return $this
+     * @deprecated
+     * @see setErrorDetails()
      */
     public function setStatusDescription($statusDescription)
     {
         $this->statusDescription = $statusDescription;
+
+        return $this;
+    }
+
+    /**
+     * @return ErrorDetailsItem|null
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
+    }
+
+    /**
+     * @param ErrorDetailsItem|null $errorDetails
+     *
+     * @return $this
+     */
+    public function setErrorDetails($errorDetails)
+    {
+        $this->errorDetails = $errorDetails;
 
         return $this;
     }
@@ -499,6 +531,7 @@ class ProcessPaymentResponse extends AbstractResponse
             'available_partial_refund' => self::TYPE_BOOLEAN,
             'available_for_refund' => MoneyItem::class,
             'status_description' => self::TYPE_STRING,
+            'error_details' => ErrorDetailsItem::class,
         ];
     }
 }

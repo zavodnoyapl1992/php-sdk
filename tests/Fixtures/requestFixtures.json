@@ -27,6 +27,38 @@
     "is_test": true
   },
   {
+    "notification_type": "pay",
+    "id": 12345,
+    "order": {
+      "amount": 10,
+      "currency": "RUB",
+      "description": "Test Payment"
+    },
+    "token": "1-62aebd0e3a-3dae1e0976-73f96a4bc1",
+    "wallet": {
+      "id": 1,
+      "amount": 8.5,
+      "currency": "RUB"
+    },
+    "create_date": "2017-12-25T00:07:19+00:00",
+    "ip": "127.0.0.1",
+    "status": "error",
+    "status_description": "Отказ банка в совершении операции.",
+    "error_details": {
+      "error": "general_decline",
+      "description": "Отказ банка в совершении операции."
+    },
+    "payment_method": {
+      "type": "card",
+      "account": "420000xxxxxx0000"
+    },
+    "custom_parameters": {
+      "email": "vasia@gmail.com",
+      "order_id": "515"
+    },
+    "is_test": true
+  },
+  {
     "notification_type": "check",
     "id": 789,
     "order": {

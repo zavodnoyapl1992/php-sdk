@@ -1,3 +1,7 @@
+## 1.4.5 - March 2020
+
+- Add `hide_form_tokenized_methods` parameter in payment settings 
+
 ## 1.4.4 - January 2020
 
 - Bugfix: add `capture` in `CreatePaymentSerializer` (thanks @Dezinger)

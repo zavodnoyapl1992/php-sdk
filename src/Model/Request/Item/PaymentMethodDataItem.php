@@ -6,6 +6,8 @@ namespace KassaCom\SDK\Model\Request\Item;
 
 use KassaCom\SDK\Model\PaymentMethods;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
+use KassaCom\SDK\Model\Types\PaymentMethodTokenMode;
+use KassaCom\SDK\Model\Types\PaymentMethodTokenType;
 use KassaCom\SDK\Model\Types\PaymentType;
 use KassaCom\SDK\Model\Types\PurseType;
 
@@ -15,6 +17,12 @@ class PaymentMethodDataItem extends AbstractRequestItem
 
     const WEBMONEY_WALLET_PURSE_R = 'R';
     const WEBMONEY_WALLET_PURSE_P = 'P';
+
+    const TOKEN_TYPE_GOOGLE_PAY = 'googlepay';
+    const TOKEN_TYPE_APPLE_PAY = 'applepay';
+
+    const TOKEN_MODE_PLAIN = 'plain';
+    const TOKEN_MODE_ENCRYPTED = 'encrypted';
 
     /**
      * @var string
@@ -56,6 +64,21 @@ class PaymentMethodDataItem extends AbstractRequestItem
      * @var bool|null
      */
     private $capture;
+
+    /**
+     * @var string|null
+     */
+    private $paymentData;
+
+    /**
+     * @var string|null
+     */
+    private $tokenType;
+
+    /**
+     * @var string|null
+     */
+    private $tokenMode;
 
     /**
      * @return string
@@ -220,6 +243,66 @@ class PaymentMethodDataItem extends AbstractRequestItem
     }
 
     /**
+     * @return string|null
+     */
+    public function getPaymentData()
+    {
+        return $this->paymentData;
+    }
+
+    /**
+     * @param string|null $paymentData
+     *
+     * @return $this
+     */
+    public function setPaymentData($paymentData)
+    {
+        $this->paymentData = $paymentData;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTokenType()
+    {
+        return $this->tokenType;
+    }
+
+    /**
+     * @param string|null $tokenType
+     *
+     * @return $this
+     */
+    public function setTokenType($tokenType)
+    {
+        $this->tokenType = $tokenType;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTokenMode()
+    {
+        return $this->tokenMode;
+    }
+
+    /**
+     * @param string|null $tokenMode
+     *
+     * @return $this
+     */
+    public function setTokenMode($tokenMode)
+    {
+        $this->tokenMode = $tokenMode;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -228,15 +311,21 @@ class PaymentMethodDataItem extends AbstractRequestItem
             'type' => new PaymentType($this),
         ];
 
-        if ($this->getType() === PaymentMethods::PAYMENT_METHOD_CARD) {
-            $requiredFields['card_number'] = ReceiptRequestItem::TYPE_STRING;
-            $requiredFields['card_month'] = ReceiptRequestItem::TYPE_STRING;
-            $requiredFields['card_year'] = ReceiptRequestItem::TYPE_STRING;
-            $requiredFields['card_security'] = ReceiptRequestItem::TYPE_STRING;
-        } else if ($this->getType() === PaymentMethods::PAYMENT_METHOD_QIWI) {
-            $requiredFields['account'] = ReceiptRequestItem::TYPE_STRING;
-        } else if ($this->getType() === PaymentMethods::PAYMENT_METHOD_MOBILE) {
-            $requiredFields['account'] = ReceiptRequestItem::TYPE_STRING;
+        switch ($this->getType()) {
+            case PaymentMethods::PAYMENT_METHOD_CARD:
+                $requiredFields['card_number'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['card_month'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['card_year'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['card_security'] = ReceiptRequestItem::TYPE_STRING;
+                break;
+            case PaymentMethods::PAYMENT_METHOD_QIWI:
+            case PaymentMethods::PAYMENT_METHOD_MOBILE:
+                $requiredFields['account'] = ReceiptRequestItem::TYPE_STRING;
+                break;
+            case PaymentMethods::PAYMENT_METHOD_CARD_TOKENIZED:
+                $requiredFields['payment_data'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['token_type'] = new PaymentMethodTokenType($this);
+                break;
         }
 
         return $requiredFields;
@@ -247,7 +336,7 @@ class PaymentMethodDataItem extends AbstractRequestItem
      */
     public function getOptionalFields()
     {
-        return [
+        $optionalFields = [
             'card_number' => ReceiptRequestItem::TYPE_STRING,
             'card_month' => ReceiptRequestItem::TYPE_STRING,
             'card_year' => ReceiptRequestItem::TYPE_STRING,
@@ -256,5 +345,11 @@ class PaymentMethodDataItem extends AbstractRequestItem
             'capture' => ReceiptRequestItem::TYPE_BOOLEAN,
             'purse_type' => new PurseType($this),
         ];
+
+        if ($this->getType() === PaymentMethods::PAYMENT_METHOD_CARD_TOKENIZED) {
+            $requiredFields['token_mode'] = new PaymentMethodTokenMode($this);
+        }
+
+        return $optionalFields;
     }
 }

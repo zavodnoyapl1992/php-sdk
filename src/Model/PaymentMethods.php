@@ -22,6 +22,9 @@ final class PaymentMethods
     /** @var string Payment method - using card fingerprint signature */
     const PAYMENT_METHOD_CARD_FINGERPRINT = 'card_fingerprint';
 
+    /** @var string Payment method - tokenized: Apple Pay, Google Pay etc */
+    const PAYMENT_METHOD_CARD_TOKENIZED = 'tokenized';
+
     /**
      * @return array
      */
@@ -34,6 +37,7 @@ final class PaymentMethods
             self::PAYMENT_METHOD_WEBMONEY,
             self::PAYMENT_METHOD_YANDEX,
             self::PAYMENT_METHOD_CARD_FINGERPRINT,
+            self::PAYMENT_METHOD_CARD_TOKENIZED,
         ];
     }
 }

@@ -23,6 +23,9 @@ use KassaCom\SDK\Exception\ServerResponse\UnauthorizedException;
 use KassaCom\SDK\Exception\TransportException;
 use KassaCom\SDK\Model\Request\AbstractRequest;
 use KassaCom\SDK\Model\Request\AbstractRequestTransport;
+use KassaCom\SDK\Model\Request\Payment\ApplePayVerifyRequest;
+use KassaCom\SDK\Model\Request\Payment\ApplePayVerifySerializer;
+use KassaCom\SDK\Model\Request\Payment\ApplePayVerifyTransport;
 use KassaCom\SDK\Model\Request\Payment\CancelPaymentRequest;
 use KassaCom\SDK\Model\Request\Payment\CancelPaymentSerializer;
 use KassaCom\SDK\Model\Request\Payment\CancelPaymentTransport;
@@ -66,6 +69,7 @@ use KassaCom\SDK\Model\Request\Subscription\GetSubscriptionTransport;
 use KassaCom\SDK\Model\Request\Wallet\WalletRequest;
 use KassaCom\SDK\Model\Request\Wallet\WalletSerializer;
 use KassaCom\SDK\Model\Response\AbstractResponse;
+use KassaCom\SDK\Model\Response\Payment\ApplePayVerifyResponse;
 use KassaCom\SDK\Model\Response\Payment\CancelPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CapturePaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CreatePaymentResponse;
@@ -453,6 +457,26 @@ class Client
     }
 
     /**
+     * @param array|ApplePayVerifyRequest $verifyRequest
+     *
+     * @return ApplePayVerifyResponse|AbstractResponse
+     * @throws ResponseException
+     * @throws TransportException
+     */
+    public function verifyApplePay($verifyRequest)
+    {
+        if (!($verifyRequest instanceof ApplePayVerifyRequest)) {
+            $verifyRequest = new ApplePayVerifyRequest($verifyRequest);
+        }
+
+        ObjectRecursiveValidator::validate($verifyRequest);
+        $serializer = new ApplePayVerifySerializer($verifyRequest);
+        $transport = new ApplePayVerifyTransport($serializer);
+
+        return $this->execute($transport, ApplePayVerifyResponse::class);
+    }
+
+    /**
      * @param AbstractRequestTransport $requestTransport
      * @param string                   $responseType
      *
@@ -463,7 +487,7 @@ class Client
      * @throws ResponseParseException
      * @throws JsonParseException
      */
-    private function execute(AbstractRequestTransport $requestTransport, $responseType)
+    protected function execute(AbstractRequestTransport $requestTransport, $responseType)
     {
         $response = $this->apiTransport->send(
             $requestTransport->getPath(),
@@ -494,7 +518,7 @@ class Client
      *
      * @throws TransportException
      */
-    private function download(AbstractRequestTransport $requestTransport, $filename)
+    protected function download(AbstractRequestTransport $requestTransport, $filename)
     {
         $response = $this->apiTransport->send(
             $requestTransport->getPath(),
@@ -519,7 +543,7 @@ class Client
      *
      * @throws ResponseException
      */
-    private function processError(Psr7\Response $response)
+    protected function processError(Psr7\Response $response)
     {
         $content = $response->getBody()->getContents();
 

@@ -1,3 +1,7 @@
+## 1.5.0 - March 2020
+
+- Add support for tokenized payments (Apple Pay, Google Pay)
+
 ## 1.4.5 - March 2020
 
 - Add `hide_form_tokenized_methods` parameter in payment settings 

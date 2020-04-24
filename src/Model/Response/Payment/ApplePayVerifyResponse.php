@@ -5,7 +5,7 @@ namespace KassaCom\SDK\Model\Response\Payment;
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
-class ApplePayVerifyResponse extends AbstractResponse
+class ApplePayVerifyResponse extends AbstractResponse implements \JsonSerializable
 {
     use RecursiveRestoreTrait;
 
@@ -55,7 +55,6 @@ class ApplePayVerifyResponse extends AbstractResponse
         ];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -64,5 +63,13 @@ class ApplePayVerifyResponse extends AbstractResponse
         return [
             ['apple_response', 'error'],
         ];
+    }
+
+    public function jsonSerialize()
+    {
+        return array_filter([
+            'apple_response' => $this->getAppleResponse(),
+            'error' => $this->getError(),
+        ]);
     }
 }

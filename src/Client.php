@@ -88,7 +88,7 @@ use KassaCom\SDK\Transport\CurlApiTransport;
 
 class Client
 {
-    const VERSION = '1.0.0-dev';
+    const VERSION = '1.5.2';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -493,7 +493,7 @@ class Client
             $requestTransport->getPath(),
             $requestTransport->getMethod(),
             $requestTransport->getQueryParams(),
-            json_encode($requestTransport->getBody()),
+            $requestTransport->getBodyForRequest(),
             $requestTransport->getHeaders()
         );
 
@@ -524,7 +524,7 @@ class Client
             $requestTransport->getPath(),
             $requestTransport->getMethod(),
             $requestTransport->getQueryParams(),
-            $requestTransport->getBody(),
+            $requestTransport->getBodyForRequest(),
             $requestTransport->getHeaders()
         );
 

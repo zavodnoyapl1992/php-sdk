@@ -70,7 +70,6 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      */
     public function send($path, $method, $queryParams = [], $body = null, $headers = [])
     {
-
         $uri = rtrim($this->apiUrl, '/') . '/' . ltrim($path, '/');
 
         if (is_array($queryParams) && count($queryParams)) {

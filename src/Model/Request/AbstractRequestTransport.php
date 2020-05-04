@@ -1,14 +1,13 @@
 <?php
 
-
 namespace KassaCom\SDK\Model\Request;
 
-
+use KassaCom\SDK\Exception\TransportException;
 use KassaCom\SDK\Transport\AbstractApiTransport;
 
 abstract class AbstractRequestTransport
 {
-    /** @var AbstractRequestSerializer */
+    /** @var AbstractRequestSerializer|null */
     protected $serializer;
 
     /**
@@ -16,7 +15,7 @@ abstract class AbstractRequestTransport
      *
      * @param AbstractRequestSerializer $serializer
      */
-    public function __construct(AbstractRequestSerializer $serializer)
+    public function __construct(AbstractRequestSerializer $serializer = null)
     {
         $this->serializer = $serializer;
     }
@@ -36,18 +35,37 @@ abstract class AbstractRequestTransport
 
     /**
      * @return array
+     * @throws TransportException
      */
     public function getQueryParams()
     {
+        if (!$this->serializer) {
+            throw new TransportException('Serializer not found');
+        }
+
         return $this->getMethod() == AbstractApiTransport::METHOD_GET ? $this->serializer->getSerializedData() : [];
     }
 
     /**
      * @return array
+     * @throws TransportException
      */
     public function getBody()
     {
+        if (!$this->serializer) {
+            throw new TransportException('Serializer not found');
+        }
+
         return $this->getMethod() == AbstractApiTransport::METHOD_POST ? $this->serializer->getSerializedData() : [];
+    }
+
+    /**
+     * @return false|string
+     * @throws TransportException
+     */
+    public function getBodyForRequest()
+    {
+        return json_encode($this->getBody());
     }
 
     /**

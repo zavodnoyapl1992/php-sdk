@@ -1,3 +1,15 @@
+## 1.5.3 - June 2020
+
+- Add `is_payout_allowed` for fingerpint in card information.
+
+## 1.5.2 - April 2020
+
+- Internal refactoring for serialize objects
+
+## 1.5.1 - March 2020
+
+- Bugfix: ApplePay object serialization
+
 ## 1.5.0 - March 2020
 
 - Add support for tokenized payments (Apple Pay, Google Pay)

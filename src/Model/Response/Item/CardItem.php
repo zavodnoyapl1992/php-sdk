@@ -40,6 +40,11 @@ class CardItem extends AbstractResponse
     private $is3ds;
 
     /**
+     * @var bool|null
+     */
+    private $isPayoutAllowed;
+
+    /**
      * @return string|null
      */
     public function getFingerprint()
@@ -168,6 +173,26 @@ class CardItem extends AbstractResponse
     }
 
     /**
+     * @return bool|null
+     */
+    public function getIsPayoutAllowed()
+    {
+        return $this->isPayoutAllowed;
+    }
+
+    /**
+     * @param bool|null $isPayoutAllowed
+     *
+     * @return $this
+     */
+    public function setIsPayoutAllowed($isPayoutAllowed)
+    {
+        $this->isPayoutAllowed = $isPayoutAllowed;
+
+        return $this;
+    }
+
+    /**
      * @inheritdoc
      */
     public function getOptionalFields()
@@ -179,6 +204,7 @@ class CardItem extends AbstractResponse
             'bank' => AbstractResponse::TYPE_STRING,
             'type' => AbstractResponse::TYPE_STRING,
             'is3ds' => AbstractResponse::TYPE_BOOLEAN,
+            'is_payout_allowed' => AbstractResponse::TYPE_BOOLEAN,
         ];
     }
 }

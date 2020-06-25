@@ -504,7 +504,13 @@ class Client
         $responseData = json_decode($response->getBody(), true);
 
         if (!$responseData) {
-            throw new JsonParseException('Decode response error', json_last_error());
+            $message = json_last_error();
+
+            if ($message === JSON_ERROR_NONE) {
+                $message = -1;
+            }
+
+            throw new JsonParseException('Decode response error', $message);
         }
 
         return ResponseCreator::create($responseType, $responseData);

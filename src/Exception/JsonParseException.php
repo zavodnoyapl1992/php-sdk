@@ -20,9 +20,13 @@ class JsonParseException extends \UnexpectedValueException
             JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded',
         ];
 
+        $jsonErrorMessage = 'Unknown error';
+
         if (isset($jsonErrors[$code])) {
-            $message = sprintf('%s: %s', $message, $jsonErrors[$code]);
+            $jsonErrorMessage = $jsonErrors[$code];
         }
+
+        $message = sprintf('%s: %s', $message, $jsonErrorMessage);
 
         parent::__construct($message, $code);
     }

@@ -1,3 +1,7 @@
+## 1.5.4 - June 2020
+
+- Bugfix: fix parsing json response
+
 ## 1.5.3 - June 2020
 
 - Add `is_payout_allowed` for fingerpint in card information.

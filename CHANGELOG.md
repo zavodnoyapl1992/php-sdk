@@ -1,3 +1,7 @@
+## 1.5.5 - July 2020
+
+- Add `partner_payment_id` for notification request.
+
 ## 1.5.4 - June 2020
 
 - Bugfix: fix parsing json response

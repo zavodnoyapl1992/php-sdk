@@ -2,6 +2,7 @@
   {
     "notification_type": "pay",
     "id": 12345,
+    "partner_payment_id": "100",
     "order": {
       "amount": 10,
       "currency": "RUB",
@@ -87,6 +88,7 @@
   {
     "notification_type": "refund",
     "id": 456789,
+    "partner_payment_id": "102",
     "order": {
       "amount": 10,
       "currency": "USD"

@@ -56,6 +56,9 @@ class NotificationTest extends TestCase
         $this->assertEquals($body['create_date'], $request->getCreateDate()->format('c'));
         $this->assertEquals($body['status'], $request->getStatus());
         $this->assertEquals($body['notification_type'], $request->getNotificationType());
+        if (isset($body['partner_payment_id'])) {
+            $this->assertEquals($body['partner_payment_id'], $request->getPartnerPaymentId());
+        }
         if (isset($body['status_description'])) {
             $this->assertEquals($body['status_description'], $request->getStatusDescription());
         }

@@ -21,6 +21,11 @@ class NotificationRequest extends AbstractRequest
     private $id;
 
     /**
+     * @var string|null
+     */
+    private $partnerPaymentId;
+
+    /**
      * @var OrderResponseItem
      */
     private $order;
@@ -102,6 +107,24 @@ class NotificationRequest extends AbstractRequest
     {
         $this->id = $id;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param string|null $partnerPaymentId
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
+    }
+
+
 
     /**
      * @return OrderResponseItem
@@ -331,6 +354,7 @@ class NotificationRequest extends AbstractRequest
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => AbstractRequest::TYPE_STRING,
             'expire_date' => AbstractRequest::TYPE_DATE,
             'status_description' => AbstractRequest::TYPE_STRING,
             'payment_method' => PaymentMethodItem::class,

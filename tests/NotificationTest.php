@@ -10,6 +10,7 @@ use KassaCom\SDK\Exception\Notification\NotificationSecurityException;
 use KassaCom\SDK\Model\Request\NotificationRequest;
 use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
+use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Notification;
 use PHPUnit\Framework\TestCase;
@@ -66,6 +67,12 @@ class NotificationTest extends TestCase
             $this->assertInstanceOf(ErrorDetailsItem::class, $request->getErrorDetails());
             $this->assertEquals($body['error_details']['error'], $request->getErrorDetails()->getError());
             $this->assertEquals($body['error_details']['description'], $request->getErrorDetails()->getDescription());
+        }
+        if (isset($body['refund'])) {
+            $this->assertInstanceOf(RefundResponseItem::class, $request->getRefund());
+            $this->assertEquals($body['refund']['amount'], $request->getRefund()->getAmount());
+            $this->assertEquals($body['refund']['currency'], $request->getRefund()->getCurrency());
+            $this->assertEquals($body['refund']['reason'], $request->getRefund()->getReason());
         }
         $this->assertInstanceOf(OrderResponseItem::class, $request->getOrder());
         $this->assertInstanceOf(WalletResponseItem::class, $request->getWallet());

@@ -32,6 +32,11 @@ class CardItem extends AbstractResponse
     /**
      * @var string|null
      */
+    private $brand;
+
+    /**
+     * @var string|null
+     */
     private $type;
 
     /**
@@ -127,6 +132,25 @@ class CardItem extends AbstractResponse
     /**
      * @return string|null
      */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * @param string|null $brand
+     * @return CardItem
+     */
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getType()
     {
         return $this->type;
@@ -202,6 +226,7 @@ class CardItem extends AbstractResponse
             'category' => AbstractResponse::TYPE_STRING,
             'country' => AbstractResponse::TYPE_STRING,
             'bank' => AbstractResponse::TYPE_STRING,
+            'brand' => AbstractResponse::TYPE_STRING,
             'type' => AbstractResponse::TYPE_STRING,
             'is3ds' => AbstractResponse::TYPE_BOOLEAN,
             'is_payout_allowed' => AbstractResponse::TYPE_BOOLEAN,

@@ -10,7 +10,8 @@
     "account": "79081234567",
     "card": {
       "fingerprint": "466e12e0-fd27-4a80-8b0c-20eef193500f",
-      "category": "visa",
+      "category": "shopping",
+      "brand": "VISA",
       "country": "RU",
       "bank": "Test Bank Name",
       "type": "card_ru",

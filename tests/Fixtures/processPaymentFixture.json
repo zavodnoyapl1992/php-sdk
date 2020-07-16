@@ -20,7 +20,8 @@
     "account": "420000xxxxxx0000",
     "card": {
       "fingerprint": "99999-fd27-4a80-8b0c-20eef193500f",
-      "category": "visa",
+      "category": "shopping",
+      "brand": "VISA",
       "country": "RU",
       "bank": "Test Bank Name",
       "type": "card_ru",

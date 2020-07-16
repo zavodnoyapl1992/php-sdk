@@ -1,3 +1,8 @@
+## 1.5.6 - July 2020
+
+- Add `refund` object for notification request.
+- Add `brand`  in card information.
+
 ## 1.5.5 - July 2020
 
 - Add `partner_payment_id` for notification request.

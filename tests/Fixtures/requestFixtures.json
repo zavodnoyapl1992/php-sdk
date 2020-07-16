@@ -99,6 +99,11 @@
       "amount": 100.5,
       "currency": "USD"
     },
+    "refund": {
+      "amount": -10.5,
+      "currency": "USD",
+      "reason": "Refund order"
+    },
     "create_date": "2017-12-25T00:07:19+00:00",
     "ip": "127.0.0.1",
     "status": "successful",

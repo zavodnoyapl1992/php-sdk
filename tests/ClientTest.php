@@ -1472,6 +1472,7 @@ class ClientTest extends TestCase
         $expectedCardData = [
             $expectedContent['fingerprint'] ?: null,
             $expectedContent['category'] ?: null,
+            $expectedContent['brand'] ?: null,
             $expectedContent['country'] ?: null,
             $expectedContent['bank'] ?: null,
             $expectedContent['type'] ?: null,
@@ -1481,6 +1482,7 @@ class ClientTest extends TestCase
         $gotData = [
             $card->getFingerprint(),
             $card->getCategory(),
+            $card->getBrand(),
             $card->getCountry(),
             $card->getBank(),
             $card->getType(),

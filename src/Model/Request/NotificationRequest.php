@@ -7,6 +7,7 @@ namespace KassaCom\SDK\Model\Request;
 use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
+use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 use KassaCom\SDK\Model\Types\NotificationType;
@@ -34,6 +35,11 @@ class NotificationRequest extends AbstractRequest
      * @var WalletResponseItem
      */
     private $wallet;
+
+    /**
+     * @var RefundResponseItem|null
+     */
+    private $refund;
 
     /**
      * @var string
@@ -156,6 +162,25 @@ class NotificationRequest extends AbstractRequest
     public function setWallet($wallet)
     {
         $this->wallet = $wallet;
+    }
+
+    /**
+     * @return RefundResponseItem|null
+     */
+    public function getRefund()
+    {
+        return $this->refund;
+    }
+
+    /**
+     * @param RefundResponseItem|null $refund
+     * @return NotificationRequest
+     */
+    public function setRefund($refund)
+    {
+        $this->refund = $refund;
+
+        return $this;
     }
 
     /**
@@ -361,6 +386,7 @@ class NotificationRequest extends AbstractRequest
             'custom_parameters' => AbstractRequest::TYPE_ARRAY,
             'is_test' => AbstractRequest::TYPE_BOOLEAN,
             'error_details' => ErrorDetailsItem::class,
+            'refund' => RefundResponseItem::class,
         ];
     }
 }

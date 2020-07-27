@@ -1,3 +1,7 @@
+## 1.5.7 - July 2020
+
+- Extend webmoney purses support
+
 ## 1.5.6 - July 2020
 
 - Add `refund` object for notification request.

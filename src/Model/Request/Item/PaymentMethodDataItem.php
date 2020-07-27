@@ -16,6 +16,10 @@ class PaymentMethodDataItem extends AbstractRequestItem
 
     const WEBMONEY_WALLET_PURSE_R = 'R';
     const WEBMONEY_WALLET_PURSE_P = 'P';
+    const WEBMONEY_WALLET_PURSE_Z = 'Z';
+    const WEBMONEY_WALLET_PURSE_E = 'E';
+    const WEBMONEY_WALLET_PURSE_U = 'U';
+    const WEBMONEY_WALLET_PURSE_B = 'B';
 
     const TOKEN_TYPE_GOOGLE_PAY = 'googlepay';
     const TOKEN_TYPE_APPLE_PAY = 'applepay';

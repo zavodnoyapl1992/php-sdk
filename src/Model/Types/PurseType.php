@@ -17,7 +17,14 @@ class PurseType extends AbstractCustomType
     {
         $value = $this->getValue($field);
 
-        $availablePurseType = [PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_P, PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_R];
+        $availablePurseType = [
+            PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_P,
+            PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_R,
+            PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_Z,
+            PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_E,
+            PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_U,
+            PaymentMethodDataItem::WEBMONEY_WALLET_PURSE_B,
+        ];
 
         if (!in_array($value, $availablePurseType, true)) {
             $message = sprintf('Unsupportable purse type: %s. Expected one of %s', $value, join(', ', $availablePurseType));

@@ -1,6 +1,10 @@
+## 1.5.8 - July 2020
+
+- Add RRN information for payments and payouts.
+
 ## 1.5.7 - July 2020
 
-- Extend webmoney purses support
+- Extend webmoney purses support.
 
 ## 1.5.6 - July 2020
 
@@ -13,7 +17,7 @@
 
 ## 1.5.4 - June 2020
 
-- Bugfix: fix parsing json response
+- Bugfix: fix parsing json response.
 
 ## 1.5.3 - June 2020
 

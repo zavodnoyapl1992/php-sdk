@@ -19,6 +19,11 @@ trait MethodItemTrait
     private $account;
 
     /**
+     * @var string
+     */
+    private $rrn;
+
+    /**
      * @var CardItem|null
      */
     private $card;
@@ -59,6 +64,26 @@ trait MethodItemTrait
     public function setAccount($account)
     {
         $this->account = $account;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRrn()
+    {
+        return $this->rrn;
+    }
+
+    /**
+     * @param string $rrn
+     *
+     * @return $this
+     */
+    public function setRrn($rrn)
+    {
+        $this->rrn = $rrn;
 
         return $this;
     }

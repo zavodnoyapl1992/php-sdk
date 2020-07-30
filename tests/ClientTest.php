@@ -1302,6 +1302,12 @@ class ClientTest extends TestCase
         $this->assertInstanceOf(PaymentMethodItem::class, $paymentMethod);
         $this->assertEquals($expectedContent['type'], $paymentMethod->getType());
         $this->assertEquals($expectedContent['account'], $paymentMethod->getAccount());
+
+        if (!empty($expectedContent['rrn'])) {
+            $this->assertEquals($expectedContent['rrn'], $paymentMethod->getRrn());
+        } else {
+            $this->assertNull($paymentMethod->getRrn());
+        }
     }
 
 
@@ -1413,6 +1419,12 @@ class ClientTest extends TestCase
         } else {
             $this->assertNotNull($cardItem);
             $this->assertInstanceOf(CardItem::class, $cardItem);
+        }
+
+        if (!empty($expectedContent['rrn'])) {
+            $this->assertEquals($expectedContent['rrn'], $payoutResponse->getPayoutMethod()->getRrn());
+        } else {
+            $this->assertNull($payoutResponse->getPayoutMethod()->getRrn());
         }
     }
 

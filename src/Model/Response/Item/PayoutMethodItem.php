@@ -58,6 +58,7 @@ class PayoutMethodItem extends AbstractResponse
     {
         return [
             'type' => new PayoutCardType($this),
+            'rrn' => self::TYPE_STRING,
             'card' => CardItem::class,
         ];
     }

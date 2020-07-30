@@ -18,7 +18,8 @@
   "status_description": "Status description",
   "payment_method": {
     "type": "card",
-    "account": "420000xxxxxx0000"
+    "account": "420000xxxxxx0000",
+    "rrn": 123
   },
   "custom_parameters": {
     "email": "vasia@gmail.com",

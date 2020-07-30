@@ -31,6 +31,7 @@ class PaymentMethodItem extends AbstractResponse
     {
         return [
             'account' => self::TYPE_STRING,
+            'rrn' => self::TYPE_STRING,
             'card' => CardItem::class,
         ];
     }

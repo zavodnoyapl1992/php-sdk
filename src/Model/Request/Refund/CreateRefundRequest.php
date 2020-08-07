@@ -24,6 +24,11 @@ class CreateRefundRequest extends AbstractRequest
     private $refund;
 
     /**
+     * @var string|null
+     */
+    private $partnerPaymentId;
+
+    /**
      * @var RefundReceiptRequestItem
      */
     private $receipt;
@@ -89,6 +94,26 @@ class CreateRefundRequest extends AbstractRequest
     }
 
     /**
+     * @return string|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param string|null $partnerPaymentId
+     *
+     * @return $this
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -105,6 +130,7 @@ class CreateRefundRequest extends AbstractRequest
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => self::TYPE_STRING,
             'receipt' => RefundReceiptRequestItem::class,
         ];
     }

@@ -40,6 +40,11 @@ trait RefundResponseTrait
     private $token;
 
     /**
+     * @var int|null
+     */
+    private $partnerPaymentId;
+
+    /**
      * @var \DateTime
      */
     private $createDate;
@@ -170,6 +175,26 @@ trait RefundResponseTrait
     public function setToken($token)
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPartnerPaymentId()
+    {
+        return $this->partnerPaymentId;
+    }
+
+    /**
+     * @param int|null $partnerPaymentId
+     *
+     * @return $this
+     */
+    public function setPartnerPaymentId($partnerPaymentId)
+    {
+        $this->partnerPaymentId = $partnerPaymentId;
 
         return $this;
     }
@@ -337,6 +362,7 @@ trait RefundResponseTrait
     public function getOptionalFields()
     {
         return [
+            'partner_payment_id' => self::TYPE_STRING,
             'status_description' => self::TYPE_STRING,
             'payment_method' => PaymentMethodItem::class,
             'custom_parameters' => self::TYPE_ARRAY,

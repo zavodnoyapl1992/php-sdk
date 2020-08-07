@@ -1,3 +1,8 @@
+## 1.5.9 - August 2020
+
+- Extending api exception information (validation, original payment token for duplication recurrent and refund requests)
+- Add `partner_payment_id` for refunds
+
 ## 1.5.8 - July 2020
 
 - Add RRN information for payments and payouts.

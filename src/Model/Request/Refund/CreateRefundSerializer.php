@@ -23,6 +23,10 @@ class CreateRefundSerializer extends AbstractRequestSerializer
             'refund' => $request->getRefund()->jsonSerialize(),
         ];
 
+        if ($request->getPartnerPaymentId()) {
+            $serializedData['partner_payment_id'] = $request->getPartnerPaymentId();
+        }
+
         if ($receipt instanceof RefundReceiptRequestItem) {
             $serializedData['receipt'] = $receipt->jsonSerialize();
         }

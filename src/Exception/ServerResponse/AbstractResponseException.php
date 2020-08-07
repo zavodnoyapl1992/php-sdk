@@ -45,6 +45,8 @@ abstract class AbstractResponseException extends ResponseException
 
     /**
      * @param string $body
+     *
+     * @return array|null
      */
     protected function parseBody($body)
     {
@@ -56,6 +58,8 @@ abstract class AbstractResponseException extends ResponseException
 
         $this->responseErrorCode = !empty($errors['error']) ? $errors['error'] : self::RESPONSE_CODE_UNKNOWN;
         $this->responseErrorMessage = !empty($errors['message']) ? $errors['message'] : 'An unknown API error occurred';
+
+        return $errors;
     }
 
     /**

@@ -9,6 +9,13 @@ class CardItem extends AbstractResponse
 {
     use RecursiveRestoreTrait;
 
+    const AUTH_TYPE_UNKNOWN = 'unknown';
+    const AUTH_TYPE_3DS_NONE = 'none';
+    const AUTH_TYPE_3DS_FULL = '3ds';
+    const AUTH_TYPE_3DS_2_FULL = '3ds2';
+    const AUTH_TYPE_APPLEPAY = 'applepay';
+    const AUTH_TYPE_GOOGLEPAY = 'googlepay';
+
     /**
      * @var string|null
      */
@@ -41,8 +48,21 @@ class CardItem extends AbstractResponse
 
     /**
      * @var bool|null
+     * @deprecated
+     * @see CardItem::$authType
      */
     private $is3ds;
+
+    /**
+     * @var string|null
+     * @see CardItem::AUTH_TYPE_UNKNOWN
+     * @see CardItem::AUTH_TYPE_3DS_NONE
+     * @see CardItem::AUTH_TYPE_3DS_FULL
+     * @see CardItem::AUTH_TYPE_3DS_2_FULL
+     * @see CardItem::AUTH_TYPE_APPLEPAY
+     * @see CardItem::AUTH_TYPE_GOOGLEPAY
+     */
+    private $authType;
 
     /**
      * @var bool|null
@@ -170,6 +190,8 @@ class CardItem extends AbstractResponse
 
     /**
      * @return bool|null
+     * @deprecated
+     * @see CardItem::getAuthType
      */
     public function getIs3ds()
     {
@@ -180,10 +202,33 @@ class CardItem extends AbstractResponse
      * @param bool|null $is3ds
      *
      * @return CardItem
+     * @see CardItem::setAuthType
+     *
+     * @deprecated
      */
     public function setIs3ds($is3ds)
     {
         $this->is3ds = $is3ds;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAuthType()
+    {
+        return $this->authType;
+    }
+
+    /**
+     * @param string|null $authType
+     *
+     * @return $this
+     */
+    public function setAuthType($authType)
+    {
+        $this->authType = $authType;
 
         return $this;
     }
@@ -229,6 +274,7 @@ class CardItem extends AbstractResponse
             'brand' => AbstractResponse::TYPE_STRING,
             'type' => AbstractResponse::TYPE_STRING,
             'is3ds' => AbstractResponse::TYPE_BOOLEAN,
+            'auth_type' => AbstractResponse::TYPE_STRING,
             'is_payout_allowed' => AbstractResponse::TYPE_BOOLEAN,
         ];
     }

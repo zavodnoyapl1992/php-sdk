@@ -1489,6 +1489,7 @@ class ClientTest extends TestCase
             $expectedContent['bank'] ?: null,
             $expectedContent['type'] ?: null,
             $expectedContent['is3ds'] ?: null,
+            $expectedContent['auth_type'] ?: null,
         ];
 
         $gotData = [
@@ -1499,6 +1500,7 @@ class ClientTest extends TestCase
             $card->getBank(),
             $card->getType(),
             $card->getIs3ds(),
+            $card->getAuthType(),
         ];
 
         $this->assertEquals($expectedCardData, $gotData);

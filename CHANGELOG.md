@@ -1,3 +1,7 @@
+## 1.5.10 - November 2020
+
+- Add `auth_type` for card payments
+
 ## 1.5.9 - August 2020
 
 - Extending api exception information (validation, original payment token for duplication recurrent and refund requests)

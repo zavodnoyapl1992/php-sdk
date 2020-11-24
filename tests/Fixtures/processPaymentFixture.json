@@ -25,7 +25,8 @@
       "country": "RU",
       "bank": "Test Bank Name",
       "type": "card_ru",
-      "is3ds": false
+      "is3ds": false,
+      "auth_type": "unknown"
     }
   },
   "custom_parameters": {

@@ -1,11 +1,15 @@
 <?php
 
-
 namespace KassaCom\SDK\Exception;
-
 
 class JsonParseException extends \UnexpectedValueException
 {
+    /** @var array */
+    private $headers;
+
+    /** @var string|null */
+    private $body;
+
     /**
      * @inheritDoc
      */
@@ -27,7 +31,25 @@ class JsonParseException extends \UnexpectedValueException
         }
 
         $message = sprintf('%s: %s', $message, $jsonErrorMessage);
+        $this->headers = $headers;
+        $this->body = $body;
 
         parent::__construct($message, $code);
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBody()
+    {
+        return $this->body;
     }
 }

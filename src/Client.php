@@ -88,7 +88,7 @@ use KassaCom\SDK\Transport\CurlApiTransport;
 
 class Client
 {
-    const VERSION = '1.5.10';
+    const VERSION = '1.5.11';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -501,16 +501,18 @@ class Client
             $this->processError($response); // throw ResponseException
         }
 
-        $responseData = json_decode($response->getBody(), true);
+        $body = $response->getBody()->getContents();
+        $headers = $response->getHeaders();
+        $responseData = json_decode($body, true);
 
         if (!$responseData) {
-            $message = json_last_error();
+            $errorCode = json_last_error();
 
-            if ($message === JSON_ERROR_NONE) {
-                $message = -1;
+            if ($errorCode === JSON_ERROR_NONE) {
+                $errorCode = -1;
             }
 
-            throw new JsonParseException('Decode response error', $message);
+            throw new JsonParseException('Decode response error', $errorCode, $headers ?: [], $body);
         }
 
         return ResponseCreator::create($responseType, $responseData);

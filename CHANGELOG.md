@@ -1,3 +1,7 @@
+## 1.5.11 - December 2020
+
+- Add body and headers to `JsonParseException`
+
 ## 1.5.10 - November 2020
 
 - Add `auth_type` for card payments

@@ -1,3 +1,7 @@
+## 1.5.12 - February 2021
+
+- Add `error_details` to subscription item
+
 ## 1.5.11 - December 2020
 
 - Add body and headers to `JsonParseException`

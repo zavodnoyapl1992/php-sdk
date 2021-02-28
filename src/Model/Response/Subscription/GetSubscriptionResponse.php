@@ -5,6 +5,7 @@ namespace KassaCom\SDK\Model\Response\Subscription;
 
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\PaymentItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
@@ -31,6 +32,11 @@ class GetSubscriptionResponse extends AbstractResponse
      * @var \DateTime
      */
     private $createDate;
+
+    /**
+     * @var ErrorDetailsItem|null
+     */
+    private $errorDetails;
 
     /**
      * @var PaymentItem
@@ -143,6 +149,26 @@ class GetSubscriptionResponse extends AbstractResponse
     }
 
     /**
+     * @return ErrorDetailsItem|null
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
+    }
+
+    /**
+     * @param ErrorDetailsItem|null $errorDetails
+     *
+     * @return $this
+     */
+    public function setErrorDetails($errorDetails)
+    {
+        $this->errorDetails = $errorDetails;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -161,6 +187,8 @@ class GetSubscriptionResponse extends AbstractResponse
      */
     public function getOptionalFields()
     {
-        return [];
+        return [
+            'error_details' => ErrorDetailsItem::class,
+        ];
     }
 }

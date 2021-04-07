@@ -32,10 +32,11 @@ class NotificationTest extends TestCase
      * @param string $body
      * @param string $signature
      * @param string $ip
+     * @param string $signatureKey
      */
-    public function testProcess($body, $signature, $ip)
+    public function testProcess($body, $signature, $ip, $signatureKey)
     {
-        $_SERVER['HTTP_X_KASSA_SIGNATURE'] = $signature;
+        $_SERVER[$signatureKey] = $signature;
         $_SERVER['REMOTE_ADDR'] = $ip;
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
@@ -142,7 +143,19 @@ class NotificationTest extends TestCase
             ];
         }
 
-        return $data;
+        $result = [];
+
+        foreach (['HTTP_X_KASSA_SIGNATURE', 'HTTP_X_API_SIGNATURE'] as $signature) {
+            $newData = $data;
+
+            array_walk($newData, function (&$row) use ($signature) {
+                $row[] = $signature;
+            });
+
+            $result = array_merge($result, $newData);
+        }
+
+        return $result;
     }
 
     public function invalidSecurityRequestProvider()

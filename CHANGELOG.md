@@ -1,3 +1,7 @@
+## 1.5.13 - April 2021
+
+- Check new signature header
+
 ## 1.5.12 - February 2021
 
 - Add `error_details` to subscription item

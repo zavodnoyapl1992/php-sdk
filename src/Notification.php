@@ -2,7 +2,6 @@
 
 namespace KassaCom\SDK;
 
-
 use KassaCom\SDK\Actions\RequestCreator;
 use KassaCom\SDK\Exception\Notification\EmptyApiKeyException;
 use KassaCom\SDK\Exception\Notification\IncorrectBodyRequestException;
@@ -75,7 +74,8 @@ class Notification
         $this->skipIpCheck = $skip;
     }
 
-    public function isIpCheckSkipped() {
+    public function isIpCheckSkipped()
+    {
         return $this->skipIpCheck;
     }
 
@@ -147,11 +147,15 @@ class Notification
      */
     protected function checkRequest()
     {
-        if (empty($_SERVER['HTTP_X_KASSA_SIGNATURE'])) {
+        if (!empty($_SERVER['HTTP_X_API_SIGNATURE'])) {
+            $signature = $_SERVER['HTTP_X_API_SIGNATURE'];
+        } elseif (!empty($_SERVER['HTTP_X_KASSA_SIGNATURE'])) {
+            $signature = $_SERVER['HTTP_X_KASSA_SIGNATURE'];
+        } else {
             throw new NotificationSecurityException('Empty signature');
         }
 
-        $signature = strtolower($_SERVER['HTTP_X_KASSA_SIGNATURE']);
+        $signature = strtolower($signature);
         $expectedSignature = strtolower(hash('sha256', $this->getBody() . $this->apiKey));
 
         if ($signature !== $expectedSignature) {

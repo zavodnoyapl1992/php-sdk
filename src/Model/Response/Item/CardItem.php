@@ -16,6 +16,10 @@ class CardItem extends AbstractResponse
     const AUTH_TYPE_APPLEPAY = 'applepay';
     const AUTH_TYPE_GOOGLEPAY = 'googlepay';
 
+    const USAGE_TYPE_PERSONAL = 'personal';
+    const USAGE_TYPE_COMMERCIAL = 'commercial';
+    const USAGE_TYPE_UNKNOWN = 'unknown';
+
     /**
      * @var string|null
      */
@@ -45,6 +49,14 @@ class CardItem extends AbstractResponse
      * @var string|null
      */
     private $type;
+
+    /**
+     * @var string|null
+     * @see CardItem::USAGE_TYPE_PERSONAL
+     * @see CardItem::USAGE_TYPE_COMMERCIAL
+     * @see CardItem::USAGE_TYPE_UNKNOWN
+     */
+    private $usageType;
 
     /**
      * @var bool|null
@@ -189,6 +201,26 @@ class CardItem extends AbstractResponse
     }
 
     /**
+     * @return string|null
+     */
+    public function getUsageType()
+    {
+        return $this->usageType;
+    }
+
+    /**
+     * @param string|null $usageType
+     *
+     * @return CardItem
+     */
+    public function setUsageType($usageType)
+    {
+        $this->usageType = $usageType;
+
+        return $this;
+    }
+
+    /**
      * @return bool|null
      * @deprecated
      * @see CardItem::getAuthType
@@ -273,6 +305,7 @@ class CardItem extends AbstractResponse
             'bank' => AbstractResponse::TYPE_STRING,
             'brand' => AbstractResponse::TYPE_STRING,
             'type' => AbstractResponse::TYPE_STRING,
+            'usage_type' => AbstractResponse::TYPE_STRING,
             'is3ds' => AbstractResponse::TYPE_BOOLEAN,
             'auth_type' => AbstractResponse::TYPE_STRING,
             'is_payout_allowed' => AbstractResponse::TYPE_BOOLEAN,

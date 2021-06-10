@@ -1,3 +1,7 @@
+## 1.5.14 - June 2021
+
+- Add `usage_type` for card item
+
 ## 1.5.13 - April 2021
 
 - Check new signature header

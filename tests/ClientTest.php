@@ -112,6 +112,14 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['wallet']['id'], $createPaymentResponse->getWallet()->getId());
         $this->assertEquals($expectedContent['wallet']['amount'], $createPaymentResponse->getWallet()->getAmount());
         $this->assertEquals($expectedContent['wallet']['currency'], $createPaymentResponse->getWallet()->getCurrency());
+
+        $this->assertInstanceOf(MoneyItem::class, $createPaymentResponse->getPayer());
+        $this->assertEquals($expectedContent['payer']['amount'], $createPaymentResponse->getPayer()->getAmount());
+        $this->assertEquals($expectedContent['payer']['currency'], $createPaymentResponse->getPayer()->getCurrency());
+
+        $this->assertInstanceOf(MoneyItem::class, $createPaymentResponse->getExtra());
+        $this->assertEquals($expectedContent['extra']['amount'], $createPaymentResponse->getExtra()->getAmount());
+        $this->assertEquals($expectedContent['extra']['currency'], $createPaymentResponse->getExtra()->getCurrency());
     }
 
     /**
@@ -141,6 +149,14 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['authorization']['action'], $processPaymentResponse->getAuthorization()->getAction());
         $this->assertEquals($expectedContent['authorization']['method'], $processPaymentResponse->getAuthorization()->getMethod());
         $this->assertEquals($expectedContent['authorization']['params'], $processPaymentResponse->getAuthorization()->getParams());
+
+        $this->assertInstanceOf(MoneyItem::class, $processPaymentResponse->getPayer());
+        $this->assertEquals($expectedContent['payer']['amount'], $processPaymentResponse->getPayer()->getAmount());
+        $this->assertEquals($expectedContent['payer']['currency'], $processPaymentResponse->getPayer()->getCurrency());
+
+        $this->assertInstanceOf(MoneyItem::class, $processPaymentResponse->getExtra());
+        $this->assertEquals($expectedContent['extra']['amount'], $processPaymentResponse->getExtra()->getAmount());
+        $this->assertEquals($expectedContent['extra']['currency'], $processPaymentResponse->getExtra()->getCurrency());
 
         $this->assertArrayHasKey('email', $processPaymentResponse->getCustomParameters());
         $this->assertArrayHasKey('order_id', $processPaymentResponse->getCustomParameters());

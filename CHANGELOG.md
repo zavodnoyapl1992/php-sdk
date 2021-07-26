@@ -1,3 +1,7 @@
+## 1.5.15 - July 2021
+
+- Add `payer` and `extra` money for payment responses
+
 ## 1.5.14 - June 2021
 
 - Add `usage_type` for card item

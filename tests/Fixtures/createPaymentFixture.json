@@ -12,6 +12,14 @@
     "amount": 1.88,
     "currency": "USD"
   },
+  "payer": {
+    "amount": 2,
+    "currency": "USD"
+  },
+  "extra": {
+    "amount": 0.12,
+    "currency": "USD"
+  },
   "create_date": "2017-12-25T00:07:19+00:00",
   "expire_date": "2017-12-26T00:07:19+00:00",
   "status": "init",

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace KassaCom\SDK\Model\Response\Payment;
-
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
@@ -20,7 +18,7 @@ trait GetPaymentResponseTrait
     private $id;
 
     /**
-     * @var int|null
+     * @var string|null
      */
     private $partnerPaymentId;
 

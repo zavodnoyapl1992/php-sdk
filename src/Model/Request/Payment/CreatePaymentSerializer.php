@@ -55,6 +55,8 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             'create_subscription' => $settings->isCreateSubscription(),
             'subscription_token' => $settings->getSubscriptionToken(),
             'capture' => $settings->getCapture(),
+            'payer_percent' => $settings->getPayerPercent(),
+            'payer_percent_type' => $settings->getPayerPercentType(),
         ];
 
         $serializedCreatePayment['settings'] = array_filter($serializedCreatePayment['settings'], $emptyFilter);

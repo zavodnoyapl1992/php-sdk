@@ -1,3 +1,7 @@
+## 1.5.16 - August 2020
+
+- Add `payer_percent` and `payer_percent_type` for payment create request
+
 ## 1.5.15 - July 2021
 
 - Add `payer` and `extra` money for payment responses

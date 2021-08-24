@@ -2,7 +2,6 @@
 
 namespace KassaCom\SDK\Model\Request\Item;
 
-
 use KassaCom\SDK\Model\PaymentMethods;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 use KassaCom\SDK\Model\Types\LocaleType;
@@ -12,6 +11,9 @@ class SettingsRequestItem extends AbstractRequestItem
 {
     const LOCALE_RU = 'ru';
     const LOCALE_EN = 'en';
+
+    const PAYER_PERCENT_TYPE_HIGH = 'high';
+    const PAYER_PERCENT_TYPE_LOW = 'low';
 
     use RecursiveRestoreTrait;
 
@@ -101,6 +103,16 @@ class SettingsRequestItem extends AbstractRequestItem
     private $requiredFields;
 
     /**
+     * @var float|null
+     */
+    private $payerPercent;
+
+    /**
+     * @var string|null
+     */
+    private $payerPercentType;
+
+    /**
      * SettingsRequestItem constructor.
      */
     public function __construct()
@@ -124,6 +136,8 @@ class SettingsRequestItem extends AbstractRequestItem
             'subscription_token' => self::TYPE_STRING,
             'capture' => self::TYPE_BOOLEAN,
             'locale' => new LocaleType($this),
+            'payer_percent' => self::TYPE_FLOAT,
+            'payer_percent_type' => self::TYPE_STRING,
         ];
     }
 
@@ -359,6 +373,7 @@ class SettingsRequestItem extends AbstractRequestItem
 
     /**
      * @param bool $hideFormTokenizedMethods
+     *
      * @return $this
      */
     public function setHideFormTokenizedMethods($hideFormTokenizedMethods)
@@ -466,5 +481,45 @@ class SettingsRequestItem extends AbstractRequestItem
     public function getOptionalFields()
     {
         return $this->optionalFields;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getPayerPercent()
+    {
+        return $this->payerPercent;
+    }
+
+    /**
+     * @param float|null $payerPercent
+     *
+     * @return $this
+     */
+    public function setPayerPercent($payerPercent)
+    {
+        $this->payerPercent = $payerPercent;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayerPercentType()
+    {
+        return $this->payerPercentType;
+    }
+
+    /**
+     * @param string|null $payerPercentType
+     *
+     * @return $this
+     */
+    public function setPayerPercentType($payerPercentType)
+    {
+        $this->payerPercentType = $payerPercentType;
+
+        return $this;
     }
 }

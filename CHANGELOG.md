@@ -1,4 +1,9 @@
-## 1.5.16 - August 2020
+## 1.5.17 - October 2021
+
+- Fix process request for tokenized payments
+- Add `error_details` to refund item
+
+## 1.5.16 - August 2021
 
 - Add `payer_percent` and `payer_percent_type` for payment create request
 

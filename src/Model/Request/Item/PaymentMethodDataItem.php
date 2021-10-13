@@ -319,6 +319,8 @@ class PaymentMethodDataItem extends AbstractRequestItem
             'account' => ReceiptRequestItem::TYPE_STRING,
             'capture' => ReceiptRequestItem::TYPE_BOOLEAN,
             'purse_type' => new PurseType($this),
+            'token_data' => ReceiptRequestItem::TYPE_STRING,
+            'token_type' => new PaymentMethodTokenType($this),
         ];
     }
 }

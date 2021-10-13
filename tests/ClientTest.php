@@ -42,9 +42,9 @@ use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\PayoutMethodItem;
+use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
-use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
 use KassaCom\SDK\Model\Response\Payment\CancelPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CapturePaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\CreatePaymentResponse;
@@ -715,6 +715,17 @@ class ClientTest extends TestCase
             ],
             [$processPaymentCard],
             [$processPaymentQIWI],
+            [
+                [
+                    "token" => "6-62aebd0e3a-3dae1e0976-73f96a4bc1",
+                    "ip" => "127.0.0.1",
+                    "payment_method_data" => [
+                        "type" => "tokenized",
+                        "token_data" => "123456",
+                        "token_type" => "googlepay",
+                    ],
+                ],
+            ],
         ];
     }
 

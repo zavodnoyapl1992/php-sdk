@@ -8,6 +8,7 @@ use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
+use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
 trait RefundResponseTrait
@@ -63,6 +64,11 @@ trait RefundResponseTrait
      * @var string|null
      */
     private $statusDescription;
+
+    /**
+     * @var ErrorDetailsItem|null
+     */
+    private $errorDetails;
 
     /**
      * @var PaymentMethodItem|null
@@ -280,6 +286,26 @@ trait RefundResponseTrait
     }
 
     /**
+     * @return ErrorDetailsItem|null
+     */
+    public function getErrorDetails()
+    {
+        return $this->errorDetails;
+    }
+
+    /**
+     * @param ErrorDetailsItem|null $errorDetails
+     *
+     * @return $this
+     */
+    public function setErrorDetails($errorDetails)
+    {
+        $this->errorDetails = $errorDetails;
+
+        return $this;
+    }
+
+    /**
      * @return PaymentMethodItem|null
      */
     public function getPaymentMethod()
@@ -367,6 +393,7 @@ trait RefundResponseTrait
             'payment_method' => PaymentMethodItem::class,
             'custom_parameters' => self::TYPE_ARRAY,
             'is_test' => self::TYPE_BOOLEAN,
+            'error_details' => ErrorDetailsItem::class,
         ];
     }
 }

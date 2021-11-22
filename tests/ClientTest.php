@@ -745,15 +745,6 @@ class ClientTest extends TestCase
             ],
             [
                 [
-                    'token' => '2-62aebd0e3a-3dae1e0976-73f96a4bc1',
-                    'ip' => '127.0.0.1',
-                    'payment_method_data' => [
-                        'type' => PaymentMethods::PAYMENT_METHOD_QIWI,
-                    ],
-                ],
-            ],
-            [
-                [
                     'ip' => '2001:0db8:85a3:0000:0000:8a2e:0370:7334',
                     'payment_method_data' => [
                         'type' => PaymentMethods::PAYMENT_METHOD_CARD,

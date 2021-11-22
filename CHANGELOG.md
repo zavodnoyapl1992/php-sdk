@@ -1,3 +1,7 @@
+## 1.5.18 - November 2021
+
+- Allow empty account for Qiwi payments
+
 ## 1.5.17 - October 2021
 
 - Fix process request for tokenized payments

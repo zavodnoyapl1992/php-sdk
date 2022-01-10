@@ -25,6 +25,9 @@ final class PaymentMethods
     /** @var string Payment method - tokenized: Apple Pay, Google Pay etc */
     const PAYMENT_METHOD_CARD_TOKENIZED = 'tokenized';
 
+    /** @var string Payment method - sbp */
+    const PAYMENT_METHOD_SBP = 'sbp';
+
     /**
      * @return array
      */
@@ -38,6 +41,7 @@ final class PaymentMethods
             self::PAYMENT_METHOD_YANDEX,
             self::PAYMENT_METHOD_CARD_FINGERPRINT,
             self::PAYMENT_METHOD_CARD_TOKENIZED,
+            self::PAYMENT_METHOD_SBP,
         ];
     }
 }

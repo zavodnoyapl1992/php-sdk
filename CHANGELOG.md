@@ -1,3 +1,7 @@
+## 1.5.19 - January 2022
+
+- Add payment method `sbp`
+
 ## 1.5.18 - November 2021
 
 - Allow empty account for Qiwi payments

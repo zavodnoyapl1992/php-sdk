@@ -75,6 +75,9 @@ class PaymentMethodDataItem extends AbstractRequestItem
      */
     private $tokenType;
 
+    /** @var bool|null */
+    protected $returnImage;
+
     /**
      * @return string
      * @see \KassaCom\SDK\Model\PaymentMethods
@@ -278,6 +281,26 @@ class PaymentMethodDataItem extends AbstractRequestItem
     }
 
     /**
+     * @return bool|null
+     */
+    public function getReturnImage()
+    {
+        return $this->returnImage;
+    }
+
+    /**
+     * @param bool|null $returnImage
+     *
+     * @return $this
+     */
+    public function setReturnImage($returnImage)
+    {
+        $this->returnImage = $returnImage;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -320,6 +343,7 @@ class PaymentMethodDataItem extends AbstractRequestItem
             'purse_type' => new PurseType($this),
             'token_data' => ReceiptRequestItem::TYPE_STRING,
             'token_type' => new PaymentMethodTokenType($this),
+            'return_image' => self::TYPE_BOOLEAN,
         ];
     }
 }

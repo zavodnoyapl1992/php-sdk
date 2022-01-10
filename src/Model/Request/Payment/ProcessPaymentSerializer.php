@@ -43,6 +43,10 @@ class ProcessPaymentSerializer extends AbstractRequestSerializer
                 $serializedData['payment_method_data']['token_type'] = $paymentMethodDataItem->getTokenType();
             }
 
+            if ($paymentMethodDataItem->getType() === PaymentMethods::PAYMENT_METHOD_SBP && $paymentMethodDataItem->getReturnImage()) {
+                $serializedData['payment_method_data']['return_image'] = $paymentMethodDataItem->getReturnImage();
+            }
+
             if ($paymentMethodDataItem->getAccount() !== null) {
                 $serializedData['payment_method_data']['account'] = $paymentMethodDataItem->getAccount();
             }

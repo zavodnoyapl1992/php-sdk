@@ -14,6 +14,52 @@ class PaymentMethodItem extends AbstractResponse
     use RecursiveRestoreTrait;
     use MethodItemTrait;
 
+    /** @var string|null */
+    protected $qrLink;
+
+    /** @var string|null */
+    protected $qrImage;
+
+    /**
+     * @return string|null
+     */
+    public function getQrLink()
+    {
+        return $this->qrLink;
+    }
+
+    /**
+     * @param string|null $qrLink
+     *
+     * @return $this
+     */
+    public function setQrLink($qrLink)
+    {
+        $this->qrLink = $qrLink;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getQrImage()
+    {
+        return $this->qrImage;
+    }
+
+    /**
+     * @param string|null $qrImage
+     *
+     * @return $this
+     */
+    public function setQrImage($qrImage)
+    {
+        $this->qrImage = $qrImage;
+
+        return $this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -33,6 +79,8 @@ class PaymentMethodItem extends AbstractResponse
             'account' => self::TYPE_STRING,
             'rrn' => self::TYPE_STRING,
             'card' => CardItem::class,
+            'qr_link' => self::TYPE_STRING,
+            'qr_image' => self::TYPE_STRING,
         ];
     }
 }

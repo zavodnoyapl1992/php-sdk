@@ -1,8 +1,6 @@
 <?php
 
-
 namespace KassaCom\SDK\Model\Request\Payment;
-
 
 use KassaCom\SDK\Model\Request\AbstractRequestSerializer;
 use KassaCom\SDK\Model\Request\Item\ReceiptRequestItem;
@@ -81,6 +79,34 @@ class CreatePaymentSerializer extends AbstractRequestSerializer
             ];
 
             $serializedCreatePayment['receipt'] = array_filter($serializedCreatePayment['receipt'], $emptyFilter);
+        }
+
+        if ($paymentRequest->getSplit()) {
+            $serializedCreatePayment['split'] = [];
+
+            foreach ($paymentRequest->getSplit() as $split) {
+                $splitData = [
+                    'wallet_id' => $split->getWalletId(),
+                    'order' => array_filter([
+                        'currency' => $split->getOrder()->getCurrency(),
+                        'amount' => $split->getOrder()->getAmount(),
+                        'description' => $split->getOrder()->getDescription(),
+                    ], $emptyFilter),
+                ];
+
+                if ($split->getCommission()) {
+                    $splitData['commission'] = array_filter([
+                        'currency' => $split->getCommission()->getCurrency(),
+                        'amount' => $split->getCommission()->getAmount(),
+                    ], $emptyFilter);
+                }
+
+                if ($split->getCustomParameters()) {
+                    $splitData['custom_parameters'] = $split->getCustomParameters();
+                }
+
+                $serializedCreatePayment['split'][] = array_filter($splitData, $emptyFilter);
+            }
         }
 
         return $serializedCreatePayment;

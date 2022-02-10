@@ -29,6 +29,11 @@ class CreateRefundRequest extends AbstractRequest
     private $partnerPaymentId;
 
     /**
+     * @var int|null
+     */
+    private $splitId;
+
+    /**
      * @var RefundReceiptRequestItem
      */
     private $receipt;
@@ -114,6 +119,26 @@ class CreateRefundRequest extends AbstractRequest
     }
 
     /**
+     * @return int|null
+     */
+    public function getSplitId()
+    {
+        return $this->splitId;
+    }
+
+    /**
+     * @param int|null $splitId
+     *
+     * @return $this
+     */
+    public function setSplitId($splitId)
+    {
+        $this->splitId = $splitId;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -132,6 +157,7 @@ class CreateRefundRequest extends AbstractRequest
         return [
             'partner_payment_id' => self::TYPE_STRING,
             'receipt' => RefundReceiptRequestItem::class,
+            'split_id' => self::TYPE_INTEGER,
         ];
     }
 }

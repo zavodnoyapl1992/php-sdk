@@ -2,12 +2,11 @@
 
 namespace KassaCom\SDK\Model\Request\Payment;
 
-
-use KassaCom\SDK\Model\Interfaces\RestorableInterface;
 use KassaCom\SDK\Model\Request\AbstractRequest;
 use KassaCom\SDK\Model\Request\Item\OrderRequestItem;
 use KassaCom\SDK\Model\Request\Item\ReceiptRequestItem;
 use KassaCom\SDK\Model\Request\Item\SettingsRequestItem;
+use KassaCom\SDK\Model\Request\Item\SplitRequestItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
 class CreatePaymentRequest extends AbstractRequest
@@ -38,6 +37,11 @@ class CreatePaymentRequest extends AbstractRequest
      * @var ReceiptRequestItem
      */
     private $receipt;
+
+    /**
+     * @var SplitRequestItem[]|null
+     */
+    private $split;
 
     /**
      * @return string|null
@@ -140,6 +144,42 @@ class CreatePaymentRequest extends AbstractRequest
     }
 
     /**
+     * @return SplitRequestItem[]|null
+     */
+    public function getSplit()
+    {
+        return $this->split;
+    }
+
+    /**
+     * @param SplitRequestItem[]|null $split
+     *
+     * @return $this
+     */
+    public function setSplit($splits)
+    {
+        $this->split = $splits;
+
+        return $this;
+    }
+
+    /**
+     * @param SplitRequestItem $split
+     *
+     * @return $this
+     */
+    public function addSingleSplit($split)
+    {
+        if (!is_array($this->split)) {
+            $this->split = [];
+        }
+
+        $this->split[] = $split;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -157,8 +197,9 @@ class CreatePaymentRequest extends AbstractRequest
     {
         return [
             'partner_payment_id' => self::TYPE_STRING,
-            'custom_parameters' => RestorableInterface::TYPE_ARRAY,
+            'custom_parameters' => self::TYPE_ARRAY,
             'receipt' => ReceiptRequestItem::class,
+            'split' => [SplitRequestItem::class],
         ];
     }
 }

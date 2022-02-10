@@ -7,6 +7,7 @@ use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
+use KassaCom\SDK\Model\Response\Item\SplitResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
 
@@ -119,6 +120,10 @@ trait GetPaymentResponseTrait
      */
     private $refunds;
 
+    /**
+     * @var SplitResponseItem[]|null
+     */
+    private $split;
 
     /**
      * @return int
@@ -537,7 +542,6 @@ trait GetPaymentResponseTrait
         return $this;
     }
 
-
     /**
      * @return GetRefundResponse[]|null
      */
@@ -546,6 +550,25 @@ trait GetPaymentResponseTrait
         return $this->refunds;
     }
 
+    /**
+     * @return SplitResponseItem[]|null
+     */
+    public function getSplit()
+    {
+        return $this->split;
+    }
+
+    /**
+     * @param SplitResponseItem[]|null $split
+     *
+     * @return $this
+     */
+    public function setSplit($split)
+    {
+        $this->split = $split;
+
+        return $this;
+    }
 
     /**
      * @inheritDoc
@@ -580,6 +603,7 @@ trait GetPaymentResponseTrait
             'available_partial_refund' => self::TYPE_BOOLEAN,
             'available_for_refund' => MoneyItem::class,
             'refunds' => [GetRefundResponse::class],
+            'split' => [SplitResponseItem::class],
             'payer' => MoneyItem::class,
             'extra' => MoneyItem::class,
             'error_details' => ErrorDetailsItem::class,

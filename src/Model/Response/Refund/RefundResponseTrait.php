@@ -7,6 +7,7 @@ namespace KassaCom\SDK\Model\Response\Refund;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\RefundResponseItem;
+use KassaCom\SDK\Model\Response\Item\SplitResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletPayoutResponseItem;
 use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
@@ -84,6 +85,11 @@ trait RefundResponseTrait
      * @var boolean|null
      */
     private $isTest;
+
+    /**
+     * @var SplitResponseItem[]|null
+     */
+    private $split;
 
     /**
      * @return int
@@ -366,6 +372,26 @@ trait RefundResponseTrait
     }
 
     /**
+     * @return SplitResponseItem[]|null
+     */
+    public function getSplit()
+    {
+        return $this->split;
+    }
+
+    /**
+     * @param SplitResponseItem[]|null $split
+     *
+     * @return $this
+     */
+    public function setSplit($split)
+    {
+        $this->split = $split;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -394,6 +420,7 @@ trait RefundResponseTrait
             'custom_parameters' => self::TYPE_ARRAY,
             'is_test' => self::TYPE_BOOLEAN,
             'error_details' => ErrorDetailsItem::class,
+            'split' => [SplitResponseItem::class],
         ];
     }
 }

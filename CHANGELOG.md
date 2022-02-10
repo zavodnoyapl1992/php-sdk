@@ -1,3 +1,7 @@
+## 1.6.0 - February 2022
+
+- Added splits for payments
+
 ## 1.5.19 - January 2022
 
 - Add payment method `sbp`

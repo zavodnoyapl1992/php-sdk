@@ -31,7 +31,7 @@ class ObjectRecursiveValidator
             $value = self::getFieldValue($object, $field);
 
             if (empty($value)) {
-                throw new EmptyRequiredPropertyException(sprintf('Required property (%s) is empty', $field), 0, $field);
+                throw new EmptyRequiredPropertyException(sprintf('Required property (%s %s) is empty', get_class($object), $field), 0, $field);
             }
 
             self::validateValue($value, $field, $type);

@@ -1,3 +1,8 @@
+## 1.7.0 - Match 2022
+
+- Added new payment status `canceled`
+- Added new notification type `cancel`
+
 ## 1.6.0 - February 2022
 
 - Added splits for payments

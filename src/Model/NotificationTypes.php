@@ -12,6 +12,9 @@ class NotificationTypes
     /** @var string Успешно списание (статус SUCCESS) */
     const TYPE_PAY = 'pay';
 
+    /** @var string Отмена платежа (статус CANCELED) */
+    const TYPE_CANCEL = 'cancel';
+
     /** @var string Ошибка платежа (статус ERROR) */
     const TYPE_ERROR = 'error';
 
@@ -29,6 +32,7 @@ class NotificationTypes
         return [
             self::TYPE_CHECK,
             self::TYPE_PAY,
+            self::TYPE_CANCEL,
             self::TYPE_ERROR,
             self::TYPE_REFUND,
             self::TYPE_WAIT_CAPTURE,

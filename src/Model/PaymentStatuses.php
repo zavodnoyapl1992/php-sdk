@@ -18,6 +18,9 @@ final class PaymentStatuses
     /** @var string Платеж является двухэтапным и ожидает подтверждения или отмены. */
     const STATUS_WAIT_CAPTURE = 'wait_capture';
 
+    /** @var string Отмена платежа после статуса wait_capture. */
+    const STATUS_CANCELED = 'canceled';
+
     /** @var string Платеж был отвергнут банком-эмитентом или платежным сервисом, отменен или истекло время подтверждения платежа. */
     const STATUS_ERROR = 'error';
 
@@ -37,6 +40,7 @@ final class PaymentStatuses
             self::STATUS_PROCESS,
             self::STATUS_SUCCESSFUL,
             self::STATUS_WAIT_CAPTURE,
+            self::STATUS_CANCELED,
             self::STATUS_ERROR,
             self::STATUS_REFUND,
             self::STATUS_REFUND_PROCESS,

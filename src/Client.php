@@ -49,6 +49,9 @@ use KassaCom\SDK\Model\Request\Payout\CreatePayoutSerializer;
 use KassaCom\SDK\Model\Request\Payout\CreatePayoutTransport;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutRequest;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutRequestById;
+use KassaCom\SDK\Model\Request\Payout\GetPayoutSbpMembersRequest;
+use KassaCom\SDK\Model\Request\Payout\GetPayoutSbpMembersSerializer;
+use KassaCom\SDK\Model\Request\Payout\GetPayoutSbpMembersTransport;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutSerializer;
 use KassaCom\SDK\Model\Request\Payout\GetPayoutTransport;
 use KassaCom\SDK\Model\Request\Refund\CreateRefundRequest;
@@ -77,6 +80,7 @@ use KassaCom\SDK\Model\Response\Payment\GetPaymentResponse;
 use KassaCom\SDK\Model\Response\Payment\ProcessPaymentResponse;
 use KassaCom\SDK\Model\Response\Payout\CreatePayoutResponse;
 use KassaCom\SDK\Model\Response\Payout\GetPayoutResponse;
+use KassaCom\SDK\Model\Response\Payout\GetPayoutSbpMembersResponse;
 use KassaCom\SDK\Model\Response\Refund\CreateRefundResponse;
 use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
 use KassaCom\SDK\Model\Response\Subscription\GetSubscriptionResponse;
@@ -88,7 +92,7 @@ use KassaCom\SDK\Transport\CurlApiTransport;
 
 class Client
 {
-    const VERSION = '1.7.0';
+    const VERSION = '1.7.1';
 
     /** @var AbstractApiTransport */
     private $apiTransport;
@@ -474,6 +478,17 @@ class Client
         $transport = new ApplePayVerifyTransport($serializer);
 
         return $this->execute($transport, ApplePayVerifyResponse::class);
+    }
+
+    public function getPayoutSbpMembers()
+    {
+        $request = new GetPayoutSbpMembersRequest();
+
+        ObjectRecursiveValidator::validate($request);
+        $serializer = new GetPayoutSbpMembersSerializer($request);
+        $transport = new GetPayoutSbpMembersTransport($serializer);
+
+        return $this->execute($transport, GetPayoutSbpMembersResponse::class);
     }
 
     /**

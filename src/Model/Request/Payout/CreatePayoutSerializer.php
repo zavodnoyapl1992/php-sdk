@@ -21,6 +21,10 @@ class CreatePayoutSerializer extends AbstractRequestSerializer
             'account' => $payout->getPayoutMethodData()->getAccount(),
         ];
 
+        if ($payout->getPayoutMethodData()->getMemberId()) {
+            $payoutMethodData['member_id'] = $payout->getPayoutMethodData()->getMemberId();
+        }
+
         $orderData = [
             'amount' => $payout->getOrder()->getAmount(),
             'currency' => $payout->getOrder()->getCurrency(),

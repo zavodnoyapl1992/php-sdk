@@ -1,3 +1,7 @@
+## 1.7.1 - May 2022
+
+- Added payout method `sbp`
+
 ## 1.7.0 - Match 2022
 
 - Added new payment status `canceled`

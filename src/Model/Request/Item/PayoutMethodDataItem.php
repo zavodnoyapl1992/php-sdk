@@ -1,8 +1,6 @@
 <?php
 
-
 namespace KassaCom\SDK\Model\Request\Item;
-
 
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 use KassaCom\SDK\Model\Types\PaymentType;
@@ -20,6 +18,11 @@ class PayoutMethodDataItem extends AbstractRequestItem
      * @var string
      */
     private $account;
+
+    /**
+     * @var string|null
+     */
+    private $memberId;
 
     /**
      * @return string
@@ -62,6 +65,26 @@ class PayoutMethodDataItem extends AbstractRequestItem
     }
 
     /**
+     * @return string|null
+     */
+    public function getMemberId()
+    {
+        return $this->memberId;
+    }
+
+    /**
+     * @param string|null $sbpMemberId
+     *
+     * @return $this
+     */
+    public function setMemberId($sbpMemberId)
+    {
+        $this->memberId = $sbpMemberId;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -77,6 +100,8 @@ class PayoutMethodDataItem extends AbstractRequestItem
      */
     public function getOptionalFields()
     {
-        return [];
+        return [
+            'member_id' => self::TYPE_STRING,
+        ];
     }
 }

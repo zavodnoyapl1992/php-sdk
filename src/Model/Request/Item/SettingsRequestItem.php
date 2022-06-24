@@ -80,6 +80,11 @@ class SettingsRequestItem extends AbstractRequestItem
     /**
      * @var bool
      */
+    private $hideFormRememberCard = false;
+
+    /**
+     * @var bool
+     */
     private $createSubscription = false;
 
     /**
@@ -132,6 +137,7 @@ class SettingsRequestItem extends AbstractRequestItem
             'hide_form_header' => self::TYPE_BOOLEAN,
             'hide_form_methods' => self::TYPE_BOOLEAN,
             'hide_form_tokenized_methods' => self::TYPE_BOOLEAN,
+            'hide_form_remember_card' => self::TYPE_BOOLEAN,
             'create_subscription' => self::TYPE_BOOLEAN,
             'subscription_token' => self::TYPE_STRING,
             'capture' => self::TYPE_BOOLEAN,
@@ -379,6 +385,26 @@ class SettingsRequestItem extends AbstractRequestItem
     public function setHideFormTokenizedMethods($hideFormTokenizedMethods)
     {
         $this->hideFormTokenizedMethods = $hideFormTokenizedMethods;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHideFormRememberCard()
+    {
+        return $this->hideFormRememberCard;
+    }
+
+    /**
+     * @param bool $hideFormRememberCard
+     *
+     * @return $this
+     */
+    public function setHideFormRememberCard($hideFormRememberCard)
+    {
+        $this->hideFormRememberCard = $hideFormRememberCard;
 
         return $this;
     }

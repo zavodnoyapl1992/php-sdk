@@ -34,6 +34,7 @@ class PatchPaymentSerializer extends AbstractRequestSerializer
             'hide_form_methods' => $settings->isHideFormMethods(),
             'hide_form_header' => $settings->isHideFormHeader(),
             'hide_form_tokenized_methods' => $settings->isHideFormTokenizedMethods(),
+            'hide_form_remember_card' => $settings->isHideFormRememberCard(),
             'create_subscription' => $settings->isCreateSubscription(),
             'locale' => $settings->getLocale(),
         ];

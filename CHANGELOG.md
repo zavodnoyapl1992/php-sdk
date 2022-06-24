@@ -1,3 +1,7 @@
+## 1.7.2 - May 2022
+
+- Add `hide_form_remember_card` parameter in payment settings
+
 ## 1.7.1 - May 2022
 
 - Added payout method `sbp`

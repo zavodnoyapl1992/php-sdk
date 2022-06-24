@@ -1,5 +1,9 @@
 # Kassa.com PHP SDK
 
+[![Latest Stable Version](http://poser.pugx.org/kassacom/php-sdk/v)](https://packagist.org/packages/kassacom/php-sdk)
+[![Total Downloads](http://poser.pugx.org/kassacom/php-sdk/downloads)](https://packagist.org/packages/kassacom/php-sdk)
+[![Latest Unstable Version](http://poser.pugx.org/kassacom/php-sdk/v/unstable)](https://packagist.org/packages/kassacom/php-sdk)
+
 Documentation: https://kassa.com/help/
 
 ## Requirements

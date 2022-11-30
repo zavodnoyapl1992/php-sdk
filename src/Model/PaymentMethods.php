@@ -28,6 +28,9 @@ final class PaymentMethods
     /** @var string Payment method - sbp */
     const PAYMENT_METHOD_SBP = 'sbp';
 
+    /** @var string Payment method - sberbank */
+    const PAYMENT_METHOD_SBERBANK = 'sberbank';
+
     /**
      * @return array
      */
@@ -42,6 +45,7 @@ final class PaymentMethods
             self::PAYMENT_METHOD_CARD_FINGERPRINT,
             self::PAYMENT_METHOD_CARD_TOKENIZED,
             self::PAYMENT_METHOD_SBP,
+            self::PAYMENT_METHOD_SBERBANK,
         ];
     }
 }

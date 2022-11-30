@@ -1,3 +1,7 @@
+## 1.7.3 - November 2022
+
+- Add payment method `sberbank`
+
 ## 1.7.2 - May 2022
 
 - Add `hide_form_remember_card` parameter in payment settings

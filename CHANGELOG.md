@@ -1,3 +1,12 @@
+## 1.7.5 - March 2023
+
+- Add information about a project in  payment's requests
+- Add new error code `gateway_unavailable`
+
+## 1.7.4 - March 2023
+
+- Add payment method `tinkoff_pay`
+
 ## 1.7.3 - November 2022
 
 - Add payment method `sberbank`

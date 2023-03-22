@@ -8,6 +8,7 @@ use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
+use KassaCom\SDK\Model\Response\Item\ProjectResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
@@ -50,6 +51,7 @@ class ProcessPaymentResponse extends AbstractResponse
             'id' => self::TYPE_INTEGER,
             'order' => OrderResponseItem::class,
             'wallet' => WalletResponseItem::class,
+            'project' => ProjectResponseItem::class,
             'token' => self::TYPE_STRING,
             'create_date' => self::TYPE_DATE,
             'ip' => self::TYPE_STRING,

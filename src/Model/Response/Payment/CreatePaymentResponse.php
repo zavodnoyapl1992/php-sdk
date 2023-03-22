@@ -4,6 +4,7 @@ namespace KassaCom\SDK\Model\Response\Payment;
 
 use KassaCom\SDK\Model\Response\AbstractResponse;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
+use KassaCom\SDK\Model\Response\Item\ProjectResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
@@ -38,6 +39,7 @@ class CreatePaymentResponse extends AbstractResponse
             'payment_url' => AbstractResponse::TYPE_STRING,
             'create_date' => AbstractResponse::TYPE_DATE,
             'wallet' => WalletResponseItem::class,
+            'project' => ProjectResponseItem::class,
         ];
     }
 }

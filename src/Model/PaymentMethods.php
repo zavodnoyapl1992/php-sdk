@@ -31,6 +31,9 @@ final class PaymentMethods
     /** @var string Payment method - sberbank */
     const PAYMENT_METHOD_SBERBANK = 'sberbank';
 
+    /** @var string Payment method - tinkoff_pay */
+    const PAYMENT_METHOD_TINKOFF_PAY = 'tinkoff_pay';
+
     /**
      * @return array
      */
@@ -46,6 +49,7 @@ final class PaymentMethods
             self::PAYMENT_METHOD_CARD_TOKENIZED,
             self::PAYMENT_METHOD_SBP,
             self::PAYMENT_METHOD_SBERBANK,
+            self::PAYMENT_METHOD_TINKOFF_PAY,
         ];
     }
 }

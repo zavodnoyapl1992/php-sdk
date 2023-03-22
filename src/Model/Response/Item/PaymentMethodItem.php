@@ -20,6 +20,12 @@ class PaymentMethodItem extends AbstractResponse
     /** @var string|null */
     protected $qrImage;
 
+    /** @var string|null */
+    protected $tinkoffPayLink;
+
+    /** @var string|null */
+    protected $tinkoffPayQrUrl;
+
     /**
      * @return string|null
      */
@@ -61,6 +67,42 @@ class PaymentMethodItem extends AbstractResponse
     }
 
     /**
+     * @return string|null
+     */
+    public function getTinkoffPayLink()
+    {
+        return $this->tinkoffPayLink;
+    }
+
+    /**
+     * @param string|null $tinkoffPayLink
+     */
+    public function setTinkoffPayLink($tinkoffPayLink)
+    {
+        $this->tinkoffPayLink = $tinkoffPayLink;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTinkoffPayQrUrl()
+    {
+        return $this->tinkoffPayQrUrl;
+    }
+
+    /**
+     * @param string|null $tinkoffPayQrUrl
+     */
+    public function setTinkoffPayQrUrl($tinkoffPayQrUrl)
+    {
+        $this->tinkoffPayQrUrl = $tinkoffPayQrUrl;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRequiredFields()
@@ -81,6 +123,8 @@ class PaymentMethodItem extends AbstractResponse
             'card' => CardItem::class,
             'qr_link' => self::TYPE_STRING,
             'qr_image' => self::TYPE_STRING,
+            'tinkoff_pay_link' => self::TYPE_STRING,
+            'tinkoff_pay_qr_url' => self::TYPE_STRING,
         ];
     }
 }

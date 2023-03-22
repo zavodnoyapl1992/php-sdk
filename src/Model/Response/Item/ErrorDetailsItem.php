@@ -22,6 +22,7 @@ class ErrorDetailsItem extends AbstractResponse
     const INSUFFICIENT_FUNDS = 'insufficient_funds';
     const EXPIRED_TRANSACTION = 'expired_transaction';
     const COUNTRY_UNSUPPORTED = 'country_unsupported';
+    const GATEWAY_UNAVAILABLE = 'gateway_unavailable';
 
     /**
      * @var string

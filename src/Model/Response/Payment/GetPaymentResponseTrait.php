@@ -7,6 +7,7 @@ use KassaCom\SDK\Model\Response\Item\ErrorDetailsItem;
 use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
+use KassaCom\SDK\Model\Response\Item\ProjectResponseItem;
 use KassaCom\SDK\Model\Response\Item\SplitResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
@@ -42,6 +43,11 @@ trait GetPaymentResponseTrait
      * @var WalletResponseItem
      */
     private $wallet;
+
+    /**
+     * @var ProjectResponseItem
+     */
+    private $project;
 
     /**
      * @var string
@@ -241,6 +247,24 @@ trait GetPaymentResponseTrait
     public function setWallet($wallet)
     {
         $this->wallet = $wallet;
+
+        return $this;
+    }
+
+    /**
+     * @return ProjectResponseItem
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+
+    /**
+     * @param ProjectResponseItem $project
+     */
+    public function setProject($project)
+    {
+        $this->project = $project;
 
         return $this;
     }
@@ -579,6 +603,7 @@ trait GetPaymentResponseTrait
             'id' => AbstractResponse::TYPE_INTEGER,
             'order' => OrderResponseItem::class,
             'wallet' => WalletResponseItem::class,
+            'project' => ProjectResponseItem::class,
             'token' => AbstractResponse::TYPE_STRING,
             'create_date' => AbstractResponse::TYPE_DATE,
             'status' => AbstractResponse::TYPE_STRING,

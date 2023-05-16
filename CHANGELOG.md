@@ -1,3 +1,7 @@
+## 1.7.6 - May 2023
+
+- Update IP info
+
 ## 1.7.5 - March 2023
 
 - Add information about a project in  payment's requests

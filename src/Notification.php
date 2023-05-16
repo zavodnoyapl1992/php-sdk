@@ -18,10 +18,18 @@ class Notification
     private $skipIpCheck = false;
 
     private $allowedIps = [
+        // IPv4
         '95.216.144.80',
         '95.216.143.141',
         '52.213.148.150',
-        '34.252.2.182',
+        // Cloudflare: https://developers.cloudflare.com/support/network/understanding-and-configuring-cloudflares-ipv6-support/
+        '248.146.203.102',
+        '255.157.240.143',
+        '243.82.72.14',
+        // IPv6
+        '2a05:d018:a64:9561:b655:cabb:4a9a:23b6',
+        '2a01:4f9:c010:850::1',
+        '2a01:4f9:c010:78e::1',
     ];
 
     private $apiKey;
@@ -32,6 +40,32 @@ class Notification
     public function setApiKey($apiKey)
     {
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllowedIps()
+    {
+        return $this->allowedIps;
+    }
+
+    /**
+     * @param string[] $allowedIps
+     */
+    public function setAllowedIps($allowedIps)
+    {
+        $this->allowedIps = $allowedIps;
+    }
+
+    /**
+     * @param string $allowedIp
+     *
+     * @return void
+     */
+    public function addAllowedIp($allowedIp)
+    {
+        $this->allowedIps[] = $allowedIp;
     }
 
     /**

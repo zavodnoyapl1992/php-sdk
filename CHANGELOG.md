@@ -1,3 +1,7 @@
+## 1.7.7 - June 2023
+
+- Add receipt info for payments
+
 ## 1.7.6 - May 2023
 
 - Update IP info

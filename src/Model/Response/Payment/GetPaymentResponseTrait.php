@@ -8,6 +8,7 @@ use KassaCom\SDK\Model\Response\Item\MoneyItem;
 use KassaCom\SDK\Model\Response\Item\OrderResponseItem;
 use KassaCom\SDK\Model\Response\Item\PaymentMethodItem;
 use KassaCom\SDK\Model\Response\Item\ProjectResponseItem;
+use KassaCom\SDK\Model\Response\Item\ReceiptItem;
 use KassaCom\SDK\Model\Response\Item\SplitResponseItem;
 use KassaCom\SDK\Model\Response\Item\WalletResponseItem;
 use KassaCom\SDK\Model\Response\Refund\GetRefundResponse;
@@ -100,6 +101,11 @@ trait GetPaymentResponseTrait
      * @var array|null
      */
     private $customParameters;
+
+    /**
+     * @var ReceiptItem|null
+     */
+    private $receipt;
 
     /**
      * @var bool|null
@@ -430,6 +436,26 @@ trait GetPaymentResponseTrait
     }
 
     /**
+     * @return ReceiptItem|null
+     */
+    public function getReceipt()
+    {
+        return $this->receipt;
+    }
+
+    /**
+     * @param ReceiptItem|null $receipt
+     *
+     * @return self
+     */
+    public function setReceipt($receipt)
+    {
+        $this->receipt = $receipt;
+
+        return $this;
+    }
+
+    /**
      * @return bool|null
      */
     public function getIsTest()
@@ -623,6 +649,7 @@ trait GetPaymentResponseTrait
             'payment_method' => PaymentMethodItem::class,
             'custom_parameters' => AbstractResponse::TYPE_ARRAY,
             'update_date' => AbstractResponse::TYPE_DATE,
+            'receipt' => ReceiptItem::class,
             'is_test' => AbstractResponse::TYPE_BOOLEAN,
             'available_full_refund' => self::TYPE_BOOLEAN,
             'available_partial_refund' => self::TYPE_BOOLEAN,

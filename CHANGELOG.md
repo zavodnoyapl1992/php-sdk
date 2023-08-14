@@ -1,3 +1,7 @@
+## 1.8.0 - August 2023
+
+- Update composer dependencies
+
 ## 1.7.7 - June 2023
 
 - Add receipt info for payments

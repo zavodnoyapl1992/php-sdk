@@ -4,6 +4,7 @@
 namespace KassaCom\SDK\Model\Request\Item;
 
 
+use KassaCom\SDK\Model\Interfaces\RestorableInterface;
 use KassaCom\SDK\Model\PaymentMethods;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 use KassaCom\SDK\Model\Types\PaymentMethodTokenType;
@@ -54,6 +55,11 @@ class PaymentMethodDataItem extends AbstractRequestItem
      * @var string
      */
     private $cardSecurity;
+
+    /**
+     * @var string|null
+     */
+    private $cardholder;
 
     /**
      * @var string|null
@@ -203,6 +209,26 @@ class PaymentMethodDataItem extends AbstractRequestItem
     /**
      * @return string|null
      */
+    public function getCardholder()
+    {
+        return $this->cardholder;
+    }
+
+    /**
+     * @param string|null $cardholder
+     *
+     * @return $this
+     */
+    public function setCardholder($cardholder)
+    {
+        $this->cardholder = $cardholder;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
     public function getPurseType()
     {
         return $this->purseType;
@@ -311,16 +337,16 @@ class PaymentMethodDataItem extends AbstractRequestItem
 
         switch ($this->getType()) {
             case PaymentMethods::PAYMENT_METHOD_CARD:
-                $requiredFields['card_number'] = ReceiptRequestItem::TYPE_STRING;
-                $requiredFields['card_month'] = ReceiptRequestItem::TYPE_STRING;
-                $requiredFields['card_year'] = ReceiptRequestItem::TYPE_STRING;
-                $requiredFields['card_security'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['card_number'] = RestorableInterface::TYPE_STRING;
+                $requiredFields['card_month'] = RestorableInterface::TYPE_STRING;
+                $requiredFields['card_year'] = RestorableInterface::TYPE_STRING;
+                $requiredFields['card_security'] = RestorableInterface::TYPE_STRING;
                 break;
             case PaymentMethods::PAYMENT_METHOD_MOBILE:
-                $requiredFields['account'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['account'] = RestorableInterface::TYPE_STRING;
                 break;
             case PaymentMethods::PAYMENT_METHOD_CARD_TOKENIZED:
-                $requiredFields['token_data'] = ReceiptRequestItem::TYPE_STRING;
+                $requiredFields['token_data'] = RestorableInterface::TYPE_STRING;
                 $requiredFields['token_type'] = new PaymentMethodTokenType($this);
                 break;
         }
@@ -334,14 +360,15 @@ class PaymentMethodDataItem extends AbstractRequestItem
     public function getOptionalFields()
     {
         return [
-            'card_number' => ReceiptRequestItem::TYPE_STRING,
-            'card_month' => ReceiptRequestItem::TYPE_STRING,
-            'card_year' => ReceiptRequestItem::TYPE_STRING,
-            'card_security' => ReceiptRequestItem::TYPE_STRING,
-            'account' => ReceiptRequestItem::TYPE_STRING,
-            'capture' => ReceiptRequestItem::TYPE_BOOLEAN,
+            'card_number' => RestorableInterface::TYPE_STRING,
+            'card_month' => RestorableInterface::TYPE_STRING,
+            'card_year' => RestorableInterface::TYPE_STRING,
+            'card_security' => RestorableInterface::TYPE_STRING,
+            'cardholder' => RestorableInterface::TYPE_STRING,
+            'account' => RestorableInterface::TYPE_STRING,
+            'capture' => RestorableInterface::TYPE_BOOLEAN,
             'purse_type' => new PurseType($this),
-            'token_data' => ReceiptRequestItem::TYPE_STRING,
+            'token_data' => RestorableInterface::TYPE_STRING,
             'token_type' => new PaymentMethodTokenType($this),
             'return_image' => self::TYPE_BOOLEAN,
         ];

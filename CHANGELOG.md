@@ -1,3 +1,7 @@
+## 1.8.1 - August 2023
+
+- Add cardholder field for card payments
+
 ## 1.8.0 - August 2023
 
 - Update composer dependencies

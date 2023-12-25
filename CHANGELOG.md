@@ -1,3 +1,7 @@
+## 1.8.2 - December 2023
+
+- Add request money object in payout response
+
 ## 1.8.1 - August 2023
 
 - Add cardholder field for card payments

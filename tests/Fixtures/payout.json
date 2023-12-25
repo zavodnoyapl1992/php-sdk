@@ -33,5 +33,9 @@
   "transfer": {
     "amount": 10.00,
     "currency": "RUB"
+  },
+  "request": {
+    "amount": 10.00,
+    "currency": "RUB"
   }
 }

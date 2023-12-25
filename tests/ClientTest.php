@@ -1467,6 +1467,10 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['transfer']['amount'], $payoutResponse->getTransfer()->getAmount());
         $this->assertEquals($expectedContent['transfer']['currency'], $payoutResponse->getTransfer()->getCurrency());
 
+        $this->assertInstanceOf(MoneyItem::class, $payoutResponse->getRequest());
+        $this->assertEquals($expectedContent['request']['amount'], $payoutResponse->getRequest()->getAmount());
+        $this->assertEquals($expectedContent['request']['currency'], $payoutResponse->getRequest()->getCurrency());
+
         $this->assertInstanceOf(FeeItem::class, $payoutResponse->getFee());
         $this->assertEquals($expectedContent['fee']['type'], $payoutResponse->getFee()->getType());
         $this->assertEquals($expectedContent['fee']['amount'], $payoutResponse->getFee()->getAmount());

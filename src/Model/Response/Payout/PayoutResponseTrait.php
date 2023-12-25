@@ -54,6 +54,10 @@ trait PayoutResponseTrait
      */
     private $transfer;
     /**
+     * @var MoneyItem
+     */
+    private $request;
+    /**
      * @var ErrorDetailsItem|null
      */
     private $errorDetails;
@@ -249,6 +253,22 @@ trait PayoutResponseTrait
     }
 
     /**
+     * @return MoneyItem
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param MoneyItem $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+    /**
      * @return ErrorDetailsItem|null
      */
     public function getErrorDetails()
@@ -323,6 +343,7 @@ trait PayoutResponseTrait
             'wallet' => WalletPayoutResponseItem::class,
             'fee' => FeeItem::class,
             'transfer' => MoneyItem::class,
+            'request' => MoneyItem::class,
         ];
     }
 

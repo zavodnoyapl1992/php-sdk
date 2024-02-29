@@ -45,6 +45,10 @@ class CreatePayoutSerializer extends AbstractRequestSerializer
             $serializedData['fee_type'] = $payout->getFeeType();
         }
 
+        if ($payout->isTest()) {
+            $serializedData['is_test'] = true;
+        }
+
         $customParameters = $payout->getCustomParameters();
 
         if (!empty($customParameters)) {

@@ -41,6 +41,11 @@ class CreatePayoutRequest extends AbstractRequest
     private $customParameters;
 
     /**
+     * @var bool
+     */
+    private $isTest = false;
+
+    /**
      * @return string
      */
     public function getTransactionId()
@@ -159,6 +164,19 @@ class CreatePayoutRequest extends AbstractRequest
         $this->customParameters = $customParameters;
 
         return $this;
+    }
+
+    public function isTest()
+    {
+        return $this->isTest;
+    }
+
+    /**
+     * @param bool $isTest
+     */
+    public function setIsTest($isTest)
+    {
+        $this->isTest = $isTest;
     }
 
     /**

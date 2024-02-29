@@ -9,6 +9,8 @@
     "type": "card_ru",
     "account": "79081234567",
     "rrn": "123",
+    "sbp_member_id": "100000000004",
+    "sbp_receiver_pam": "79001234567",
     "card": {
       "fingerprint": "466e12e0-fd27-4a80-8b0c-20eef193500f",
       "category": "shopping",

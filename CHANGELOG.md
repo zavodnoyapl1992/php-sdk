@@ -1,3 +1,7 @@
+## 1.8.3 - February 2024
+
+- Add `sbp_member_id` and `sbp_receiver_pam` for payout method response
+
 ## 1.8.2 - December 2023
 
 - Add request money object in payout response

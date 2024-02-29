@@ -1429,6 +1429,8 @@ class ClientTest extends TestCase
         $this->assertEquals($expectedContent['method'], $payoutResponse->getPayoutMethod()->getMethod());
         $this->assertEquals($expectedContent['type'], $payoutResponse->getPayoutMethod()->getType());
         $this->assertEquals($expectedContent['account'], $payoutResponse->getPayoutMethod()->getAccount());
+        $this->assertEquals($expectedContent['sbp_member_id'], $payoutResponse->getPayoutMethod()->getSbpMemberId());
+        $this->assertEquals($expectedContent['sbp_receiver_pam'], $payoutResponse->getPayoutMethod()->getSbpReceiverPam());
 
         $cardItem = $payoutResponse->getPayoutMethod()->getCard();
         if (!empty($expectedContent['card'])) {

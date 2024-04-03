@@ -18,6 +18,9 @@ class SbpMemberItem extends AbstractResponse
     /** @var string */
     private $name;
 
+    /** @var string */
+    private $bik;
+
     /**
      * @return string
      */
@@ -78,6 +81,22 @@ class SbpMemberItem extends AbstractResponse
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getBik()
+    {
+        return $this->bik;
+    }
+
+    /**
+     * @param string $bik
+     */
+    public function setBik($bik)
+    {
+        $this->bik = $bik;
+    }
+
     public function getRequiredFields()
     {
         return [
@@ -89,6 +108,8 @@ class SbpMemberItem extends AbstractResponse
 
     public function getOptionalFields()
     {
-        return [];
+        return [
+            'bik' => self::TYPE_STRING,
+        ];
     }
 }

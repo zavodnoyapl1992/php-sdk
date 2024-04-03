@@ -1,3 +1,7 @@
+## 1.8.4 - April 2024
+
+- Add `bic` field in `SbpMemberItem` response
+
 ## 1.8.3 - February 2024
 
 - Add `sbp_member_id` and `sbp_receiver_pam` for payout method response

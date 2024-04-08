@@ -1,3 +1,8 @@
+## 1.9.0 - April 2024
+
+- Add logging for requests and responses.
+- Add clear logs method. It cleans sensitive data from logs for PCI DSS compliance.
+
 ## 1.8.4 - April 2024
 
 - Add `bic` field in `SbpMemberItem` response

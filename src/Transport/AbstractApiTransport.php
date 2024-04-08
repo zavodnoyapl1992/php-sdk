@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7;
 use KassaCom\SDK\Client;
 use KassaCom\SDK\Exception\TransportException;
 use KassaCom\SDK\Transport\Authorization\AuthorizationInterface;
+use KassaCom\SDK\Utils\LogCleaner;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
@@ -36,6 +37,9 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      * @var string[]
      */
     protected $defaultHeaders;
+
+    protected $cleanerFieldMapper = [];
+    protected $loggingHeaders = false;
 
     /**
      * AbstractApiTransport constructor.
@@ -68,7 +72,7 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      * @return Psr7\Response
      * @throws TransportException
      */
-    public function send($path, $method, $queryParams = [], $body = null, $headers = [])
+    public function send($path, $method, $queryParams = [], $requestBody = null, $requestHeaders = [])
     {
         $uri = rtrim($this->apiUrl, '/') . '/' . ltrim($path, '/');
 
@@ -80,31 +84,61 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
             throw new TransportException('Please provide authorization data');
         }
 
-        $headers = array_replace($this->defaultHeaders, $headers);
+        $requestHeaders = array_replace($this->defaultHeaders, $requestHeaders);
 
         if ($method == self::METHOD_GET) {
-            $body = null;
+            $requestBody = null;
         }
 
-        if ($this->logger) {
-            $this->logger->info('Send request', [
-                'method' => $method,
-                'uri' => $uri,
-                'body' => $body,
-                'headers' => $headers,
-            ]);
-        }
-
-        $headers['Authorization'] = $this->authorization->getAuthorizationHeader();
+        $requestHeaders['Authorization'] = $this->authorization->getAuthorizationHeader();
 
         $request = new Psr7\Request(
             $method,
             $uri,
-            $headers,
-            $body
+            $requestHeaders,
+            $requestBody
         );
 
-        return $this->sendRequest($request);
+        $response = $this->sendRequest($request);
+        $responseCode = $response->getStatusCode();
+        $responseHeaders = $response->getHeaders();
+        $responseBody = $response->getBody();
+
+        if ($responseBody) {
+            $responseBody = $responseBody->getContents();
+        } else {
+            $responseBody = null;
+        }
+
+        if ($this->logger) {
+            $loggableRequestBody = empty($requestBody) ? $requestBody : json_decode($requestBody, true);
+            $loggableResponseBody = empty($responseBody) ? $responseBody : json_decode($responseBody, true);
+            $loggableRequestBody = json_encode($this->clearLoggableData($loggableRequestBody), JSON_UNESCAPED_UNICODE);
+            $loggableResponseBody = json_encode($this->clearLoggableData($loggableResponseBody), JSON_UNESCAPED_UNICODE);
+
+            if ($this->isLoggingHeaders()) {
+                $loggableRequestHeaders = json_encode($this->clearLoggableData($requestHeaders), JSON_UNESCAPED_UNICODE);
+                $loggableResponseHeaders = json_encode($this->clearLoggableData($responseHeaders), JSON_UNESCAPED_UNICODE);
+            } else {
+                $loggableRequestHeaders = 'skipped';
+                $loggableResponseHeaders = 'skipped';
+            }
+
+            $this->logger->info(
+                sprintf(
+                    'Request %s %s body: %s headers: %s; Response %s body: %s headers: %s',
+                    $method,
+                    $uri,
+                    $loggableRequestBody,
+                    $loggableRequestHeaders,
+                    $responseCode,
+                    $loggableResponseBody,
+                    $loggableResponseHeaders
+                )
+            );
+        }
+
+        return new Psr7\Response($responseCode, $responseHeaders, $responseBody);
     }
 
     /**
@@ -130,5 +164,66 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
     public function setAuth(AuthorizationInterface $authorization)
     {
         $this->authorization = $authorization;
+    }
+
+    protected function clearLoggableData($loggableArray)
+    {
+        if (!is_array($loggableArray)) {
+            return $loggableArray;
+        }
+
+        $cleaner = LogCleaner::getCleaner();
+
+        $cleaner
+            ->addFieldMapper(['authorization'], 'auth')
+            ->addFieldMapper(['card_number'], LogCleaner::getCallbackForPan())
+            ->addFieldMapper(['card_month'], 'month')
+            ->addFieldMapper(['card_year'], 'year')
+            ->addFieldMapper(['card_security'], 'cvv')
+            ->addFieldMapper(['cardholder'], 'cardholder')
+            ->addFieldMapper(['token_data'], 'token')
+            ->addFieldMapper(['pareq'], 'pareq')
+            ->addFieldMapper(['pares'], 'pares')
+            ->addFieldMapper(['creq'], 'creq')
+            ->addFieldMapper(['cres'], 'cres')
+            ->addFieldMapper(['cavv'], 'cavv')
+            ->addFieldMapper(['xid'], 'xid')
+            ->addFieldMapper(['eci'], 'eci');
+
+        foreach ($this->cleanerFieldMapper as $mapper) {
+            $cleaner->addFieldMapper($mapper['fields'], $mapper['mapper']);
+        }
+
+        return $cleaner->clearLoggableData($loggableArray);
+    }
+
+    public function isLoggingHeaders()
+    {
+        return $this->loggingHeaders;
+    }
+
+    /**
+     * @param bool $loggingHeaders
+     */
+    public function setLoggingHeaders($loggingHeaders)
+    {
+        $this->loggingHeaders = $loggingHeaders;
+    }
+
+    public function getCleanerFieldMapper()
+    {
+        return $this->cleanerFieldMapper;
+    }
+
+    /**
+     * @param array $fieldMapper
+     * @param string $filtered
+     */
+    public function addCleanerFieldMapper(array $fields, $mapper)
+    {
+        $this->cleanerFieldMapper[] = [
+            'fields' => $fields,
+            'mapper' => $mapper,
+        ];
     }
 }

@@ -57,6 +57,28 @@ class ProcessPaymentSerializer extends AbstractRequestSerializer
             }
         }
 
+        $browserData = $processPaymentRequest->getBrowserData();
+
+        if ($browserData) {
+            $serializedData['browser_data']['browser_accept_header'] = $browserData->getBrowserAcceptHeader();
+            $serializedData['browser_data']['browser_color_depth'] = $browserData->getBrowserColorDepth();
+            $serializedData['browser_data']['browser_language'] = $browserData->getBrowserLanguage();
+            $serializedData['browser_data']['browser_user_agent'] = $browserData->getBrowserUserAgent();
+            $serializedData['browser_data']['browser_screen_height'] = $browserData->getBrowserScreenHeight();
+            $serializedData['browser_data']['browser_screen_width'] = $browserData->getBrowserScreenWidth();
+            $serializedData['browser_data']['browser_tz'] = $browserData->getBrowserTz();
+            $serializedData['browser_data']['browser_tz_name'] = $browserData->getBrowserTzName();
+            $serializedData['browser_data']['device_channel'] = $browserData->getDeviceChannel();
+            $serializedData['browser_data']['browser_java_enabled'] = $browserData->getBrowserJavaEnabled();
+            $serializedData['browser_data']['browser_java_script_enabled'] = $browserData->getBrowserJavaScriptEnabled();
+            $serializedData['browser_data']['window_width'] = $browserData->getWindowWidth();
+            $serializedData['browser_data']['window_height'] = $browserData->getWindowHeight();
+
+            $serializedData['browser_data'] = array_filter($serializedData['browser_data'], function ($data) {
+                return null !== $data;
+            });
+        }
+
         return $serializedData;
     }
 }

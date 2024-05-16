@@ -1,3 +1,7 @@
+## 1.9.1 - May 2024
+
+- Add browser data to process payment request
+
 ## 1.9.0 - April 2024
 
 - Add logging for requests and responses.

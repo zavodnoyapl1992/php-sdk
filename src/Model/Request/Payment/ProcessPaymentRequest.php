@@ -2,8 +2,8 @@
 
 namespace KassaCom\SDK\Model\Request\Payment;
 
-
 use KassaCom\SDK\Model\Request\AbstractRequest;
+use KassaCom\SDK\Model\Request\Item\BrowserData;
 use KassaCom\SDK\Model\Request\Item\PaymentMethodDataItem;
 use KassaCom\SDK\Model\Traits\RecursiveRestoreTrait;
 
@@ -25,6 +25,11 @@ class ProcessPaymentRequest extends AbstractRequest
      * @var PaymentMethodDataItem
      */
     private $paymentMethodData;
+
+    /**
+     * @var BrowserData|null
+     */
+    private $browserData;
 
     /**
      * @return string
@@ -86,6 +91,19 @@ class ProcessPaymentRequest extends AbstractRequest
         return $this;
     }
 
+    public function getBrowserData()
+    {
+        return $this->browserData;
+    }
+
+    /**
+     * @param BrowserData|null $browserData
+     */
+    public function setBrowserData($browserData)
+    {
+        $this->browserData = $browserData;
+    }
+
     /**
      * @inheritDoc
      */
@@ -103,6 +121,8 @@ class ProcessPaymentRequest extends AbstractRequest
      */
     public function getOptionalFields()
     {
-        return [];
+        return [
+            'browser_data' => BrowserData::class,
+        ];
     }
 }

@@ -2,10 +2,8 @@
 
 namespace KassaCom\SDK\Transport;
 
-
-use KassaCom\SDK\Exception\TransportException;
-use Psr\Log\LoggerInterface;
 use GuzzleHttp\Psr7;
+use KassaCom\SDK\Exception\TransportException;
 
 class CurlApiTransport extends AbstractApiTransport
 {
@@ -108,11 +106,4 @@ class CurlApiTransport extends AbstractApiTransport
             $this->curl = null;
         }
     }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-
 }

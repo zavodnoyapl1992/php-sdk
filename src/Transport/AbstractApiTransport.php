@@ -2,17 +2,18 @@
 
 namespace KassaCom\SDK\Transport;
 
-
 use GuzzleHttp\Psr7;
 use KassaCom\SDK\Client;
 use KassaCom\SDK\Exception\TransportException;
 use KassaCom\SDK\Transport\Authorization\AuthorizationInterface;
 use KassaCom\SDK\Utils\LogCleaner;
 use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareTrait;
 
 abstract class AbstractApiTransport implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     const METHOD_GET = 'GET';
     const METHOD_POST = 'POST';
 
@@ -22,11 +23,6 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
      * @var string
      */
     protected $apiUrl = 'https://api.kassa.com/v1';
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
 
     /**
      * @var AuthorizationInterface
@@ -151,11 +147,6 @@ abstract class AbstractApiTransport implements LoggerAwareInterface
         $this->apiUrl = $apiUrl;
 
         return $this;
-    }
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
     }
 
     /**

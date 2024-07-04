@@ -1,3 +1,8 @@
+## 1.9.2 - July 2024
+
+- LoggerAwareInterface compatibility with psr/log 3.0
+
+
 ## 1.9.1 - May 2024
 
 - Add browser data to process payment request

@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-18.04 ]
+        os: [ ubuntu-latest ]
         php: [ 5.5, 7.2, 7.4 ]
 
     steps:

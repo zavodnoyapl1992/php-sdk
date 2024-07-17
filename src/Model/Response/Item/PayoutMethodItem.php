@@ -31,6 +31,11 @@ class PayoutMethodItem extends AbstractResponse
     private $sbpReceiverPam;
 
     /**
+     * @var string|null
+     */
+    private $sbpOperId;
+
+    /**
      * @return string
      */
     public function getMethod()
@@ -98,6 +103,7 @@ class PayoutMethodItem extends AbstractResponse
             'card' => CardItem::class,
             'sbp_member_id' => self::TYPE_STRING,
             'sbp_receiver_pam' => self::TYPE_STRING,
+            'sbp_oper_id' => self::TYPE_STRING,
         ];
     }
 }

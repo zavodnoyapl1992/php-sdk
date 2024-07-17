@@ -1,3 +1,7 @@
+## 1.9.3 - July 2024
+
+- Add `sbp_oper_id` for payout method response
+
 ## 1.9.2 - July 2024
 
 - LoggerAwareInterface compatibility with psr/log 3.0
